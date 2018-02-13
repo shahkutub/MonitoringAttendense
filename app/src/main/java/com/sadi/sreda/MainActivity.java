@@ -25,7 +25,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sadi.sreda.fragement.FragementClockIn;
@@ -48,10 +50,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public static int[] imageRSC = {R.drawable.banar,R.drawable.banar};
 
     private Fragment backFragement;
-    TextView tvTitle;
-    Button btnReport,btnGovAgency,btnPrivateIndiVi,btnStakeHolder,btnHome,
-    btnReportReGen,btnReportTechno,btnReportYear,btnReportLarge,btnReportSmall,btnReportSearch;
-    LinearLayout linReport,linGovAgency,linPrivateIndiVi,linStakeHolder;
+    TextView tvClockIn,tvClockOut;
+    private RelativeLayout layClockOut,layClockIn;
+
+    private ImageView imgMenu;
     private FrameLayout containerView;
     Animation shake;
     @Override
@@ -70,61 +72,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-
-
-        tvTitle = (TextView)findViewById(R.id.tvTitle);
-
-        linReport = (LinearLayout) findViewById(R.id.linReport);
-        linGovAgency = (LinearLayout) findViewById(R.id.linGovAgency);
-        linPrivateIndiVi = (LinearLayout) findViewById(R.id.linPrivateIndiVi);
-        linStakeHolder = (LinearLayout) findViewById(R.id.linStakeHolder);
-        //linPieView = (LinearLayout) findViewById(R.id.linPieView);
-        containerView = (FrameLayout) findViewById(R.id.containerView);
-
-
-        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-
-
-        btnHome = (Button)findViewById(R.id.btnHome);
-        btnReport = (Button)findViewById(R.id.btnReport);
-        btnGovAgency = (Button)findViewById(R.id.btnGovAgency);
-        btnPrivateIndiVi = (Button)findViewById(R.id.btnPrivateIndiVi);
-        btnStakeHolder = (Button)findViewById(R.id.btnStakeHolder);
-
-        btnReportReGen = (Button)findViewById(R.id.btnReportReGen);
-        btnReportTechno = (Button)findViewById(R.id.btnReportTechno);
-        btnReportYear = (Button)findViewById(R.id.btnReportYear);
-        btnReportLarge = (Button)findViewById(R.id.btnReportLarge);
-        btnReportSmall = (Button)findViewById(R.id.btnReportSmall);
-        btnReportSearch = (Button)findViewById(R.id.btnReportSearch);
-
-
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-//                containerView.setVisibility(View.GONE);
-//                linPieView.setVisibility(View.VISIBLE);
-            }
-
-
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                containerView.setVisibility(View.GONE);
-               // linPieView.setVisibility(View.VISIBLE);
-            }
-        };
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-
+        imgMenu = (ImageView)findViewById(R.id.imgMenu);
+        imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
@@ -134,94 +83,51 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 }
             }
         });
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        getSupportActionBar().setHomeButtonEnabled(false);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        containerView = (FrameLayout) findViewById(R.id.containerView);
 
 
-        btnReportReGen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnReportReGen.startAnimation(shake);
-                containerView.setVisibility(View.VISIBLE);
-                //linPieView.setVisibility(View.GONE);
-                setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
-                tvTitle.setText("Report\nRE Generation");
-                mDrawerLayout.closeDrawers();
-                backFragement = new FragementClockIn();
-            }
-        });
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnHome.startAnimation(shake);
-                mDrawerLayout.closeDrawers();
-                containerView.setVisibility(View.GONE);
-               // linPieView.setVisibility(View.VISIBLE);
-                tvTitle.setText("");
-                linReport.setVisibility(View.GONE);
-                linGovAgency.setVisibility(View.GONE);
-                linPrivateIndiVi.setVisibility(View.GONE);
-                linStakeHolder.setVisibility(View.GONE);
 
-            }
-        });
 
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnReport.startAnimation(shake);
-                if(linReport.getVisibility()==View.GONE){
-                    linReport.setVisibility(View.VISIBLE);
-                    linGovAgency.setVisibility(View.GONE);
-                    linPrivateIndiVi.setVisibility(View.GONE);
-                }else if(linReport.getVisibility()==View.VISIBLE){
-                    linReport.setVisibility(View.GONE);
-                }
-            }
-        });
 
-        btnGovAgency.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnGovAgency.startAnimation(shake);
-                if(linGovAgency.getVisibility()==View.GONE){
-                    linGovAgency.setVisibility(View.VISIBLE);
-                    linReport.setVisibility(View.GONE);
-                    linPrivateIndiVi.setVisibility(View.GONE);
-                    linStakeHolder.setVisibility(View.GONE);
-                }else if(linGovAgency.getVisibility()==View.VISIBLE){
-                    linGovAgency.setVisibility(View.GONE);
-                }
-            }
-        });
 
-        btnPrivateIndiVi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(linPrivateIndiVi.getVisibility()==View.GONE){
-                    linPrivateIndiVi.setVisibility(View.VISIBLE);
-                    linReport.setVisibility(View.GONE);
-                    linGovAgency.setVisibility(View.GONE);
-                    linStakeHolder.setVisibility(View.GONE);
-                }else if(linPrivateIndiVi.getVisibility()==View.VISIBLE){
-                    linPrivateIndiVi.setVisibility(View.GONE);
-                }
-            }
-        });
+//        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+////                containerView.setVisibility(View.GONE);
+////                linPieView.setVisibility(View.VISIBLE);
+//            }
+//
+//
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//               // linPieView.setVisibility(View.VISIBLE);
+//            }
+//        };
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//        mDrawerToggle.syncState();
 
-        btnStakeHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(linStakeHolder.getVisibility()==View.GONE){
-                    linStakeHolder.setVisibility(View.VISIBLE);
-                    linReport.setVisibility(View.GONE);
-                    linGovAgency.setVisibility(View.GONE);
-                    linPrivateIndiVi.setVisibility(View.GONE);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+//                    mDrawerLayout.closeDrawer(Gravity.END);
+//                } else {
+//                    mDrawerLayout.openDrawer(Gravity.END);
+//                }
+//            }
+//        });
 
-                }else if(linStakeHolder.getVisibility()==View.VISIBLE){
-                    linStakeHolder.setVisibility(View.GONE);
-                }
-            }
-        });
+        setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
+
     }
 
 

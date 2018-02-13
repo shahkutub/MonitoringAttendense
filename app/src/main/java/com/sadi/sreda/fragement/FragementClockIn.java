@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sadi.sreda.R;
@@ -26,11 +28,8 @@ import static android.support.v7.widget.LinearLayoutManager.*;
  */
 public class FragementClockIn extends BaseFragment {
     Context con;
-   // RecyclerView recyclerView;
-   // View view;
-//    private RecyclerView recycler_view;
-//    private ReGenerationAdapter adapter;
-//    private List<ReGenerationInfo> reGenerationInfos = new ArrayList<>();
+    TextView tvTitle,tvClockIn,tvClockOut;
+    private RelativeLayout layClockOut,layClockIn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +51,31 @@ public class FragementClockIn extends BaseFragment {
         con = getActivity();
         Toast.makeText(con, "onActivityCreated", Toast.LENGTH_SHORT).show();
 
+        initUi();
+    }
+
+    private void initUi() {
+
+        tvTitle = (TextView)getView().findViewById(R.id.tvTitle);
+        tvClockIn = (TextView)getView().findViewById(R.id.tvClockIn);
+        tvClockOut = (TextView)getView().findViewById(R.id.tvClockOut);
+        layClockOut = (RelativeLayout)getView().findViewById(R.id.layClockOut);
+        layClockIn = (RelativeLayout)getView().findViewById(R.id.layClockIn);
+        tvClockIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layClockOut.setVisibility(View.VISIBLE);
+                layClockIn.setVisibility(View.GONE);
+            }
+        });
+
+        layClockOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layClockOut.setVisibility(View.GONE);
+                layClockIn.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
 
