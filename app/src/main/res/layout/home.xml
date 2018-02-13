@@ -1,0 +1,364 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/AppTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/mainHead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/launchViewpager"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/black"
+        android:layout_height="@dimen/_100sdp">
+    </android.support.v4.view.ViewPager>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/shitstuff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+
+            >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <Button
+                        android:id="@+id/btnHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/button_color"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Home" />
+
+                    <Button
+                        android:id="@+id/btnReport"
+                        android:layout_width="match_parent"
+                        android:drawableRight="@mipmap/ic_down"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/button_color"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Report" />
+
+                    <LinearLayout
+                        android:id="@+id/linReport"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+                        <Button
+                            android:id="@+id/btnReportReGen"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="RE Generation Summery Report" />
+
+                        <Button
+                            android:id="@+id/btnReportTechno"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Technology Wise Generation" />
+
+                        <Button
+                            android:id="@+id/btnReportYear"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Year Wise Generation Summery" />
+
+                        <Button
+                            android:id="@+id/btnReportLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="RE Large Project Database" />
+
+                        <Button
+                            android:id="@+id/btnReportSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="RE Small/Others Project Database" />
+
+                        <Button
+                            android:id="@+id/btnReportSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Project Search" />
+
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnGovAgency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/button_color"
+                        android:textColor="@color/black"
+                        android:drawableRight="@mipmap/ic_down"
+                        android:padding="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Government Agency" />
+
+                    <LinearLayout
+                        android:id="@+id/linGovAgency"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Registed Ministry/Agency" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Online Registration For Ministry/Agency/Devision" />
+
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnPrivateIndiVi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/button_color"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_3sdp"
+                        android:drawableRight="@mipmap/ic_down"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Private And Individual" />
+
+                    <LinearLayout
+                        android:id="@+id/linPrivateIndiVi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Registered Company List" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Registered Individual List" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Search Company/Individual" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Application For Private Registration" />
+
+                    </LinearLayout>
+                    <Button
+                        android:id="@+id/btnStakeHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/button_color"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_3sdp"
+                        android:drawableRight="@mipmap/ic_down"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Stakeholder" />
+
+                    <LinearLayout
+                        android:id="@+id/linStakeHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Registered Stakeholder List" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Search Stakeholder" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
+                            android:background="@color/sub_button_color"
+                            android:textColor="@color/black"
+                            android:padding="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Application For Stakeholder Registration" />
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+        </android.support.design.widget.NavigationView>
+    </android.support.v4.widget.DrawerLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/linPieView"
+        android:layout_below="@+id/launchViewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pieview"
+            android:gravity="center"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/containerView"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/launchViewpager"
+        android:visibility="gone"
+        android:layout_height="match_parent"></FrameLayout>
+
+
+</RelativeLayout>

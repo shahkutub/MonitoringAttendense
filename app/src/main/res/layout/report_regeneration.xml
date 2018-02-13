@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <HorizontalScrollView
+        android:id="@+id/linTitleView"
+        android:scrollbars="horizontal"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:text="Project Name"
+                android:visibility="gone"
+                android:gravity="center"
+                android:background="@drawable/tv_bg"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_bg"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="@dimen/_15sdp"
+                android:text="Technology Type"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_bg"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="@dimen/_15sdp"
+                android:text="Capacity(MW)"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:text="Location"
+                android:visibility="gone"
+                android:gravity="center"
+                android:background="@drawable/tv_bg"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:text="Finance"
+                android:visibility="gone"
+                android:gravity="center"
+                android:background="@drawable/tv_bg"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:text="Completion Date"
+                android:visibility="gone"
+                android:gravity="center"
+                android:background="@drawable/tv_bg"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:text="Present Status"
+                android:gravity="center"
+                android:background="@drawable/tv_bg"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+    </HorizontalScrollView>
+
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:id="@+id/swipeRefreshLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+
+
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+
+    <ProgressBar
+        android:id="@+id/progressShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tooltipText="Riview"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+</LinearLayout>

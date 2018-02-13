@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9FBFC"
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:padding="@dimen/_3sdp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_arrow_back_black_48px"
+            />
+
+        <ImageView
+            android:layout_toRightOf="@+id/imgBack"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/header_logo"
+            android:layout_toLeftOf="@+id/imgMenu"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            />
+
+        <ImageView
+            android:id="@+id/imgMenu"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_menu_black_48px"
+            />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/header_logo"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/userView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4F5761"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center_vertical|right"
+        android:layout_below="@+id/top"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pavel sarwar"
+                android:textSize="@dimen/_15sdp"
+                 />
+
+            <TextView
+                android:layout_width="1dp"
+                android:background="#fff"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                />
+
+            <TextView
+                android:id="@+id/tvLogOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LogOut"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/userView"
+        android:layout_above="@+id/bottom"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:textSize="@dimen/_20sdp"
+            android:text="Sat, january 06, 2018"
+            android:textColor="#4F5761"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/_20sdp"
+            android:text="9:00 AM"
+            android:textColor="#4F5761"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="@dimen/_96sdp"
+                android:layout_height="@dimen/_96sdp"
+                android:src="@drawable/man"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvGreetings"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/_20sdp"
+            android:text="Good morning pavel,you are currently at HQ"
+            android:textColor="#4F5761"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/tvClockIn"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_20sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:paddingLeft="@dimen/_35sdp"
+                android:paddingRight="@dimen/_35sdp"
+                android:text="CLOCK IN"
+                android:textColor="#4F5761"
+                android:gravity="center"
+                android:background="@drawable/clock_in_bg"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="#4F5761"
+        android:padding="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:text="First clock in"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:text="4:00 AM"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:text="Last clock out"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:text="9:00 AM"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

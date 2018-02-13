@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.andoidsrc.popupmenu.MainActivity"
+    >
+
+    <item
+        android:id="@+id/lang_java"
+        android:showAsAction="ifRoom|withText"
+        android:title="python"
+        android:visible="true"/>
+    <item
+        android:id="@+id/lang_android"
+        android:showAsAction="ifRoom|withText"
+        android:title="Android"
+        android:visible="true"/>
+    <item
+        android:id="@+id/lang_ruby"
+        android:showAsAction="ifRoom|withText"
+        android:title="Ruby"
+        android:visible="true"/>
+    <item
+        android:id="@+id/lang_python"
+        android:showAsAction="ifRoom|withText"
+        android:title="Small project status and Small project year wise backdown"
+        android:visible="true"/>
+</menu>
