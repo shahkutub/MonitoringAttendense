@@ -134,32 +134,192 @@
         android:layout_height="match_parent"
         android:background="#F9FBFC"
         android:layout_marginTop="@dimen/_45sdp"
-        android:layout_gravity="right"
+        android:layout_gravity="left"
         >
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#F9FBFC"
-                android:paddingTop="@dimen/_30sdp"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:id="@+id/tvProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:text="Profile"
-                    android:textColor="#ffF"
-                    android:background="#4F5761"
-                    android:paddingRight="@dimen/_15sdp"
-                    android:textDirection="rtl"
-                    android:gravity="center"
-                    />
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="Clock In"
 
+                />
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text="9:AM"
 
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="Clock Out"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text="9:AM"
+
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            android:layout_marginTop="10dp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="Profile Setting"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text=""
+
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="My Record"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text=""
+
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="FAQ"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text=""
+
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:padding="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentLeft="true"
+                android:text="About"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_alignParentRight="true"
+                android:text=""
+
+                />
+
+        </RelativeLayout>
+        </LinearLayout>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

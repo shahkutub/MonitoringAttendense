@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     private Fragment backFragement;
     TextView tvClockIn,tvClockOut;
-    private RelativeLayout layClockOut,layClockIn;
+    private RelativeLayout layClockOut,layClockIn,reLayProfile;
 
     private ImageView imgMenu;
     private FrameLayout containerView;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.t1);
+        setContentView(R.layout.activity_main);
 
         con = this;
         //Toast.makeText(con, "onCreate", Toast.LENGTH_SHORT).show();
@@ -68,65 +69,40 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     private void initialization() {
 
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
-        imgMenu = (ImageView)findViewById(R.id.imgMenu);
-        imgMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-                    mDrawerLayout.closeDrawer(Gravity.END);
-                } else {
-                    mDrawerLayout.openDrawer(Gravity.END);
-                }
-            }
-        });
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setHomeButtonEnabled(false);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         containerView = (FrameLayout) findViewById(R.id.containerView);
-
-
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
 
+            }
 
-
-
-
-//        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-////                containerView.setVisibility(View.GONE);
-////                linPieView.setVisibility(View.VISIBLE);
-//            }
-//
-//
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//               // linPieView.setVisibility(View.VISIBLE);
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//        mDrawerToggle.syncState();
-
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-//                    mDrawerLayout.closeDrawer(Gravity.END);
-//                } else {
-//                    mDrawerLayout.openDrawer(Gravity.END);
-//                }
-//            }
-//        });
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+               // linPieView.setVisibility(View.VISIBLE);
+            }
+        };
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 
         setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
+
+        reLayProfile = (RelativeLayout)findViewById(R.id.reLayProfile);
+        reLayProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,SettingsActivity.class));
+            }
+        });
+
 
     }
 

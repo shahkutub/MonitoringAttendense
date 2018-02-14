@@ -5,13 +5,58 @@
 
     >
 
+    <RelativeLayout
+        android:id="@+id/userView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#4F5761"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center_vertical|right"
+        >
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pavel sarwar"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#fff"
+                />
+
+            <TextView
+                android:layout_width="1dp"
+                android:background="#fff"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                />
+
+            <TextView
+                android:id="@+id/tvLogOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LogOut"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#fff"
+                android:layout_marginRight="@dimen/_10sdp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
    <RelativeLayout
        android:id="@+id/layClockIn"
        android:background="#F9FBFC"
+       android:layout_below="@+id/userView"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-   </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +69,7 @@
             android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_30sdp"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp"
             android:text="Sat, january 06, 2018"
             android:textColor="#4F5761"
             android:gravity="center"
@@ -33,7 +78,7 @@
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="match_parent"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp"
             android:text="9:00 AM"
             android:textColor="#4F5761"
             android:gravity="center"
@@ -49,8 +94,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="@dimen/_96sdp"
+                android:layout_height="@dimen/_96sdp"
                 android:src="@drawable/man"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
@@ -60,7 +105,7 @@
         <TextView
             android:id="@+id/tvGreetings"
             android:layout_width="match_parent"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp"
             android:text="Good morning pavel,you are currently at HQ"
             android:textColor="#4F5761"
             android:gravity="center"
@@ -150,7 +195,7 @@
 
         </LinearLayout>
     </RelativeLayout>
-
+   </RelativeLayout>
     <!--<include-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -161,13 +206,13 @@
         android:id="@+id/layClockOut"
         android:layout_width="match_parent"
         android:visibility="gone"
+        android:layout_below="@+id/userView"
         android:background="#F9FBFC"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/_25sdp"
             android:layout_above="@+id/bottomOut"
             android:orientation="vertical"
             >
@@ -175,7 +220,8 @@
             <TextView
                 android:id="@+id/tvDateOut"
                 android:layout_width="match_parent"
-                android:textSize="@dimen/_20sdp"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:text="Sat, january 06, 2018"
                 android:textColor="#4F5761"
                 android:gravity="center"
@@ -184,7 +230,7 @@
             <TextView
                 android:id="@+id/tvTimeOut"
                 android:layout_width="match_parent"
-                android:textSize="@dimen/_20sdp"
+                android:textSize="@dimen/_15sdp"
                 android:text="6:00 AM"
                 android:textColor="#4F5761"
                 android:gravity="center"

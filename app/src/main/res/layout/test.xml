@@ -40,58 +40,83 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <RelativeLayout
+            android:id="@+id/userView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4F5761"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center_vertical|right"
+            android:layout_below="@+id/toolbar"
+
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pavel sarwar"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#fff"
+                    />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:background="#fff"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvLogOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LogOut"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#fff"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
         <FrameLayout
             android:id="@+id/containerView"
             android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/userView"
             android:visibility="visible"
             android:layout_height="match_parent"></FrameLayout>
+
     </RelativeLayout>
-
-
     <android.support.design.widget.NavigationView
         android:id="@+id/shitstuff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F0F0"
-        android:layout_marginTop="@dimen/_60sdp"
+        android:background="#F9FBFC"
+        android:layout_marginTop="@dimen/_45sdp"
         android:layout_gravity="left"
         >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:background="#F0F0F0"
             android:orientation="vertical"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_imageOut"
-                    android:layout_width="@dimen/_96sdp"
-                    android:layout_height="@dimen/_96sdp"
-                    android:src="@drawable/icon_512"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="#FF000000"/>
-
-            </LinearLayout>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 >
 
                 <TextView
@@ -119,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 >
 
@@ -144,12 +169,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/reLayProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="10dp"
 
                 >
@@ -179,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
 
                 >
@@ -209,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
 
                 >
@@ -229,6 +253,7 @@
                     android:textColor="#000"
                     android:layout_alignParentRight="true"
                     android:text=""
+
                     />
 
             </RelativeLayout>
@@ -238,8 +263,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+
                 >
 
                 <TextView
@@ -257,6 +283,7 @@
                     android:textColor="#000"
                     android:layout_alignParentRight="true"
                     android:text=""
+
                     />
 
             </RelativeLayout>
