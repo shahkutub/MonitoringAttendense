@@ -69,6 +69,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             >
+            
             <TextView
                 android:id="@+id/tvClockIn"
                 android:layout_width="wrap_content"
