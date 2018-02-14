@@ -3,35 +3,26 @@ package com.sadi.sreda.fragement;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sadi.sreda.R;
-import com.sadi.sreda.adapter.ReGenerationAdapter;
-import com.sadi.sreda.adapter.ReGenerationInfo;
 import com.sadi.sreda.utils.Appconstant;
 import com.sadi.sreda.utils.BaseFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import static android.support.v7.widget.LinearLayoutManager.*;
 
 
 /**
  * Created by User on 7/20/2016.
  */
-public class FragementClockIn extends BaseFragment {
+public class FragementClockOut extends BaseFragment {
     Context con;
     TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut;
     private RelativeLayout layClockOut,layClockIn;
@@ -39,7 +30,7 @@ public class FragementClockIn extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         con = getActivity();
-        return inflater.inflate(R.layout.clock_in, container, false);
+        return inflater.inflate(R.layout.clock_out, container, false);
     }
 
     @Override
@@ -85,7 +76,13 @@ public class FragementClockIn extends BaseFragment {
         layClockOut = (RelativeLayout)getView().findViewById(R.id.layClockOut);
         layClockIn = (RelativeLayout)getView().findViewById(R.id.layClockIn);
 
-
+//        if(Appconstant.clockInOu.equalsIgnoreCase("in")){
+//            layClockOut.setVisibility(View.GONE);
+//            layClockIn.setVisibility(View.VISIBLE);
+//        }else if(Appconstant.clockInOu.equalsIgnoreCase("out")){
+//            layClockOut.setVisibility(View.VISIBLE);
+//            layClockIn.setVisibility(View.GONE);
+//        }
         tvClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

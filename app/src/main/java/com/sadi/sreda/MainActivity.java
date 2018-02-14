@@ -30,8 +30,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sadi.sreda.fragement.FragementClockIn;
+import com.sadi.sreda.fragement.FragementClockOut;
+import com.sadi.sreda.utils.Appconstant;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 
 import java.util.Timer;
@@ -41,7 +44,6 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     Context con;
     DrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle mDrawerToggle;
     NavigationView mNavigationView;
     Activity activity;
     private Handler handler;
@@ -51,8 +53,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public static int[] imageRSC = {R.drawable.banar,R.drawable.banar};
 
     private Fragment backFragement;
+    ActionBarDrawerToggle mDrawerToggle;
     TextView tvClockIn,tvClockOut;
-    private RelativeLayout layClockOut,layClockIn,reLayProfile;
+    private RelativeLayout reLayClockOut,reLayClockIn,reLaySettings,reLayProfile,reLayAbout,reLayFaq,reLayRecords;
 
     private ImageView imgMenu;
     private FrameLayout containerView;
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         containerView = (FrameLayout) findViewById(R.id.containerView);
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
 
@@ -95,14 +98,78 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
 
+        reLayClockIn = (RelativeLayout)findViewById(R.id.reLayClockIn);
+        reLayClockOut = (RelativeLayout)findViewById(R.id.reLayClockOut);
+        reLayRecords = (RelativeLayout)findViewById(R.id.reLayRecords);
+        reLayFaq = (RelativeLayout)findViewById(R.id.reLayFaq);
+        reLayAbout = (RelativeLayout)findViewById(R.id.reLayAbout);
         reLayProfile = (RelativeLayout)findViewById(R.id.reLayProfile);
-        reLayProfile.setOnClickListener(new View.OnClickListener() {
+        reLaySettings = (RelativeLayout)findViewById(R.id.reLaySettings);
+
+        reLayClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con,SettingsActivity.class));
+                //Appconstant.clockInOu = "in";
+                mDrawerLayout.closeDrawer(Gravity.START);
+                setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
+
+
             }
         });
 
+        reLayClockOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Appconstant.clockInOu = "out";
+                mDrawerLayout.closeDrawer(Gravity.START);
+                setContentFragment(new FragementClockOut(), false,"RE Generation Summery Report");
+
+
+            }
+        });
+
+        reLayProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ProfileSettingsActivity.class));
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+
+        reLaySettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,SettingsActivity.class));
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+
+        reLayRecords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,MyRecordsActivity.class));
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+
+
+        reLayAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.closeDrawer(Gravity.START);
+                Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        reLayFaq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDrawerLayout.closeDrawer(Gravity.START);
+                Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

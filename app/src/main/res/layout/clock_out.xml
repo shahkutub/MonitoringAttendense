@@ -54,6 +54,7 @@
        android:id="@+id/layClockIn"
        android:background="#F9FBFC"
        android:layout_below="@+id/userView"
+       android:visibility="gone"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
@@ -207,7 +208,7 @@
     <RelativeLayout
         android:id="@+id/layClockOut"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_below="@+id/userView"
         android:background="#F9FBFC"
         android:layout_height="match_parent">

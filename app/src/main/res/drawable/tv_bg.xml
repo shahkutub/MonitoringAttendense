@@ -9,7 +9,7 @@
 
     <!-- View border color and width -->
     <stroke
-        android:width="0dp"
+        android:width="@dimen/_1sdp"
         android:color="#DDDDDD" >
     </stroke>
 

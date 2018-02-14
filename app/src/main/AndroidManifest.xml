@@ -9,7 +9,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,7 +19,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ProfileSettingsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".MyRecordsActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
