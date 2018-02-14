@@ -76,6 +76,9 @@ public class FragementClockIn extends BaseFragment {
                 layClockIn.setVisibility(View.VISIBLE);
             }
         });
+
+
+        
     }
 
 
