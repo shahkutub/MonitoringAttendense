@@ -17,13 +17,13 @@
 
 
         <ImageView
-            android:layout_toRightOf="@+id/imgBack"
+            android:id="@+id/imgBack"
             android:layout_width="@dimen/_30sdp"
             android:layout_centerInParent="true"
             android:layout_height="@dimen/_30sdp"
             android:visibility="visible"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_arrow_back_black_48px"
+            android:src="@drawable/ic_chevron_left_white_24px"
             android:layout_marginLeft="@dimen/_5sdp"
             />
 
@@ -175,6 +175,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etCurrentPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -194,12 +195,13 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etNewPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
-                android:hint="Current Password:"
+                android:hint="New Password:"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_7sdp"
                 />
@@ -213,12 +215,13 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etConfirmPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
-                android:hint="Current Password:"
+                android:hint="Confirm Password:"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_7sdp"
                 />

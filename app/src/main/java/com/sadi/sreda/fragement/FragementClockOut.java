@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sadi.sreda.R;
-import com.sadi.sreda.utils.Appconstant;
 import com.sadi.sreda.utils.BaseFragment;
 
 import java.text.DateFormat;
@@ -76,10 +75,10 @@ public class FragementClockOut extends BaseFragment {
         layClockOut = (RelativeLayout)getView().findViewById(R.id.layClockOut);
         layClockIn = (RelativeLayout)getView().findViewById(R.id.layClockIn);
 
-//        if(Appconstant.clockInOu.equalsIgnoreCase("in")){
+//        if(AppConstant.clockInOu.equalsIgnoreCase("in")){
 //            layClockOut.setVisibility(View.GONE);
 //            layClockIn.setVisibility(View.VISIBLE);
-//        }else if(Appconstant.clockInOu.equalsIgnoreCase("out")){
+//        }else if(AppConstant.clockInOu.equalsIgnoreCase("out")){
 //            layClockOut.setVisibility(View.VISIBLE);
 //            layClockIn.setVisibility(View.GONE);
 //        }
@@ -106,10 +105,10 @@ public class FragementClockOut extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if(Appconstant.clockInOu.equalsIgnoreCase("in")){
+//        if(AppConstant.clockInOu.equalsIgnoreCase("in")){
 //            layClockOut.setVisibility(View.GONE);
 //            layClockIn.setVisibility(View.VISIBLE);
-//        }else if(Appconstant.clockInOu.equalsIgnoreCase("out")){
+//        }else if(AppConstant.clockInOu.equalsIgnoreCase("out")){
 //            layClockOut.setVisibility(View.VISIBLE);
 //            layClockIn.setVisibility(View.GONE);
 //        }

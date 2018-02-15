@@ -3,29 +3,19 @@ package com.sadi.sreda.fragement;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sadi.sreda.R;
-import com.sadi.sreda.adapter.ReGenerationAdapter;
-import com.sadi.sreda.adapter.ReGenerationInfo;
-import com.sadi.sreda.utils.Appconstant;
 import com.sadi.sreda.utils.BaseFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import static android.support.v7.widget.LinearLayoutManager.*;
 
 
 /**
@@ -109,10 +99,10 @@ public class FragementClockIn extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if(Appconstant.clockInOu.equalsIgnoreCase("in")){
+//        if(AppConstant.clockInOu.equalsIgnoreCase("in")){
 //            layClockOut.setVisibility(View.GONE);
 //            layClockIn.setVisibility(View.VISIBLE);
-//        }else if(Appconstant.clockInOu.equalsIgnoreCase("out")){
+//        }else if(AppConstant.clockInOu.equalsIgnoreCase("out")){
 //            layClockOut.setVisibility(View.VISIBLE);
 //            layClockIn.setVisibility(View.GONE);
 //        }
