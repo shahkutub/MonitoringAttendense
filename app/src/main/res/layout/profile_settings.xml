@@ -227,6 +227,31 @@
                 />
 
         </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/tvClockOut"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_20sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:paddingLeft="@dimen/_35sdp"
+                android:paddingRight="@dimen/_35sdp"
+                android:text="SUBMIT"
+                android:textColor="#4F5761"
+                android:gravity="center"
+                android:background="@drawable/clock_in_bg"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </LinearLayout>
+
+
     </ScrollView>
 </RelativeLayout>
