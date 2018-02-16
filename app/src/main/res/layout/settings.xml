@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D8E5F2"
+    android:background="#F0F0F0"
     >
 
     <RelativeLayout
@@ -162,7 +162,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:background="#D8E5F2"
+            android:background="#F0F0F0"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_height="@dimen/_2sdp"/>
 
@@ -222,7 +222,7 @@
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:background="#D8E5F2"
+            android:background="#F0F0F0"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_height="@dimen/_2sdp"/>
         <RelativeLayout

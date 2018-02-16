@@ -17,14 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by User on 7/20/2016.
  */
 public class FragementClockOut extends BaseFragment {
     Context con;
-    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut;
+    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvGreetingsOut,tvFin,tvFout;
     private RelativeLayout layClockOut,layClockIn;
+    private CircleImageView profile_imageOut;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +57,12 @@ public class FragementClockOut extends BaseFragment {
         tvTime = (TextView)getView().findViewById(R.id.tvTime);
         tvDateOut = (TextView)getView().findViewById(R.id.tvDateOut);
         tvTimeOut = (TextView)getView().findViewById(R.id.tvTimeOut);
+        tvGreetingsOut = (TextView)getView().findViewById(R.id.tvGreetingsOut);
+        tvFin = (TextView)getView().findViewById(R.id.tvFin);
+        tvFout = (TextView)getView().findViewById(R.id.tvFout);
+
+
+        profile_imageOut = (CircleImageView) getView().findViewById(R.id.profile_imageOut);
 
         Date date = Calendar.getInstance().getTime();
 

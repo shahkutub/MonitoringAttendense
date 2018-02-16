@@ -17,14 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by User on 7/20/2016.
  */
 public class FragementClockIn extends BaseFragment {
     Context con;
-    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut;
+    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,
+            tvOutTime,tvInTime;
     private RelativeLayout layClockOut,layClockIn;
+    private CircleImageView profile_imageCheckIn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,11 +52,20 @@ public class FragementClockIn extends BaseFragment {
 
     private void initUi() {
 
+
         tvTitle = (TextView)getView().findViewById(R.id.tvTitle);
         tvDate = (TextView)getView().findViewById(R.id.tvDate);
         tvTime = (TextView)getView().findViewById(R.id.tvTime);
         tvDateOut = (TextView)getView().findViewById(R.id.tvDateOut);
         tvTimeOut = (TextView)getView().findViewById(R.id.tvTimeOut);
+        tvUserName = (TextView)getView().findViewById(R.id.tvUserName);
+        tvLogOut = (TextView)getView().findViewById(R.id.tvLogOut);
+        tvGreetingsIn = (TextView)getView().findViewById(R.id.tvGreetingsIn);
+        tvOutTime = (TextView)getView().findViewById(R.id.tvOutTime);
+        tvInTime = (TextView)getView().findViewById(R.id.tvInTime);
+
+        profile_imageCheckIn = (CircleImageView)getView().findViewById(R.id.profile_imageCheckIn);
+
 
         Date date = Calendar.getInstance().getTime();
 

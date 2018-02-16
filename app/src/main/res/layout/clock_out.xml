@@ -21,7 +21,7 @@
             android:orientation="horizontal"
             >
             <TextView
-                android:id="@+id/tvUserName"
+                android:id="@+id/tvUserNameOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pavel sarwar"
@@ -38,7 +38,7 @@
                 />
 
             <TextView
-                android:id="@+id/tvLogOut"
+                android:id="@+id/tvLogOutOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LogOut"
@@ -316,6 +316,7 @@
                     android:gravity="center"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tvFin"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_10sdp"
                     android:text="4:00 AM"
@@ -342,6 +343,7 @@
                     android:gravity="center"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tvFout"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_10sdp"
                     android:text="9:00 AM"
