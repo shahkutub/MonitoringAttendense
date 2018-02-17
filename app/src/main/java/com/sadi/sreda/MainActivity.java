@@ -28,12 +28,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sadi.sreda.fragement.FragementClockIn;
 import com.sadi.sreda.fragement.FragementClockOut;
+import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -53,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private FrameLayout containerView;
     Animation shake;
     LocationMgr mgr;
+
+    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,
+            tvOutTime,tvInTime;
+    private RelativeLayout layClockOut,layClockIn;
+    private CircleImageView profile_imageCheckIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
+        //setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
 
         reLayClockIn = (RelativeLayout)findViewById(R.id.reLayClockIn);
         reLayClockOut = (RelativeLayout)findViewById(R.id.reLayClockOut);
@@ -212,12 +227,70 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         reLayProfile = (RelativeLayout)findViewById(R.id.reLayProfile);
         reLaySettings = (RelativeLayout)findViewById(R.id.reLaySettings);
 
+
+        tvTitle = (TextView)findViewById(R.id.tvTitle);
+        tvDate = (TextView)findViewById(R.id.tvDate);
+        tvTime = (TextView)findViewById(R.id.tvTime);
+        tvDateOut = (TextView)findViewById(R.id.tvDateOut);
+        tvTimeOut = (TextView)findViewById(R.id.tvTimeOut);
+        tvUserName = (TextView)findViewById(R.id.tvUserName);
+        tvLogOut = (TextView)findViewById(R.id.tvLogOut);
+        tvGreetingsIn = (TextView)findViewById(R.id.tvGreetingsIn);
+        tvOutTime = (TextView)findViewById(R.id.tvOutTime);
+        tvInTime = (TextView)findViewById(R.id.tvInTime);
+        profile_imageCheckIn = (CircleImageView)findViewById(R.id.profile_imageCheckIn);
+
+
+
+        Date date = Calendar.getInstance().getTime();
+
+        // Display a date in day, month, year format
+        DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy");
+        String today = formatter.format(date);
+        tvDate.setText(today);
+        tvDateOut.setText(today);
+
+        SimpleDateFormat simpleDateFormat;
+        String time;
+        simpleDateFormat = new SimpleDateFormat("hh:mm a");
+
+        time = simpleDateFormat.format(date.getTime());
+        tvTime.setText(time);
+        tvTimeOut.setText(time);
+
+
+        tvClockIn = (TextView)findViewById(R.id.tvClockIn);
+        tvClockOut = (TextView)findViewById(R.id.tvClockOut);
+        layClockOut = (RelativeLayout)findViewById(R.id.layClockOut);
+        layClockIn = (RelativeLayout)findViewById(R.id.layClockIn);
+
+
+        if(!AppConstant.isHq){
+            Toast.makeText(con, "You are at HQ", Toast.LENGTH_SHORT).show();
+        }
+
+        tvClockIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layClockOut.setVisibility(View.VISIBLE);
+                layClockIn.setVisibility(View.GONE);
+            }
+        });
+
+        layClockOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layClockOut.setVisibility(View.GONE);
+                layClockIn.setVisibility(View.VISIBLE);
+            }
+        });
+
         reLayClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //AppConstant.clockInOu = "in";
                 mDrawerLayout.closeDrawer(Gravity.START);
-                setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
+               // setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
 
 
             }
@@ -228,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             public void onClick(View v) {
                 //AppConstant.clockInOu = "out";
                 mDrawerLayout.closeDrawer(Gravity.START);
-                setContentFragment(new FragementClockOut(), false,"RE Generation Summery Report");
+                //setContentFragment(new FragementClockOut(), false,"RE Generation Summery Report");
 
 
             }

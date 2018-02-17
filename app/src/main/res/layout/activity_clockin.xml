@@ -177,7 +177,7 @@
                 android:text="CLOCK IN"
                 android:textColor="#4F5761"
                 android:gravity="center"
-                android:background="@drawable/clock_in_bg"
+                android:background="@drawable/clock_in_bg_red"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

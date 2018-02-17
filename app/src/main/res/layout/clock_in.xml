@@ -131,7 +131,7 @@
                 android:paddingRight="@dimen/_35sdp"
                 android:text="CLOCK IN"
                 android:textColor="#4F5761"
-                android:background="@drawable/clock_in_bg"
+                android:background="@drawable/clock_in_bg_green"
                 android:gravity="center"
                 android:layout_height="wrap_content" />
 
@@ -287,7 +287,7 @@
                     android:text="CLOCK OUT"
                     android:textColor="#4F5761"
                     android:gravity="center"
-                    android:background="@drawable/clock_in_bg"
+                    android:background="@drawable/clock_in_bg_red"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>

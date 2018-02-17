@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -100,6 +101,20 @@ public class LocationMgr implements
         PersistData.setStringData(context, AppConstant.lng,""+location.getLongitude());
         //Toast.makeText(context, "Lat: "+location.getLatitude()+" Lng: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
         //tvLatLng.setText(location.getLatitude()+"\n"+location.getLongitude());
+
+        float[] results = new float[1];
+        Location.distanceBetween(location.getLatitude(), location.getLongitude(),
+        23.787933, 90.425542, results);
+        float distanceInMeters = results[0];
+
+        if( distanceInMeters < 1000){
+            //Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
+
+            AppConstant.isHq = true;
+        }
+
+        boolean isWithin10km = distanceInMeters < 1000;
+
     }
 
 
