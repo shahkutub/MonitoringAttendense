@@ -32,10 +32,10 @@ public class SplashScreen extends AppCompatActivity{
                 if(PersistentUser.isLogged(con)){
 //                    Operation operation = new Operation(con);
 //                    operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
-                    startActivity(new Intent(con,MainActivity.class));
+                    startActivity(new Intent(con,LoginActivity.class));
                     finish();
                 }else {
-                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                     startActivity(i);
                     finish();
                 }

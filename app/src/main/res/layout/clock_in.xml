@@ -165,7 +165,7 @@
                 android:id="@+id/tvInTime"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/_10sdp"
-                android:text="4:00 AM"
+                android:text="9:00 AM"
                 android:textColor="#fff"
                 android:gravity="center"
                 android:layout_height="wrap_content" />
@@ -192,7 +192,7 @@
                 android:id="@+id/tvOutTime"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/_10sdp"
-                android:text="9:00 AM"
+                android:text="4:00 PM"
                 android:textColor="#fff"
                 android:gravity="center"
                 android:layout_height="wrap_content" />
@@ -319,7 +319,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_10sdp"
-                    android:text="4:00 AM"
+                    android:text="9:00 AM"
                     android:textColor="#fff"
                     android:gravity="center"
                     android:layout_height="wrap_content" />
@@ -345,7 +345,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_10sdp"
-                    android:text="9:00 AM"
+                    android:text="6:00 AM"
                     android:textColor="#fff"
                     android:gravity="center"
                     android:layout_height="wrap_content" />

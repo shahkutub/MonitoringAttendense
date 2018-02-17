@@ -131,7 +131,7 @@
                     android:layout_alignParentLeft="true"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold"
-                    android:text="Quick Attendance"
+                    android:text="Reminders"
 
                     />
                 <TextView
@@ -140,7 +140,7 @@
                     android:textColor="#000"
                     android:textSize="@dimen/_10sdp"
                     android:layout_alignParentLeft="true"
-                    android:text="Auto clock in or out when the app is launched."
+                    android:text="Get reminders at clock_in and clock_out times."
 
                     />
 
