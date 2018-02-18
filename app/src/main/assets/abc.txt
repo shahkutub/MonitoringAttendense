@@ -1,0 +1,166 @@
+{
+  "code": 200,
+  "status": 1,
+  "msg": "OK",
+  "top_news": [
+    {
+      "id": "393363",
+      "cat_id": "16",
+      "title": "ফের শিকল ছিঁড়ে লোকালয়ে বঙ্গ বাহাদুর",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/14/thumbnails/115832Hati1_kalerkantho_pic.jpg",
+      "datetime": "2016-08-14 11:58:32",
+      "summery": "আবারো শিকল ছিঁড়ে লোকালয়ে চলে গেছে বঙ্গ বাহাদুর। হাতিটিকে দ্বিতীয় দফা"
+    },
+    {
+      "id": "393359",
+      "cat_id": "16",
+      "title": "হিরণ পয়েন্টে ট্রলারডুবির ঘটনায় মৃত উদ্ধার ৫",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/14/thumbnails/1155135_kalerkantho_pic.jpg",
+      "datetime": "2016-08-14 11:51:38",
+      "summery": "সুন্দরবনের দক্ষিণ-পশ্চিম অংশের হিরণ পয়েন্ট থেকে ৪০ নটিক্যাল মাইল দূরে"
+    },
+    {
+      "id": "393359",
+      "cat_id": "16",
+      "title": "হিরণ পয়েন্টে ট্রলারডুবির ঘটনায় মৃত উদ্ধার ৫",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/14/thumbnails/1155135_kalerkantho_pic.jpg",
+      "datetime": "2016-08-14 11:51:38",
+      "summery": "সুন্দরবনের দক্ষিণ-পশ্চিম অংশের হিরণ পয়েন্ট থেকে ৪০ নটিক্যাল মাইল দূরে"
+    }
+  ],
+  "blueslide": [
+    {
+      "id": "393360",
+      "title": "প্রত্যেকের ডেস্কেই যে অতিরিক্ত ১২টি জিনিস থাকা দরকার",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/16/thumbnails/112202How_to_Clean_an_Oven.jpg",
+      "caption": "",
+      "category": "54",
+      "start_time": "2016-08-14 11:56:15",
+      "author": "কালের কণ্ঠ অনলাইন"
+    },
+    {
+      "id": "393353",
+      "title": "শীর্ষ ১০০ প্রযুক্তি ধনকুবেরের ১৪ জনের বয়স ৪০ এর নিচে",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/16/thumbnails/104206Rasi-fol-7kalerkantho_pic.jpg",
+      "caption": "",
+      "category": "57",
+      "start_time": "2016-08-14 11:13:02",
+      "author": "কালের কণ্ঠ অনলাইন"
+    },
+    {
+      "id": "393349",
+      "title": "স্মার্টফোনের ৬ আশ্চর্য ব্যবহার, যা আপনি নাও জানতে পারেন",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/15/thumbnails/194259Office-good-boss.gif",
+      "caption": "",
+      "category": "57",
+      "start_time": "2016-08-14 10:43:59",
+      "author": "কালের কণ্ঠ অনলাইন"
+    }
+  ],
+  "redslider": [
+    {
+      "id": "393362",
+      "title": "চুম্বনে দক্ষতার জন্য...",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/15/thumbnails/193150shuvoshree_kalerkantho_pic.jpg",
+      "caption": "",
+      "category": "54",
+      "category_name": "জীবনযাপন",
+      "start_time": "2016-08-14 11:57:37",
+      "author": "কালের কণ্ঠ অনলাইন"
+    },
+    {
+      "id": "393332",
+      "title": "হৃত্বিক ভক্তের কাণ্ড!",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/15/thumbnails/165246Fawad-Khan_kalerkantho_pic.jpg",
+      "caption": "",
+      "category": "55",
+      "category_name": "বিনোদন",
+      "start_time": "2016-08-14 09:35:02",
+      "author": "কালের কণ্ঠ অনলাইন"
+    },
+    {
+      "id": "393112",
+      "title": "সালমানের বিয়ে নিয়ে হতাশ পিতা সেলিম খান",
+      "image": "http://www.kalerkantho.com/assets/news_images/2016/08/15/thumbnails/155339akshay_kalerkantho_pic.jpg",
+      "caption": "",
+      "category": "55",
+      "category_name": "বিনোদন",
+      "start_time": "2016-08-13 22:41:43",
+      "author": "কালের কণ্ঠ অনলাইন"
+    }
+  ],
+  "all_cat_news": [
+    {
+      "category_id": "1",
+      "category_name": "জাতীয়",
+      "news": [
+        {
+          "id": "393115",
+          "cat_id": "1",
+          "title": "রাজধানীতে ৪ ঔষধ কম্পানিকে ১৮ লাখ টাকা জরিমানা ",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/13/thumbnails/225720rab_kalerkantho_pic.jpg"
+        },
+        {
+          "id": "393088",
+          "cat_id": "1",
+          "title": "বঙ্গবন্ধুকে হত্যার আগে অস্বাভাবিক নৈশ প্যারেড হয়",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/13/thumbnails/223601mujib_kalerkantho_pic.jpg"
+        }
+      ]
+    },
+    {
+      "category_id": "2",
+      "category_name": "রাজনীতি",
+      "news": [
+        {
+          "id": "393067",
+          "cat_id": "2",
+          "title": "ঢাকায় আনা হয়েছে ফজলুর রহমান পটলের লাশ",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/13/thumbnails/19172026776_potol_kalerkantho_pic.jpg"
+        },
+        {
+          "id": "393004",
+          "cat_id": "2",
+          "title": "খালেদা-তারেককে গালি দিয়েও পদ পেয়েছেন",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/13/thumbnails/150329hannan-shah-(3)_kalerkantho_pic.jpg"
+        }
+      ]
+    },
+    {
+      "category_id": "14",
+      "category_name": "আইন-আদালত",
+      "news": [
+        {
+          "id": "393037",
+          "cat_id": "14",
+          "title": "দ্বিতীয় দফায় হাসনাতের আট ও তাহমিদের ছয় দিনের রিমান্ড মঞ্জুর",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/13/thumbnails/171149hasnat_tahmid_kalerkantho_pic.jpg"
+        },
+        {
+          "id": "392356",
+          "cat_id": "14",
+          "title": "পরাগ অপহরণ মামলার আসামি কোর্ট হাজত থেকে উধাও!",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/11/thumbnails/212006parag_kalerkantho_pic.jpg"
+        }
+      ]
+    },
+    {
+      "category_id": "5",
+      "category_name": "বাণিজ্য",
+      "news": [
+        {
+          "id": "393252",
+          "cat_id": "5",
+          "title": "রামদেবের হুমকি",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/14/thumbnails/004748Ramdev_kalerkantho_pic.jpg"
+        },
+        {
+          "id": "392361",
+          "cat_id": "5",
+          "title": "দেশে অচিরেই বনায়নের লক্ষ্যমাত্রা অর্জিত হবে : অর্থমন্ত্রী",
+          "image": "http://www.kalerkantho.com/assets/news_images/2016/08/11/thumbnails/214014Muhit_kalerkantho_pic.jpg"
+        }
+      ]
+    }
+  ]
+}

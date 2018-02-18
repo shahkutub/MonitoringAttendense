@@ -147,6 +147,7 @@
             </LinearLayout>
 
             <ToggleButton
+                android:id="@+id/toggleAlarm"
                 android:layout_alignParentRight="true"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_20sdp"
