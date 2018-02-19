@@ -38,6 +38,7 @@ import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -242,16 +243,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
 
-        Date date = Calendar.getInstance().getTime();
-
-        // Display a date in day, month, year format
-        DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy");
-        String today = formatter.format(date);
+        final Date date = Calendar.getInstance().getTime();
+        final DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy");
+        final String today = formatter.format(date);
         tvDate.setText(today);
         tvDateOut.setText(today);
 
         SimpleDateFormat simpleDateFormat;
-        String time;
+        final String time;
         simpleDateFormat = new SimpleDateFormat("hh:mm a");
 
         time = simpleDateFormat.format(date.getTime());
@@ -272,16 +271,45 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layClockOut.setVisibility(View.VISIBLE);
-                layClockIn.setVisibility(View.GONE);
+
+                //DateFormat df1 = new SimpleDateFormat("EEE, dd MMM yyyy");
+                DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm a");
+
+                try {
+                    Date d1 = df.parse( today+" "+"8:30 AM");
+                    Date d2 = df.parse(today+" "+time);
+
+                    if(d1.getTime()<d2.getTime()){
+                        layClockOut.setVisibility(View.VISIBLE);
+                        layClockIn.setVisibility(View.GONE);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
         layClockOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layClockOut.setVisibility(View.GONE);
-                layClockIn.setVisibility(View.VISIBLE);
+
+                DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm a");
+
+                try {
+                    Date d1 = df.parse( today+" "+"6:00 PM");
+                    Date d2 = df.parse(today+" "+time);
+
+                    if(d1.getTime()<d2.getTime()){
+                        layClockOut.setVisibility(View.GONE);
+                        layClockIn.setVisibility(View.VISIBLE);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
@@ -351,7 +379,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         });
 
     }
-
 
 
 
