@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvDateOut.setText(today);
 
         SimpleDateFormat simpleDateFormat;
-        final String time;
+        String time;
         simpleDateFormat = new SimpleDateFormat("hh:mm a");
 
         time = simpleDateFormat.format(date.getTime());
@@ -272,9 +272,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(time.equalsIgnoreCase("8:45 AM")){
-
-                }
                 layClockOut.setVisibility(View.VISIBLE);
                 layClockIn.setVisibility(View.GONE);
             }
