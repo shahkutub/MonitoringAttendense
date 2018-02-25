@@ -54,6 +54,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void initUi() {
 
 
+        //tuturial
+        //https://gist.github.com/Narcis11/3ac00f45b7c9ee68e0ce
+
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(con, AlarmReceiver.class);
         alarmIntent2 = new Intent(con, AlarmReceiver.class);
@@ -73,6 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
         toggleAlarm = (ToggleButton)findViewById(R.id.toggleAlarm);
         if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
             toggleAlarm.setChecked(true);
+            startAlarm();
+            startAlarm2();
         }else if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("OFF")){
             toggleAlarm.setChecked(false);
         }
@@ -84,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
                 {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
                     startAlarm();
-                    //startAlarm2();
+                    startAlarm2();
                 }
                 else
                 {
@@ -103,8 +108,8 @@ public class SettingsActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 21);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 29);
         calendar.set(Calendar.SECOND, 00);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
         Toast.makeText(this, "Alarm Set for " + "11" + " seconds.", Toast.LENGTH_SHORT).show();
@@ -117,8 +122,8 @@ public class SettingsActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 14);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 32);
         calendar.set(Calendar.SECOND, 00);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent2);
         Toast.makeText(this, "Alarm Set for " + "11" + " seconds.", Toast.LENGTH_SHORT).show();

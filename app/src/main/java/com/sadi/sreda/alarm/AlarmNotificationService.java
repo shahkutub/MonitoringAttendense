@@ -30,7 +30,7 @@ public class AlarmNotificationService extends IntentService {
 
         //Send notification
         sendNotification("Wake Up! Wake Up! Alarm started!!");
-        //sendNotification2("Wake Up! Wake Up! Alarm started!!");
+        sendNotification2("Wake Up! Wake Up! Alarm started!!");
     }
 
     //handle notification
