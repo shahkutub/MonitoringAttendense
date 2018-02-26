@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sadi.sreda.alarm.AlarmMainActivity;
 import com.sadi.sreda.fragement.FragementClockIn;
 import com.sadi.sreda.fragement.FragementClockOut;
 import com.sadi.sreda.utils.AppConstant;
@@ -346,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         reLaySettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con,SettingsActivity.class));
+                startActivity(new Intent(con,AlarmMainActivity.class));
                 mDrawerLayout.closeDrawer(Gravity.START);
             }
         });

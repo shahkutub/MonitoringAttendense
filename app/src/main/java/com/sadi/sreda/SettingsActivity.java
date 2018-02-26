@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
                 else
                 {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"OFF");
-                    //stopAlarmManager();
+                    stopAlarmManager();
                 }
 
             }
@@ -108,8 +108,8 @@ public class SettingsActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 29);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, 15);
         calendar.set(Calendar.SECOND, 00);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
         Toast.makeText(this, "Alarm Set for " + "11" + " seconds.", Toast.LENGTH_SHORT).show();
@@ -122,8 +122,8 @@ public class SettingsActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 32);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, 18);
         calendar.set(Calendar.SECOND, 00);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent2);
         Toast.makeText(this, "Alarm Set for " + "11" + " seconds.", Toast.LENGTH_SHORT).show();
@@ -134,6 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);//cancel the alarm manager of the pending intent
+        manager.cancel(pendingIntent2);//cancel the alarm manager of the pending intent
 
 
         //Stop the Media Player Service to stop sound
