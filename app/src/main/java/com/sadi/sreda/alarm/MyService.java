@@ -1,99 +1,90 @@
 package com.sadi.sreda.alarm;
-
-/**
- * Created by NanoSoft on 2/26/2018.
- */
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Process;
 import android.os.SystemClock;
-import java.util.Calendar;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.ToggleButton;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.sadi.sreda.R;
-import com.sadi.sreda.utils.AppConstant;
-import com.sadi.sreda.utils.PersistData;
 
-public class AlarmMainActivity extends AppCompatActivity {
-    private static Context mContext;
+import java.util.Calendar;
+
+/**
+ * Created by NanoSoft on 2/27/2018.
+ */
+
+public class MyService extends Service {
+    private static final String TAG = "MyService";
+    private boolean isRunning  = false;
+    private Looper looper;
+    private MyServiceHandler myServiceHandler;
     private static Notification notification;
+    @Override
+    public void onCreate() {
+        notification=new Notification();
+        HandlerThread handlerthread = new HandlerThread("MyThread", Process.THREAD_PRIORITY_BACKGROUND);
+        handlerthread.start();
+        looper = handlerthread.getLooper();
+        myServiceHandler = new MyServiceHandler(looper);
+        isRunning = true;
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Message msg = myServiceHandler.obtainMessage();
+        msg.arg1 = startId;
+        myServiceHandler.sendMessage(msg);
+        Toast.makeText(this, "MyService Started.", Toast.LENGTH_SHORT).show();
+        //If service is killed while starting, it restarts.
+        scheduleNotifications();
+        SimpleWakefulReceiver.completeWakefulIntent(intent);
+        return START_STICKY;
+    }
 
-    Context con;
-    private ImageView imgBack;
-    private PendingIntent pendingIntent,pendingIntent2;
-    Intent alarmIntent;
-    Intent alarmIntent2;
-    private RadioButton secondsRadioButton, minutesRadioButton, hoursRadioButton;
-
-    //Alarm Request Code
-    private static final int ALARM_REQUEST_CODE = 133;
-    private static final int ALARM_REQUEST_CODE2 = 134;
-    private ToggleButton toggleAlarm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
-        mContext = getApplicationContext();
-        con = this;
-        notification=new Notification();
-        //scheduleNotifications();
-        initUi();
+    public IBinder onBind(Intent intent) {
+        return null;
     }
-
-
-    private void initUi() {
-
-        imgBack = (ImageView)findViewById(R.id.imgBack);
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        toggleAlarm = (ToggleButton)findViewById(R.id.toggleAlarm);
-        if(PersistData.getStringData(con, AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
-            toggleAlarm.setChecked(true);
-            //scheduleNotifications();
-
-        }else if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("OFF")){
-            toggleAlarm.setChecked(false);
+    @Override
+    public void onDestroy() {
+        isRunning = false;
+        Toast.makeText(this, "MyService Completed or Stopped.", Toast.LENGTH_SHORT).show();
+    }
+    private final class MyServiceHandler extends Handler {
+        public MyServiceHandler(Looper looper) {
+            super(looper);
         }
-        toggleAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-                    Intent intent = new Intent(AlarmMainActivity.this, MyService.class);
-                    startService(intent);
-                    //scheduleNotifications();
+        @Override
+        public void handleMessage(Message msg) {
+            synchronized (this) {
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        Log.i(TAG, "MyService running...");
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        Log.i(TAG, e.getMessage());
+                    }
+                    if(!isRunning){
+                        break;
+                    }
                 }
-                else {
-                    PersistData.setStringData(con, AppConstant.alarmOnOff,"OFF");
-//                    Intent intent = new Intent(AlarmMainActivity.this, MyService.class);
-//                    stopService(intent);
-                    //scheduleNotifications();
-                }
-
             }
-        });
-
-
+            //stops the service for the start id.
+            stopSelfResult(msg.arg1);
+        }
     }
-
 
 
     private void scheduleNotifications() {
@@ -116,7 +107,7 @@ public class AlarmMainActivity extends AppCompatActivity {
 
         //schedule the second notification
         Calendar secondCalendar = Calendar.getInstance();
-        secondCalendar.set(secondCalendar.get(Calendar.YEAR), secondCalendar.get(Calendar.MONTH), secondCalendar.get(Calendar.DAY_OF_MONTH), 11, 19);
+        secondCalendar.set(secondCalendar.get(Calendar.YEAR), secondCalendar.get(Calendar.MONTH), secondCalendar.get(Calendar.DAY_OF_MONTH), 13, 5);
         remainingMillis = secondCalendar.getTimeInMillis() - currentTimeMillis;
         if (remainingMillis > 0)
             scheduleSecondNotification(notification, remainingMillis);
@@ -124,7 +115,7 @@ public class AlarmMainActivity extends AppCompatActivity {
 
         //schedule the third notification
         Calendar thirdCalendar = Calendar.getInstance();
-        thirdCalendar.set(thirdCalendar.get(Calendar.YEAR), thirdCalendar.get(Calendar.MONTH), thirdCalendar.get(Calendar.DAY_OF_MONTH), 11, 21);
+        thirdCalendar.set(thirdCalendar.get(Calendar.YEAR), thirdCalendar.get(Calendar.MONTH), thirdCalendar.get(Calendar.DAY_OF_MONTH), 13, 6);
         remainingMillis = thirdCalendar.getTimeInMillis() - currentTimeMillis;
         if (remainingMillis > 0)
             scheduleThirdNotification(notification, remainingMillis);
@@ -169,7 +160,7 @@ public class AlarmMainActivity extends AppCompatActivity {
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
-    private Notification getNotification(String content) {
+    private Notification getNotification(String content,Context mContext) {
         NotificationCompat.Builder builder = new android.support.v4.app.NotificationCompat.Builder(this);
         //open the main activity when the intent is clicked
         Intent resultIntent = new Intent(this, AlarmMainActivity.class);
@@ -182,12 +173,12 @@ public class AlarmMainActivity extends AppCompatActivity {
                 + mContext.getPackageName() + "/"
                 + R.raw.alarm_sound));
         builder.setAutoCancel(true);//clear the notification after it is clicked
-        builder.setDeleteIntent(getDeleteIntent());//set the behaviour when the notification is cleared
+        builder.setDeleteIntent(getDeleteIntent(mContext));//set the behaviour when the notification is cleared
         builder.setContentIntent(mainActivityPendingIntent);
         return builder.build();
     }
 
-    protected PendingIntent getDeleteIntent()
+    protected PendingIntent getDeleteIntent(Context mContext)
     {
         Intent intent = new Intent(mContext, BuyerPushNotif.ClearedPushNotif.class);
         intent.setAction("notification_cancelled");
@@ -216,4 +207,5 @@ public class AlarmMainActivity extends AppCompatActivity {
         alarmManager.cancel(secondPendingIntent);
         alarmManager.cancel(thirdPendingIntent);
     }
+
 }

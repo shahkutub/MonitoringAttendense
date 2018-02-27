@@ -59,9 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(con, AlarmReceiver.class);
-        alarmIntent2 = new Intent(con, AlarmReceiver.class);
+        //alarmIntent2 = new Intent(con, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(con, ALARM_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
-        pendingIntent2 = PendingIntent.getBroadcast(con, ALARM_REQUEST_CODE2, alarmIntent2, PendingIntent.FLAG_ONE_SHOT);
+        //pendingIntent2 = PendingIntent.getBroadcast(con, ALARM_REQUEST_CODE2, alarmIntent2, PendingIntent.FLAG_ONE_SHOT);
 
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
@@ -77,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
         if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
             toggleAlarm.setChecked(true);
             startAlarm();
-            startAlarm2();
+            //startAlarm2();
         }else if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("OFF")){
             toggleAlarm.setChecked(false);
         }
@@ -89,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
                 {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
                     startAlarm();
-                    startAlarm2();
+                    //startAlarm2();
                 }
                 else
                 {
@@ -134,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);//cancel the alarm manager of the pending intent
-        manager.cancel(pendingIntent2);//cancel the alarm manager of the pending intent
+       // manager.cancel(pendingIntent2);//cancel the alarm manager of the pending intent
 
 
         //Stop the Media Player Service to stop sound
