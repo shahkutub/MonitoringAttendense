@@ -49,6 +49,8 @@ public class AlarmMainActivity extends AppCompatActivity {
         notification=new Notification();
         //scheduleNotifications();
         initUi();
+//        Intent intent = new Intent(AlarmMainActivity.this, MyTestService.class);
+//        startService(intent);
     }
 
 
@@ -66,7 +68,8 @@ public class AlarmMainActivity extends AppCompatActivity {
         toggleAlarm = (ToggleButton)findViewById(R.id.toggleAlarm);
         if(PersistData.getStringData(con, AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
             toggleAlarm.setChecked(true);
-            //scheduleNotifications();
+//            Intent intent = new Intent(AlarmMainActivity.this, MyTestService.class);
+//            startService(intent);
 
         }else if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("OFF")){
             toggleAlarm.setChecked(false);
@@ -77,14 +80,14 @@ public class AlarmMainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-                    Intent intent = new Intent(AlarmMainActivity.this, MyService.class);
+                    Intent intent = new Intent(AlarmMainActivity.this, MyTestService.class);
                     startService(intent);
                     //scheduleNotifications();
                 }
                 else {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"OFF");
-//                    Intent intent = new Intent(AlarmMainActivity.this, MyService.class);
-//                    stopService(intent);
+                    Intent intent = new Intent(AlarmMainActivity.this, MyTestService.class);
+                    stopService(intent);
                     //scheduleNotifications();
                 }
 
@@ -143,6 +146,8 @@ public class AlarmMainActivity extends AppCompatActivity {
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
+        //alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,futureInMillis,);
     }
 
     private void scheduleSecondNotification(Notification notification, long delay) {

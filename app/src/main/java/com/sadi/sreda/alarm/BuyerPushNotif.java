@@ -27,17 +27,22 @@ public class BuyerPushNotif {
         @SuppressLint({"NewApi", "LocalSuppress"})
         @Override
         public void onReceive(Context context, Intent intent) {
-            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-            intent.getParcelableExtra(NOTIFICATION);
-            Notification notification;
-            int id = intent.getIntExtra(NOTIFICATION_ID, 0);
-             notification = new Notification.Builder(context)
-                    .setContentTitle("New mail from ")
-                    .setContentText("")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .build();
+//            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+//            intent.getParcelableExtra(NOTIFICATION);
+//            Notification notification;
+//            int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+//             notification = new Notification.Builder(context)
+//                    .setContentTitle("New mail from ")
+//                    .setContentText("")
+//                    .setSmallIcon(R.mipmap.ic_launcher)
+//                    .build();
+//
+//            notificationManager.notify(id, notification);
 
-            notificationManager.notify(id, notification);
+            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+
+            notificationManager.notify(id, getNotification("",context));
         }
     }
 
@@ -92,9 +97,10 @@ public class BuyerPushNotif {
                 + context.getPackageName() + "/"
                 + R.raw.alarm_sound));
         builder.setAutoCancel(true);//clear the notification after it is clicked
-        builder.setDeleteIntent(getDeleteIntent(context));//set the behaviour when the notification is cleared
+       // builder.setDeleteIntent(getDeleteIntent(context));//set the behaviour when the notification is cleared
         builder.setContentIntent(mainActivityPendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, mainActivityPendingIntent);
+      //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, mainActivityPendingIntent);
+      //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, mainActivityPendingIntent);
         return builder.build();
     }
 

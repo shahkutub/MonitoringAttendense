@@ -55,14 +55,16 @@
             android:screenOrientation="portrait"
             />
 
-        <!--  Declare  Alarm Broadcast receiver here  -->
-        <receiver android:name=".alarm.AlarmReceiver" />
+        <!--&lt;!&ndash;  Declare  Alarm Broadcast receiver here  &ndash;&gt;-->
+        <!--<receiver android:name=".alarm.AlarmReceiver" />-->
 
-        <!--  Declare  Alarm Notification Service here  -->
-        <service android:name=".alarm.AlarmNotificationService" />
+        <!--&lt;!&ndash;  Declare  Alarm Notification Service here  &ndash;&gt;-->
+        <!--<service android:name=".alarm.AlarmNotificationService" />-->
 
-        <!--  Declare  Alarm Sound Service here  -->
-        <service android:name=".alarm.AlarmSoundService" />
+        <!--&lt;!&ndash;  Declare  Alarm Sound Service here  &ndash;&gt;-->
+        <!--<service android:name=".alarm.AlarmSoundService" />-->
+
+
 
 
         <!-- The receiver for the buyer push notifications that are *not* cleared -->
@@ -95,11 +97,22 @@
         <receiver android:name=".alarm.BuyerPushNotif" />
         <service android:name=".alarm.MyService"/>
 
-        <receiver android:name=".alarm.MyBroadcastreceiver">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-        </intent-filter>
+        <!--<receiver android:name=".alarm.MyBroadcastreceiver">-->
+        <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+
+
+        <receiver
+            android:name=".alarm.MyAlarmReceiver"
+            android:process=":remote" >
         </receiver>
+
+        <service
+            android:name=".alarm.MyTestService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
