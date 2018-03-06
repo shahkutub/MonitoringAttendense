@@ -1,36 +1,96 @@
 package com.sadi.sreda.alarm;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 
-import static android.support.v4.content.WakefulBroadcastReceiver.completeWakefulIntent;
-import static android.support.v4.content.WakefulBroadcastReceiver.startWakefulService;
+import com.sadi.sreda.MainActivity;
+import com.sadi.sreda.R;
+
+import java.util.Calendar;
 
 /**
- * Created by sonu on 09/04/17.
+ * Created by Sadi on 3/2/2018.
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "ALARM!! ALARM!!", Toast.LENGTH_SHORT).show();
 
-        //Stop sound service to play sound for alarm
-        context.startService(new Intent(context, AlarmSoundService.class));
 
-        //This will send a notification message and show notification in notification tray
-//        ComponentName comp = new ComponentName(context.getPackageName(),
-//                AlarmNotificationService.class.getName());
+        //MID++;
 
-        ComponentName comp = new ComponentName(context.getPackageName(),
-                BuyerPushNotif.class.getName());
-        //startWakefulService(context, (intent.setComponent(comp)));
-        completeWakefulIntent(intent.setComponent(comp));
+//        notificationOne(context,intent ,"Alarm Clock In", "Events to Clock In");
+//        notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
+
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int mint = calendar.get(Calendar.MINUTE);
+
+
+        if (hour == 8 && mint == 50) {
+            notificationOne(context, intent, "Alarm Clock In", "Events to Clock In");
+        }
+
+        if (hour == 18 && mint == 00) {
+            notificationTow(context, intent, "Alarm Clock Out", "Events to Clock Out");
+        }
 
     }
 
 
+    private void notificationOne(Context context, Intent intent, String title, String content) {
+
+        long when = System.currentTimeMillis();
+        NotificationManager notificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
+                context).setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle(title)
+                .setContentText(content).setSound(alarmSound)
+                .setAutoCancel(true).setWhen(when)
+                .setContentIntent(pendingIntent)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        notificationManager.notify(1, mNotifyBuilder.build());
+    }
+
+    private void notificationTow(Context context, Intent intent, String title, String content) {
+        long when = System.currentTimeMillis();
+        NotificationManager notificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 2,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
+                context).setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle(title)
+                .setContentText(content).setSound(alarmSound)
+                .setAutoCancel(true).setWhen(when)
+                .setContentIntent(pendingIntent)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        notificationManager.notify(2, mNotifyBuilder.build());
+    }
 }

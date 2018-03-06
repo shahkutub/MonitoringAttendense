@@ -31,9 +31,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sadi.sreda.alarm.AlarmMainActivity;
-import com.sadi.sreda.fragement.FragementClockIn;
-import com.sadi.sreda.fragement.FragementClockOut;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;

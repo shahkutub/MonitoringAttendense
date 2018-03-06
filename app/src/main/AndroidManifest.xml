@@ -44,10 +44,6 @@
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".alarm.AlarmMainActivity"
-            android:screenOrientation="portrait"
-            />
-
         <activity android:name=".ProfileSettingsActivity"
             android:screenOrientation="portrait"
             />
@@ -55,63 +51,7 @@
             android:screenOrientation="portrait"
             />
 
-        <!--&lt;!&ndash;  Declare  Alarm Broadcast receiver here  &ndash;&gt;-->
-        <!--<receiver android:name=".alarm.AlarmReceiver" />-->
-
-        <!--&lt;!&ndash;  Declare  Alarm Notification Service here  &ndash;&gt;-->
-        <!--<service android:name=".alarm.AlarmNotificationService" />-->
-
-        <!--&lt;!&ndash;  Declare  Alarm Sound Service here  &ndash;&gt;-->
-        <!--<service android:name=".alarm.AlarmSoundService" />-->
-
-
-
-
-        <!-- The receiver for the buyer push notifications that are *not* cleared -->
-        <receiver android:name=".alarm.BuyerPushNotif$FirstPushNotif" >
-            <intent-filter>
-                <action android:name="first_notif_action" />
-            </intent-filter>
-        </receiver>
-
-        <!-- The receiver for the buyer push notifications that are *not* cleared -->
-        <receiver android:name=".alarm.BuyerPushNotif$SecondPushNotif" >
-            <intent-filter>
-                <action android:name="second_notif_action" />
-            </intent-filter>
-        </receiver>
-
-        <!-- The receiver for the third push notifications that are *not* cleared -->
-        <receiver android:name=".alarm.BuyerPushNotif$ThirdPushNotif" >
-            <intent-filter>
-                <action android:name="third_notif_action" />
-            </intent-filter>
-        </receiver>
-
-        <!-- The receiver for the push notifications that *are* cleared -->
-        <receiver android:name=".alarm.BuyerPushNotif$ClearedPushNotif" >
-            <intent-filter>
-                <action android:name="notification_cancelled" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".alarm.BuyerPushNotif" />
-        <service android:name=".alarm.MyService"/>
-
-        <!--<receiver android:name=".alarm.MyBroadcastreceiver">-->
-        <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-
-
-        <receiver
-            android:name=".alarm.MyAlarmReceiver"
-            android:process=":remote" >
-        </receiver>
-
-        <service
-            android:name=".alarm.MyTestService"
-            android:exported="false" />
+        <receiver android:name=".AlarmReceiver"/>
 
     </application>
 
