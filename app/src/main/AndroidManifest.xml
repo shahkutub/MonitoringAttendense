@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permission to start Alarm on device reboot -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
 
 
     <application
@@ -51,7 +51,11 @@
             android:screenOrientation="portrait"
             />
 
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".alarm.AlarmReceiver"/>
+        <!--<receiver android:name=".alarm.QuickAttandenceRecever"/>-->
+        <!--<service android:name=".utils.MyService" android:process=":my_service" />-->
+        <service android:name=".utils.GoogleService" />
+
 
     </application>
 

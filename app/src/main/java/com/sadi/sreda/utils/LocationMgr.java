@@ -108,7 +108,7 @@ public class LocationMgr implements
         float distanceInMeters = results[0];
 
         if( distanceInMeters < 1000){
-            //Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
 
             AppConstant.isHq = true;
         }

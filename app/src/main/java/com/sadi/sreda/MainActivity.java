@@ -3,11 +3,14 @@ package com.sadi.sreda;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -18,7 +21,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -31,8 +33,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sadi.sreda.alarm.AlarmReceiver;
 import com.sadi.sreda.utils.AppConstant;
+import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
+import com.sadi.sreda.utils.MyService;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 
 import java.text.DateFormat;
@@ -84,8 +89,35 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         statusCheck();
         initialization();
+        alarmFirst();
+        alarmSecond();
     }
 
+
+    private void alarmFirst() {
+        Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.DAY_OF_MONTH, 1);
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 38);
+//        calendar.set(Calendar.SECOND, 0);
+        Intent intent1 = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+    }
+    private void alarmSecond() {
+
+        Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.DAY_OF_MONTH, 1);
+//        calendar.set(Calendar.HOUR_OF_DAY, 18);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+        Intent intent1 = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 2,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
 
     public void statusCheck() {
 
@@ -97,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 if (mgr.mGoogleApiClient == null) {
                     mgr.buildGoogleApiClient();
                 }
+
+                Intent intent = new Intent(getApplicationContext(), GoogleService.class);
+                startService(intent);
             }
         } else {
 
@@ -344,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         reLaySettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con,AlarmMainActivity.class));
+                startActivity(new Intent(con,SettingsActivity.class));
                 mDrawerLayout.closeDrawer(Gravity.START);
             }
         });
