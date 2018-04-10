@@ -293,8 +293,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Date d2 = df.parse(today+" "+time);
 
                     if(d1.getTime()<d2.getTime()){
-
-                        submitClockIn("","","","");
+                        layClockOut.setVisibility(View.VISIBLE);
+                        layClockIn.setVisibility(View.GONE);
+                        //submitClockIn("","","","");
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -316,7 +317,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
                     if(d1.getTime()<d2.getTime()){
 
-                        submitClockOut("","","","");
+                        layClockOut.setVisibility(View.GONE);
+                        layClockIn.setVisibility(View.VISIBLE);
+                        //submitClockOut("","","","");
 
                     }
                 } catch (ParseException e) {
