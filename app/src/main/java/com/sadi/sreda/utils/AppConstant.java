@@ -22,14 +22,14 @@ public class AppConstant {
     public static boolean isGallery=false;
     public static boolean isHq=false;
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
-
+    public static String quickAttandance = "quickAttandance";
 
 
     public static void alarmFirst(Context con) {
         Calendar calendar = Calendar.getInstance();
         //calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 50);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 17);
         calendar.set(Calendar.SECOND, 0);
         Intent intent1 = new Intent(con, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 1,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -41,8 +41,8 @@ public class AppConstant {
 
         Calendar calendar = Calendar.getInstance();
         //calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 19);
         calendar.set(Calendar.SECOND, 0);
         Intent intent1 = new Intent(con, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 2,intent1, PendingIntent.FLAG_UPDATE_CURRENT);

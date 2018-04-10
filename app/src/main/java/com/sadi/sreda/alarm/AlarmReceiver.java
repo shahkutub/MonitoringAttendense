@@ -33,19 +33,18 @@ public class AlarmReceiver extends BroadcastReceiver {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int mint = calendar.get(Calendar.MINUTE);
 
-
-        if (hour == 8 && mint == 50) {
-            notificationOne(context, intent, "Alarm Clock In", "Events to Clock In");
+        if(hour==16&& mint==38){
+            notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
         }
 
-        if (hour == 18 && mint == 00) {
-            notificationTow(context, intent, "Alarm Clock Out", "Events to Clock Out");
+        if(hour==16 && mint==40){
+            notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
         }
 
     }
 
 
-    private void notificationOne(Context context, Intent intent, String title, String content) {
+    private void notificationOne(Context context, Intent intent,String title, String content) {
 
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager) context
@@ -59,11 +58,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
-                .setContentText(content).setSound(alarmSound)
+                .setContentText(content).setSound(sound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
@@ -82,12 +82,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
-                .setContentText(content).setSound(alarmSound)
+                .setContentText(content).setSound(sound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});

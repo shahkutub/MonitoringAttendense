@@ -1,25 +1,17 @@
 package com.sadi.sreda;
 
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.ToggleButton;
 
-import com.sadi.sreda.alarm.AlarmReceiver;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.PersistData;
-
-import java.util.Calendar;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -32,10 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private RadioButton secondsRadioButton, minutesRadioButton, hoursRadioButton;
 
-    //Alarm Request Code
-    private static final int ALARM_REQUEST_CODE = 133;
-    private static final int ALARM_REQUEST_CODE2 = 134;
-    private ToggleButton toggleAlarm;
+
+    private ToggleButton toggleAlarm,toggleQuickAttan;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +48,22 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         toggleAlarm = (ToggleButton)findViewById(R.id.toggleAlarm);
+        toggleQuickAttan = (ToggleButton)findViewById(R.id.toggleQuickAttan);
+
+        if(PersistData.getStringData(con,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+            toggleQuickAttan.setChecked(true);
+        }else if(PersistData.getStringData(con,AppConstant.quickAttandance).equalsIgnoreCase("No")){
+            toggleQuickAttan.setChecked(false);
+        }
+
+        toggleQuickAttan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+            }
+        });
+
+
         if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
             toggleAlarm.setChecked(true);
 
@@ -71,8 +77,8 @@ public class SettingsActivity extends AppCompatActivity {
                 if(isChecked)
                 {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-                    AppConstant.alarmFirst(con);
-                    AppConstant.alarmSecond(con);
+//                    AppConstant.alarmFirst(con);
+//                    AppConstant.alarmSecond(con);
 
                 }
                 else
