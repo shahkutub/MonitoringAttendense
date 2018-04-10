@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,24 +56,14 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
         final MyRecordsInfo recordsInfo = listMyRecords.get(position);
 
 
-//        if(position>0){
-//            holder.tvProjectName.setText(orderHistoryData.getProjectName());
-//            holder.tvTechnology.setText(orderHistoryData.getTechnologyType());
-//            holder.tvCapacity.setText(orderHistoryData.getCapacity());
-//            holder.tvLocation.setText(orderHistoryData.getLocation());
-//            holder.tvFinance.setText(orderHistoryData.getFinance());
-//            holder.tvCompDate.setText(orderHistoryData.getCompletionDate());
-//            holder.tvPresentStatus.setText(orderHistoryData.getPresentStatus());
-//
-//        }
+        if(position>0){
+            holder.tvRecordDate.setText("");
+            holder.tvRecordClockIn.setText(recordsInfo.getCheck_in_time());
+            holder.tvRecordClockOut.setText(recordsInfo.getCheck_out_time());
+
+        }
 
 
-//        holder.allOrderLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                viewPdf(orderHistoryData.getCustomerName()+".pdf", "Sale Report");
-//            }
-//        });
 
     }
 

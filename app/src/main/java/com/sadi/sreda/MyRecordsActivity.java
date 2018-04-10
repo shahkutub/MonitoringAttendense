@@ -13,11 +13,17 @@ import android.widget.TextView;
 
 import com.sadi.sreda.adapter.MyRecordsAdapter;
 import com.sadi.sreda.model.MyRecordsInfo;
+import com.sadi.sreda.utils.Api;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -43,23 +49,42 @@ public class MyRecordsActivity extends AppCompatActivity {
         imgBack = (ImageView)findViewById(R.id.imgBack);
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 
-        List<MyRecordsInfo> myRecordsInfos = new ArrayList<>();
-
-        for (int i = 0; i < 25; i++) {
-            myRecordsInfos.add(i,new MyRecordsInfo());
-        }
-
-
-        MyRecordsAdapter mAdapter = new MyRecordsAdapter(myRecordsInfos,con);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewRecords.setLayoutManager(mLayoutManager);
-        recyclerViewRecords.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewRecords.setAdapter(mAdapter);
-
+        getRecords();
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+    }
+
+    private void getRecords() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<List<MyRecordsInfo>> call = api.getRecords();
+
+        call.enqueue(new Callback<List<MyRecordsInfo>>() {
+            @Override
+            public void onResponse(Call<List<MyRecordsInfo>> call, Response<List<MyRecordsInfo>> response) {
+
+                List<MyRecordsInfo> myRecordsInfos = new ArrayList<>();
+
+                myRecordsInfos = response.body();
+                MyRecordsAdapter mAdapter = new MyRecordsAdapter(myRecordsInfos,con);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewRecords.setLayoutManager(mLayoutManager);
+                recyclerViewRecords.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewRecords.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<MyRecordsInfo>> call, Throwable t) {
+
             }
         });
     }

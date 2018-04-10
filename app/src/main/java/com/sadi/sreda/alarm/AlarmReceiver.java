@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.sadi.sreda.MainActivity;
 import com.sadi.sreda.R;
+import com.sadi.sreda.utils.AppConstant;
+import com.sadi.sreda.utils.PersistData;
 
 import java.util.Calendar;
 
@@ -23,23 +25,24 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-        //MID++;
-
-//        notificationOne(context,intent ,"Alarm Clock In", "Events to Clock In");
-//        notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
-
-
         Calendar calendar = Calendar.getInstance();
+
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int mint = calendar.get(Calendar.MINUTE);
 
-        if(hour==16&& mint==38){
-            notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
+        if(PersistData.getStringData(context,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
+            if(hour==16&& mint==35){
+                notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
+            }
+
+            if(hour==16 && mint==37){
+                notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
+
+            }
         }
 
-        if(hour==16 && mint==40){
-            notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
-        }
+
+
 
     }
 
@@ -58,12 +61,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
+        //Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
-                .setContentText(content).setSound(sound)
+                .setContentText(content).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
@@ -82,13 +85,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
-                .setContentText(content).setSound(sound)
+                .setContentText(content).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});

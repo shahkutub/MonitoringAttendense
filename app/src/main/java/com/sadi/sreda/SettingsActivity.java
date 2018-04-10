@@ -60,6 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
+                if(isChecked){
+                    PersistData.setStringData(con,AppConstant.quickAttandance,"Yes");
+                }else {
+                    PersistData.setStringData(con,AppConstant.quickAttandance,"No");
+                }
             }
         });
 
@@ -77,8 +82,8 @@ public class SettingsActivity extends AppCompatActivity {
                 if(isChecked)
                 {
                     PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-//                    AppConstant.alarmFirst(con);
-//                    AppConstant.alarmSecond(con);
+                    AppConstant.alarmFirst(con);
+                    AppConstant.alarmSecond(con);
 
                 }
                 else
