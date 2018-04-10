@@ -35,7 +35,9 @@ import android.widget.Toast;
 
 import com.sadi.sreda.alarm.AlarmReceiver;
 import com.sadi.sreda.utils.AppConstant;
+import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
+import com.sadi.sreda.utils.MyService;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 
 import java.text.DateFormat;
@@ -127,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 if (mgr.mGoogleApiClient == null) {
                     mgr.buildGoogleApiClient();
                 }
+
+                Intent intent = new Intent(getApplicationContext(), GoogleService.class);
+                startService(intent);
             }
         } else {
 
