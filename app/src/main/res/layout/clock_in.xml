@@ -123,7 +123,7 @@
             
             <TextView
                 android:id="@+id/tvClockIn"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_180sdp"
                 android:textSize="@dimen/_20sdp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
@@ -278,7 +278,7 @@
                 >
                 <TextView
                     android:id="@+id/tvClockOut"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_180sdp"
                     android:textSize="@dimen/_20sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_5sdp"

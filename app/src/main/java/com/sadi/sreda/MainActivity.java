@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
@@ -43,6 +45,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -286,8 +293,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Date d2 = df.parse(today+" "+time);
 
                     if(d1.getTime()<d2.getTime()){
-                        layClockOut.setVisibility(View.VISIBLE);
-                        layClockIn.setVisibility(View.GONE);
+
+                        submitClockIn("","","","");
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -308,8 +315,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Date d2 = df.parse(today+" "+time);
 
                     if(d1.getTime()<d2.getTime()){
-                        layClockOut.setVisibility(View.GONE);
-                        layClockIn.setVisibility(View.VISIBLE);
+
+                        submitClockOut("","","","");
+
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -386,7 +394,65 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
+    private void submitClockOut(String userId,String userName,String checkInLocation,String checkInDateTime) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        Api api = retrofit.create(Api.class);
+        Call<LoinResponse> call = api.checkOutStore(userId,userName,checkInLocation,checkInDateTime);
+
+        call.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                LoinResponse loinResponse = new LoinResponse();
+
+                if (loinResponse.getMessage().equalsIgnoreCase("Attendance Saved Successfully.")){
+                    layClockOut.setVisibility(View.GONE);
+                    layClockIn.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void submitClockIn(String userId,String userName,String checkInLocation,String checkInDateTime) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoinResponse> call = api.checkInStore(userId,userName,checkInLocation,checkInDateTime);
+
+        call.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                LoinResponse loinResponse = new LoinResponse();
+
+                if (loinResponse.getMessage().equalsIgnoreCase("Attendance Saved Successfully.")){
+                    layClockOut.setVisibility(View.VISIBLE);
+                    layClockIn.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
 
     @Override

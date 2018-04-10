@@ -5,11 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.sadi.sreda.adapter.MyRecordsAdapter;
+import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.model.MyRecordsInfo;
+import com.sadi.sreda.utils.Api;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -43,12 +60,40 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(con, "Input user password.", Toast.LENGTH_SHORT).show();
                     etPassword.requestFocus();
                 }else {
+                    loginUser(etUseName.getText().toString(),etPassword.getText().toString());
                     startActivity(new Intent(con,MainActivity.class));
                     finish();
                 }
             }
         });
 
+    }
 
+
+
+    private void loginUser(String userName,String pass) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL_login)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoinResponse> call = api.getLoginUser(userName,pass);
+
+        call.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                LoinResponse loinResponse = new LoinResponse();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

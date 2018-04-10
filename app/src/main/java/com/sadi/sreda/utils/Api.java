@@ -19,12 +19,12 @@ import retrofit2.http.POST;
 public interface Api {
 
     //String BASE_URL = "http://offerian.com/";
-    //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
-    String BASE_URL = "http://css-bd.com/attendance-system/";
+    String BASE_URL_login = "http://css-bd.com/attendance-system/";
+    String BASE_URL = "http://css-bd.com/attendance-system/api/";
 
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("api")
     Call<LoinResponse> getLoginUser(
             @Field("email") String email,
             @Field("password") String password
@@ -32,8 +32,27 @@ public interface Api {
     );
 
 
-    @GET("api")
+    @FormUrlEncoded
+    @POST("checkInStore")
+    Call<LoinResponse> checkInStore(
+            @Field("user_id") String user_id,
+            @Field("username") String username,
+            @Field("check_in_location") String check_in_location,
+            @Field("check_in_time") String check_in_time
+    );
+
+    @FormUrlEncoded
+    @POST("checkOutStore")
+    Call<LoinResponse> checkOutStore(
+            @Field("user_id") String user_id,
+            @Field("username") String username,
+            @Field("check_out_location") String check_out_location,
+            @Field("check_out_time") String check_out_time
+    );
+
+    @GET("userAttendance")
     Call<List<MyRecordsInfo>> getRecords(
+
 
     );
 
