@@ -1,8 +1,11 @@
 package com.sadi.sreda.utils;
 
 
+import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.model.MyRecordsInfo;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -25,9 +28,19 @@ public interface Api {
     String BASE_URL = "http://css-bd.com/attendance-system/api/";
 
 
+
     @Headers("Content-Type: application/json")
     @POST("api")
     Call<LoinResponse> getUser(@Body String body);
+
+    @Headers("Content-Type: application/json")
+    @POST("checkInStore")
+    Call<LoinResponse> storeCheckIn(@Body String body);
+
+
+    @Headers("Content-Type: application/json")
+    @POST("checkOutStore")
+    Call<LoinResponse> storeCheckOut(@Body String body);
 
     @FormUrlEncoded
     @POST("api")
@@ -38,26 +51,18 @@ public interface Api {
     );
 
 
-    @FormUrlEncoded
-    @POST("checkInStore")
-    Call<LoinResponse> checkInStore(
-            @Field("user_id") String user_id,
-            @Field("username") String username,
-            @Field("check_in_location") String check_in_location,
-            @Field("check_in_time") String check_in_time
-    );
 
-    @FormUrlEncoded
-    @POST("checkOutStore")
-    Call<LoinResponse> checkOutStore(
-            @Field("user_id") String user_id,
-            @Field("username") String username,
-            @Field("check_out_location") String check_out_location,
-            @Field("check_out_time") String check_out_time
-    );
+
+
 
     @GET("userAttendance")
     Call<List<MyRecordsInfo>> getRecords(
+
+
+    );
+
+@GET("officeLocation")
+    Call<List<LocationInfo>> getofficeLocation(
 
 
     );

@@ -3,10 +3,12 @@ package com.sadi.sreda;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,6 +21,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -31,18 +36,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sadi.sreda.adapter.MyRecordsAdapter;
+import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -50,6 +63,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -81,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         setContentView(R.layout.activity_main);
 
         con = this;
-
+        getLocation();
         requestPermission();
 //        if(checkPermission()){
 //
@@ -254,6 +268,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         profile_imageCheckIn = (CircleImageView)findViewById(R.id.profile_imageCheckIn);
 
 
+        tvUserName.setText(AppConstant.getUserdata(con).getUser_name());
+
+
 
         final Date date = Calendar.getInstance().getTime();
         final DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy");
@@ -295,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     if(d1.getTime()<d2.getTime()){
 //                        layClockOut.setVisibility(View.VISIBLE);
 //                        layClockIn.setVisibility(View.GONE);
-                        submitClockIn("1","admins","badda","12.12.2018 2:30");
+                        sendCheckIn("1","admins","badda","12.12.2018 2:30");
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -319,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 //                        layClockOut.setVisibility(View.GONE);
 //                        layClockIn.setVisibility(View.VISIBLE);
-                        submitClockOut("1","admins","badda","");
+                        sendCheckOut("1","admins","badda",today+" "+time);
 
                     }
                 } catch (ParseException e) {
@@ -397,61 +414,141 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
-    private void submitClockOut(String userId,String userName,String checkInLocation,String checkInDateTime) {
+
+
+    private void sendCheckIn(String userId, String userName, String checkInLocation, String checkInDateTime) {
+
+        final ProgressDialog pd = new ProgressDialog(con);
+        pd.setCancelable(false);
+        pd.setCancelable(false);
+        pd.setMessage("loading..");
+        pd.show();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<LoinResponse> call = api.checkOutStore(userId,userName,checkInLocation,checkInDateTime);
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("user_id", userId);
+            paramObject.put("username", userName);
+            paramObject.put("check_in_location", checkInLocation);
+            paramObject.put("check_in_time", checkInDateTime);
 
-        call.enqueue(new Callback<LoinResponse>() {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoinResponse> userCall = api.storeCheckIn(paramObject.toString());
+        userCall.enqueue(new Callback<LoinResponse>() {
             @Override
             public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
 
-                LoinResponse loinResponse = new LoinResponse();
+               // progressShow.setVisibility(View.GONE);
 
-                if (loinResponse.getMessage().equalsIgnoreCase("Attendance Saved Successfully.")){
-                    layClockOut.setVisibility(View.GONE);
-                    layClockIn.setVisibility(View.VISIBLE);
-                }
+                pd.dismiss();
+                LoinResponse loinResponse =  new LoinResponse();
 
-            }
+                loinResponse = response.body();
 
-            @Override
-            public void onFailure(Call<LoinResponse> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    private void submitClockIn(String userId,String userName,String checkInLocation,String checkInDateTime) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Api api = retrofit.create(Api.class);
-        Call<LoinResponse> call = api.checkInStore(userId,userName,checkInLocation,checkInDateTime);
-
-        call.enqueue(new Callback<LoinResponse>() {
-            @Override
-            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
-
-                LoinResponse loinResponse = new LoinResponse();
-
-                if (loinResponse.getMessage().equalsIgnoreCase("Attendance Saved Successfully.")){
+                if (loinResponse.getStatus()==1){
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     layClockOut.setVisibility(View.VISIBLE);
                     layClockIn.setVisibility(View.GONE);
-                }
+                }else {
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
+                }
             }
 
             @Override
             public void onFailure(Call<LoinResponse> call, Throwable t) {
+                //progressShow.setVisibility(View.GONE);
+                pd.dismiss();
+            }
+        });
+    }
+
+
+    private void sendCheckOut(String userId, String userName, String checkInLocation, String checkInDateTime) {
+
+        final ProgressDialog pd = new ProgressDialog(con);
+        pd.setCancelable(false);
+        pd.setCancelable(false);
+        pd.setMessage("loading..");
+        pd.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("user_id", userId);
+            paramObject.put("check_out_location", checkInLocation);
+            paramObject.put("check_out_time", checkInDateTime);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoinResponse> userCall = api.storeCheckOut(paramObject.toString());
+        userCall.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                // progressShow.setVisibility(View.GONE);
+
+                pd.dismiss();
+                LoinResponse loinResponse =  new LoinResponse();
+
+                loinResponse = response.body();
+
+                if (loinResponse.getStatus()==1){
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    layClockOut.setVisibility(View.GONE);
+                    layClockIn.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+                //progressShow.setVisibility(View.GONE);
+                pd.dismiss();
+            }
+        });
+    }
+
+
+    private void getLocation() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<List<LocationInfo>> call = api.getofficeLocation();
+
+        call.enqueue(new Callback<List<LocationInfo>>() {
+            @Override
+            public void onResponse(Call<List<LocationInfo>> call, Response<List<LocationInfo>> response) {
+
+                List<LocationInfo> myRecordsInfos = new ArrayList<>();
+
+                myRecordsInfos = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationInfo>> call, Throwable t) {
 
             }
         });

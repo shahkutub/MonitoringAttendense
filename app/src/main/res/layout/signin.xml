@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:hint="User Name:"
+                android:text="admins"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_10sdp"
                 android:textColor="#000"
@@ -69,12 +70,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:hint="Password:"
+                android:text="admins"
                 android:inputType="textPassword"
                 android:padding="@dimen/_10sdp"
                 android:textColor="#000"
                 android:textSize="@dimen/_20sdp" />
 
         </android.support.design.widget.TextInputLayout>
+
 
 
 
@@ -104,6 +107,11 @@
 
         </LinearLayout>
     </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progressShow"
+        android:layout_width="@dimen/_40sdp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/_40sdp" />
 
 </RelativeLayout>

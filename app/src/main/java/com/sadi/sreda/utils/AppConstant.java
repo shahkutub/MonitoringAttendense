@@ -4,10 +4,15 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.sadi.sreda.alarm.AlarmReceiver;
+import com.sadi.sreda.model.LoginData;
 
 import java.util.Calendar;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Sadi on 2/14/2018.
@@ -48,5 +53,24 @@ public class AppConstant {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 2,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) con.getSystemService(con.ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    public static void saveUserdat(Context con, LoginData loginData) {
+        SharedPreferences mPrefs = con.getSharedPreferences("loginData",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(loginData);
+        prefsEditor.putString("loginData", json);
+        prefsEditor.commit();
+
+    }
+
+    public static LoginData getUserdata(Context con){
+        SharedPreferences mPrefs = con.getSharedPreferences("loginData",MODE_PRIVATE);
+        LoginData loginData = new LoginData();
+        Gson gson = new Gson();
+        String json = mPrefs.getString("loginData", "");
+        loginData = gson.fromJson(json, LoginData.class);
+        return loginData;
     }
 }

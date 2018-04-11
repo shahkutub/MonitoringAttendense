@@ -8,7 +8,19 @@ public class LoinResponse {
 
     String message;
 
-   int status;
+    public LoginData getLoginData() {
+        return loginData;
+    }
+
+    public void setLoginData(LoginData loginData) {
+        this.loginData = loginData;
+    }
+
+    int status;
+
+   private LoginData loginData = new LoginData();
+
+
 
     public int getStatus() {
         return status;
@@ -25,4 +37,6 @@ public class LoinResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }
