@@ -6,13 +6,15 @@ package com.sadi.sreda.model;
 
 public class LoinResponse {
 
-    String status,message;
+    String message;
 
-    public String getStatus() {
+   int status;
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
