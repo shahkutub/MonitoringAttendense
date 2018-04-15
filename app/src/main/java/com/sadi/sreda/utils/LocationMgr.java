@@ -112,7 +112,10 @@ public class LocationMgr implements
             AppConstant.isHq = true;
             if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
                 Toast.makeText(context, "Data send", Toast.LENGTH_SHORT).show();
+
             }
+
+            
         }
 
         boolean isWithin10km = distanceInMeters < 1000;
