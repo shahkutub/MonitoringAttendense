@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.sadi.sreda.adapter.MyRecordsAdapter;
 import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
+import com.sadi.sreda.utils.AppConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class MyRecordsActivity extends AppCompatActivity {
         imgBack = (ImageView)findViewById(R.id.imgBack);
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 
-        getRecords();
+        getRecords(AppConstant.getUserdata(con).getUserId());
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +59,7 @@ public class MyRecordsActivity extends AppCompatActivity {
         });
     }
 
-    private void getRecords() {
+    private void getRecords(String id) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -66,7 +67,7 @@ public class MyRecordsActivity extends AppCompatActivity {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<List<MyRecordsInfo>> call = api.getRecords();
+        Call<List<MyRecordsInfo>> call = api.getAllRecords("userAttendance/"+id);
 
         call.enqueue(new Callback<List<MyRecordsInfo>>() {
             @Override

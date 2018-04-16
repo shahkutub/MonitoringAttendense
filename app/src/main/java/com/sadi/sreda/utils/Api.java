@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -16,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 /**
  * Created by Sadi on 11/18/2017.
@@ -67,6 +69,8 @@ public interface Api {
 
     );
 
+    @GET
+    public Call<List<MyRecordsInfo>> getAllRecords(@Url String id);
 
 //    @GET("api/get-occupation")
 //    Call<List<ScRelation>> getOccupation(
