@@ -31,11 +31,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         int mint = calendar.get(Calendar.MINUTE);
 
         if(PersistData.getStringData(context,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
-            if(hour==22&& mint==8){
+            if(hour==8&& mint==45){
                 notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
             }
 
-            if(hour==22 && mint==10){
+            if(hour==17 && mint==55){
                 notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
 
             }
