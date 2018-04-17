@@ -144,6 +144,7 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:background="#4F5761"
+        android:visibility="gone"
         android:padding="@dimen/_5sdp"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -297,6 +298,7 @@
         <RelativeLayout
             android:id="@+id/bottomOut"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:background="#4F5761"
             android:padding="@dimen/_5sdp"
