@@ -115,7 +115,7 @@ public class LocationMgr implements
 
             }
 
-            
+
         }
 
         boolean isWithin10km = distanceInMeters < 1000;
