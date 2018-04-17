@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -34,11 +35,13 @@ import android.widget.Toast;
 
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
+import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
 import org.json.JSONException;
@@ -47,6 +50,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,13 +89,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private RelativeLayout layClockOut,layClockIn;
     private CircleImageView profile_imageCheckIn;
 
+    String location;
+    List<LocationInfo> listLocation = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         con = this;
-        getLocation();
+
+       // listLocation = AppConstant.getLocationList(con);
         requestPermission();
 //        if(checkPermission()){
 //
@@ -98,20 +106,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 //        }else if(!checkPermission()){
 //            requestPermission();
 //        }
-
-        statusCheck();
         initialization();
+        statusCheck();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
     }
 
-
-
     public void statusCheck() {
 
-        mgr = new LocationMgr(con);
-
-
+        mgr = new LocationMgr(con,tvGreetingsIn);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkPermission()) {
                 if (mgr.mGoogleApiClient == null) {
@@ -258,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvUserName = (TextView)findViewById(R.id.tvUserName);
         tvLogOut = (TextView)findViewById(R.id.tvLogOut);
         tvGreetingsIn = (TextView)findViewById(R.id.tvGreetingsIn);
+
         tvOutTime = (TextView)findViewById(R.id.tvOutTime);
         tvInTime = (TextView)findViewById(R.id.tvInTime);
         profile_imageCheckIn = (CircleImageView)findViewById(R.id.profile_imageCheckIn);
@@ -268,8 +278,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PersistentUser.logOut(con);
-                finish();
+                showMessage(con,"Alert!","Do you want to logout!");
             }
         });
 
@@ -294,17 +303,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         layClockIn = (RelativeLayout)findViewById(R.id.layClockIn);
 
 
-        if(!AppConstant.isHq){
-            Toast.makeText(con, "You are at HQ", Toast.LENGTH_SHORT).show();
+        //if(!AppConstant.isHq){
+            //Toast.makeText(con, PersistData.getStringData(con,AppConstant.officname), Toast.LENGTH_SHORT).show();
 
-        }
+        //}
 
         tvClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //DateFormat df1 = new SimpleDateFormat("EEE, dd MMM yyyy");
-                DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm a");
+                DateFormat df = new SimpleDateFormat("");
 
                 try {
                     Date d1 = df.parse( today+" "+"8:30 AM");
@@ -313,12 +322,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     if(d1.getTime()<d2.getTime()){
 //                        layClockOut.setVisibility(View.VISIBLE);
 //                        layClockIn.setVisibility(View.GONE);
-                        sendCheckIn("1","admins","badda","12.12.2018 2:30");
+                       // sendCheckIn("1","admins","badda",getCurrentTimeStamp());
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
+                sendCheckIn(AppConstant.getUserdata(con).getUserId(),AppConstant.getUserdata(con).getUserId(),"",getCurrentTimeStamp());
 
             }
         });
@@ -337,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 //                        layClockOut.setVisibility(View.GONE);
 //                        layClockIn.setVisibility(View.VISIBLE);
-                        sendCheckOut("1","admins","badda",today+" "+time);
+                        sendCheckOut("1","admins","badda",getCurrentTimeStamp());
 
                     }
                 } catch (ParseException e) {
@@ -415,7 +424,36 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+    }
 
+    private void showMessage(final Context c,final String title, final String message) {
+        final android.app.AlertDialog.Builder aBuilder = new android.app.AlertDialog.Builder(c);
+        aBuilder.setTitle(title);
+        aBuilder.setIcon(R.mipmap.ic_launcher);
+        aBuilder.setMessage(message);
+
+        aBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                PersistentUser.logOut(con);
+                finish();
+                dialog.dismiss();
+            }
+        });
+
+        aBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                dialog.dismiss();
+            }
+
+        });
+        aBuilder.show();
+    }
 
     private void sendCheckIn(String userId, String userName, String checkInLocation, String checkInDateTime) {
 
@@ -528,32 +566,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
 
-    private void getLocation() {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
-                .build();
 
-        Api api = retrofit.create(Api.class);
-        Call<List<LocationInfo>> call = api.getofficeLocation();
 
-        call.enqueue(new Callback<List<LocationInfo>>() {
-            @Override
-            public void onResponse(Call<List<LocationInfo>> call, Response<List<LocationInfo>> response) {
 
-                List<LocationInfo> myRecordsInfos = new ArrayList<>();
 
-                myRecordsInfos = response.body();
 
-            }
-
-            @Override
-            public void onFailure(Call<List<LocationInfo>> call, Throwable t) {
-
-            }
-        });
-    }
 
 
     @Override

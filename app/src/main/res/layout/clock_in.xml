@@ -108,7 +108,7 @@
             android:id="@+id/tvGreetingsIn"
             android:layout_width="match_parent"
             android:textSize="@dimen/_15sdp"
-            android:text="Good morning pavel,you are currently at HQ"
+            android:text=""
             android:textColor="#4F5761"
             android:gravity="center"
             android:layout_height="wrap_content" />

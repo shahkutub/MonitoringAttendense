@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,6 +20,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.sadi.sreda.model.LocationInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -38,11 +49,12 @@ public class LocationMgr implements
     Location mLastLocation;
     private double currentLat;
     private double currentLong;
-    //private GoogleMap mMap;
+    private TextView tvGreetingsIn;
 
-    public LocationMgr(Context context) {
+
+    public LocationMgr(Context context,TextView tvGreetingsIn) {
         this.context = context;
-        //this.tvLatLng = tvLatLng;
+        this.tvGreetingsIn = tvGreetingsIn;
     }
 
 
@@ -101,28 +113,65 @@ public class LocationMgr implements
         //Toast.makeText(context, "Lat: "+location.getLatitude()+" Lng: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
         //tvLatLng.setText(location.getLatitude()+"\n"+location.getLongitude());
 
-        float[] results = new float[1];
-        Location.distanceBetween(location.getLatitude(), location.getLongitude(),
-        23.787933, 90.425542, results);
-        float distanceInMeters = results[0];
+        getLocation(""+location.getLatitude(),""+location.getLongitude());
 
-        if( distanceInMeters < 1000){
-            //Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
-
-            AppConstant.isHq = true;
-            if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-                Toast.makeText(context, "Data send", Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        }
-
-        boolean isWithin10km = distanceInMeters < 1000;
 
     }
 
 
+
+    private void getLocation(final String lat, final String lng) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<List<LocationInfo>> call = api.getofficeLocation();
+
+        call.enqueue(new Callback<List<LocationInfo>>() {
+            @Override
+            public void onResponse(Call<List<LocationInfo>> call, Response<List<LocationInfo>> response) {
+
+                List<LocationInfo> myRecordsInfos = new ArrayList<>();
+
+                myRecordsInfos = response.body();
+
+                for (int i = 0; i <myRecordsInfos.size() ; i++) {
+
+                        float[] results = new float[1];
+                        Location.distanceBetween(Double.parseDouble(myRecordsInfos.get(i).getLatitude()),
+                                Double.parseDouble(myRecordsInfos.get(i).getLongitude()),
+                                Double.parseDouble(lat), Double.parseDouble(lng),results);
+                        float distanceInMeters = results[0];
+
+                        if( distanceInMeters < 1000){
+                           // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
+                            tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());//                            PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+                           // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
+//                            AppConstant.isHq = true;
+//                            if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+//                                //Toast.makeText(context, "Data send", Toast.LENGTH_SHORT).show();
+//
+//                            }
+
+
+                        }
+                }
+
+                AppConstant.locationInfoList = myRecordsInfos;
+                //AppConstant.saveLocationdat(con,myRecordsInfos);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationInfo>> call, Throwable t) {
+
+            }
+        });
+    }
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;

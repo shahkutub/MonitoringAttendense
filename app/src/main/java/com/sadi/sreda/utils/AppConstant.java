@@ -5,12 +5,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.sadi.sreda.alarm.AlarmReceiver;
+import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoginData;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -23,11 +27,14 @@ public class AppConstant {
     public static String clockInOu="";
     public static String lat="";
     public static String lng="";
+    public static String officname="";
     public static String alarmOnOff="alarmOnOff";
     public static boolean isGallery=false;
     public static boolean isHq=false;
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static String quickAttandance = "quickAttandance";
+
+    public static List<LocationInfo> locationInfoList = new ArrayList<>();
 
 
     public static void alarmFirst(Context con) {
@@ -92,4 +99,27 @@ public class AppConstant {
         loginData = gson.fromJson(json, LoginData.class);
         return loginData;
     }
+
+
+
+    public static void saveLocationdat(Context con, List<LocationInfo> locationInfos) {
+        SharedPreferences mPrefs = con.getSharedPreferences("location",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(locationInfos);
+        prefsEditor.putString("location", json);
+        prefsEditor.commit();
+
+    }
+
+
+    public static List<LocationInfo> getLocationList(Context con){
+        SharedPreferences mPrefs = con.getSharedPreferences("location",MODE_PRIVATE);
+        List<LocationInfo> locationInfos = new ArrayList<>();
+        Gson gson = new Gson();
+        String json = mPrefs.getString("location", "");
+        locationInfos = (List<LocationInfo>) gson.fromJson(json, LocationInfo.class);
+        return locationInfos;
+    }
+
 }
