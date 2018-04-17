@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                     AppConstant.saveUserdat(con,loinResponse.getLoginData());
                     startActivity(new Intent(con,MainActivity.class));
                     PersistentUser.setLogin(con);
+                    finish();
                 }else {
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
 

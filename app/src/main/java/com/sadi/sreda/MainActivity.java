@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,9 +20,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -36,15 +32,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sadi.sreda.adapter.MyRecordsAdapter;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
-import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
+import com.sadi.sreda.utils.PersistentUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -270,7 +265,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         tvUserName.setText(AppConstant.getUserdata(con).getUser_name());
 
-
+        tvLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PersistentUser.logOut(con);
+                finish();
+            }
+        });
 
         final Date date = Calendar.getInstance().getTime();
         final DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy");
