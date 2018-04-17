@@ -35,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
             }
 
-            if(hour==17 && mint==25){
+            if(hour==17 && mint==55){
                 notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
 
             }
