@@ -5,11 +5,8 @@ import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.model.MyRecordsInfo;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -27,6 +24,7 @@ public interface Api {
 
     //String BASE_URL = "http://offerian.com/";
     String BASE_URL_login = "http://css-bd.com/attendance-system/";
+    String BASE_URL_attten = "http://css-bd.com/attendance-system/api/userAttendance/";
     String BASE_URL = "http://css-bd.com/attendance-system/api/";
 
 
@@ -69,8 +67,11 @@ public interface Api {
 
     );
 
-    @GET
-    public Call<List<MyRecordsInfo>> getAllRecords(@Url String id);
+    @GET("")
+    Call<List<MyRecordsInfo>> getAllRecords(@Url String id);
+
+//    @GET
+//    Call<List<MyRecordsInfo>> getAllRecords();
 
 //    @GET("api/get-occupation")
 //    Call<List<ScRelation>> getOccupation(

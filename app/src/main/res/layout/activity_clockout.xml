@@ -156,7 +156,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvGreetings"
+            android:id="@+id/tvGreetingsOut"
             android:layout_width="match_parent"
             android:textSize="@dimen/_15sdp"
             android:text="Good afternoon pavel,you are currently at out of HQ"

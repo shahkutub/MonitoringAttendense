@@ -50,7 +50,7 @@ public class MyRecordsActivity extends AppCompatActivity {
         imgBack = (ImageView)findViewById(R.id.imgBack);
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 
-        getRecords(AppConstant.getUserdata(con).getUserId());
+        getRecords(AppConstant.getUserdata(con).getUser_id());
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,12 +62,12 @@ public class MyRecordsActivity extends AppCompatActivity {
     private void getRecords(String id) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
+                .baseUrl(Api.BASE_URL_attten)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<List<MyRecordsInfo>> call = api.getAllRecords("userAttendance/"+id);
+        Call<List<MyRecordsInfo>> call = api.getAllRecords(id);
 
         call.enqueue(new Callback<List<MyRecordsInfo>>() {
             @Override

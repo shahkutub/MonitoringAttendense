@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,12 +48,13 @@ public class LocationMgr implements
     Location mLastLocation;
     private double currentLat;
     private double currentLong;
-    private TextView tvGreetingsIn;
+    private TextView tvGreetingsIn,tvGreetingsOut;
 
 
-    public LocationMgr(Context context,TextView tvGreetingsIn) {
+    public LocationMgr(Context context,TextView tvGreetingsIn,TextView tvGreetingsOut) {
         this.context = context;
         this.tvGreetingsIn = tvGreetingsIn;
+        this.tvGreetingsOut = tvGreetingsOut;
     }
 
 
@@ -148,8 +148,10 @@ public class LocationMgr implements
 
                         if( distanceInMeters < 1000){
                            // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
-                            tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());//                            PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+                            //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
+                            tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                            tvGreetingsOut.setText("Good Afternoon "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                            PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
                            // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
 //                            AppConstant.isHq = true;
 //                            if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){

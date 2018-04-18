@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.sadi.sreda.alarm.AlarmReceiver;
@@ -27,22 +26,33 @@ public class AppConstant {
     public static String clockInOu="";
     public static String lat="";
     public static String lng="";
-    public static String officname="";
+    public static String officname="officname";
     public static String alarmOnOff="alarmOnOff";
     public static boolean isGallery=false;
     public static boolean isHq=false;
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static String quickAttandance = "quickAttandance";
+    public static String alarmClockIn = "alarmClockIn";
+    public static String alarmClockout = "alarmClockout";
+
+    public static String alarmClockOutHour = "alarmClockOutHour";
+    public static String alarmClockOutMin = "alarmClockOutMin";
+
+    public static String alarmClockInHour = "alarmClockInHour";
+    public static String alarmClockInMin = "alarmClockInMin";
+
 
     public static List<LocationInfo> locationInfoList = new ArrayList<>();
 
 
-    public static void alarmFirst(Context con) {
+    public static void alarmClockIn(Context con) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 45);
+
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockInHour)));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockInMin)));
         calendar.set(Calendar.SECOND, 0);
+
         Intent intent1 = new Intent(con, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 1,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) con.getSystemService(con.ALARM_SERVICE);
@@ -59,12 +69,12 @@ public class AppConstant {
 //        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
 
     }
-    public static void alarmSecond(Context con) {
+    public static void alarmClockOut(Context con) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 55);
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutHour)));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutMin)));
         calendar.set(Calendar.SECOND, 0);
         Intent intent1 = new Intent(con, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 2,intent1, PendingIntent.FLAG_UPDATE_CURRENT);

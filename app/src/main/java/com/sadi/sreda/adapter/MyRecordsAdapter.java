@@ -55,15 +55,16 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
 
         final MyRecordsInfo recordsInfo = listMyRecords.get(position);
 
+        String dateCheck_in = recordsInfo.getCheck_in_time();
+        String[] partsin = dateCheck_in.split(" ");
 
-        if(position>0){
-            holder.tvRecordDate.setText("");
-            holder.tvRecordClockIn.setText(recordsInfo.getCheck_in_time());
-            holder.tvRecordClockOut.setText(recordsInfo.getCheck_out_time());
-
-        }
+        String dateCheck_out = recordsInfo.getCheck_out_time();
+        String[] partsOut = dateCheck_out.split(" ");
 
 
+            holder.tvRecordDate.setText(partsin[0]);
+            holder.tvRecordClockIn.setText(partsin[1]);
+            holder.tvRecordClockOut.setText(partsOut[1]);
 
     }
 

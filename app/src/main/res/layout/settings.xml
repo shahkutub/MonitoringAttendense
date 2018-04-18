@@ -168,6 +168,7 @@
             android:layout_height="@dimen/_2sdp"/>
 
         <RelativeLayout
+            android:id="@+id/rLClockIn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
@@ -184,6 +185,7 @@
                 />
 
             <TextView
+                android:id="@+id/tvClockIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -195,6 +197,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rLClockOut"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_25sdp"
             android:orientation="horizontal"
@@ -207,11 +210,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:layout_alignParentLeft="true"
-                android:text="Clock In"
+                android:text="Clock Out"
 
                 />
 
             <TextView
+                android:id="@+id/tvClockOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"

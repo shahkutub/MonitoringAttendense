@@ -1,17 +1,25 @@
 package com.sadi.sreda;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.PersistData;
+
+import java.util.Calendar;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -23,7 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView imgBack;
 
     private RadioButton secondsRadioButton, minutesRadioButton, hoursRadioButton;
-
+    private int CalendarHour, CalendarMinute;
+    String format;
+    Calendar calendar;
+    TimePickerDialog timepickerdialog;
+    private RelativeLayout rLClockIn,rLClockOut;
+    private TextView tvClockIn,tvClockOut;
 
     private ToggleButton toggleAlarm,toggleQuickAttan;
     @Override
@@ -39,6 +52,117 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        rLClockIn = (RelativeLayout) findViewById(R.id.rLClockIn);
+        rLClockOut = (RelativeLayout)findViewById(R.id.rLClockOut);
+        tvClockIn = (TextView) findViewById(R.id.tvClockIn);
+        tvClockOut = (TextView) findViewById(R.id.tvClockOut);
+
+        tvClockIn.setText(PersistData.getStringData(con,AppConstant.alarmClockIn));
+        tvClockOut.setText(PersistData.getStringData(con,AppConstant.alarmClockout));
+
+        rLClockIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar = Calendar.getInstance();
+                CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
+                CalendarMinute = calendar.get(Calendar.MINUTE);
+
+
+                timepickerdialog = new TimePickerDialog(con,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                if (hourOfDay == 0) {
+
+                                    hourOfDay += 12;
+
+                                    format = "AM";
+                                }
+                                else if (hourOfDay == 12) {
+
+                                    format = "PM";
+
+                                }
+                                else if (hourOfDay > 12) {
+
+                                    hourOfDay -= 12;
+
+                                    format = "PM";
+
+                                }
+                                else {
+
+                                    format = "AM";
+                                }
+
+                                PersistData.setStringData(con,AppConstant.alarmClockInHour,""+hourOfDay);
+                                PersistData.setStringData(con,AppConstant.alarmClockInMin,""+minute);
+
+                                tvClockIn.setText(hourOfDay + ":" + minute + format);
+                                PersistData.setStringData(con,AppConstant.alarmClockIn,hourOfDay + ":" + minute + format);
+                            }
+                        }, CalendarHour, CalendarMinute, false);
+                timepickerdialog.show();
+
+            }
+
+        });
+
+
+        rLClockOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar = Calendar.getInstance();
+                CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
+                CalendarMinute = calendar.get(Calendar.MINUTE);
+
+
+                timepickerdialog = new TimePickerDialog(con,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                if (hourOfDay == 0) {
+
+                                    hourOfDay += 12;
+
+                                    format = "AM";
+                                }
+                                else if (hourOfDay == 12) {
+
+                                    format = "PM";
+
+                                }
+                                else if (hourOfDay > 12) {
+
+                                    hourOfDay -= 12;
+
+                                    format = "PM";
+
+                                }
+                                else {
+
+                                    format = "AM";
+                                }
+                                PersistData.setStringData(con,AppConstant.alarmClockOutHour,""+hourOfDay);
+                                PersistData.setStringData(con,AppConstant.alarmClockOutMin,""+minute);
+
+                                tvClockOut.setText(hourOfDay + ":" + minute + format);
+                                PersistData.setStringData(con,AppConstant.alarmClockout,hourOfDay + ":" + minute + format);
+
+                            }
+                        }, CalendarHour, CalendarMinute, false);
+                timepickerdialog.show();
+
+            }
+
+        });
+
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +205,15 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-                    AppConstant.alarmFirst(con);
-                    AppConstant.alarmSecond(con);
+                    if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockOutHour)) && !TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockInHour))){
+                        PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
+                        AppConstant.alarmClockIn(con);
+                        AppConstant.alarmClockOut(con);
+                    }else {
+                        toggleAlarm.setChecked(false);
+                        Toast.makeText(con, "Please set clock_in/out time!", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
                 else

@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -35,7 +34,6 @@ import android.widget.Toast;
 
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
-import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
@@ -50,8 +48,6 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     Animation shake;
     LocationMgr mgr;
 
-    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,
+    TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,tvGreetingsOut,
             tvOutTime,tvInTime;
     private RelativeLayout layClockOut,layClockIn;
     private CircleImageView profile_imageCheckIn;
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     public void statusCheck() {
 
-        mgr = new LocationMgr(con,tvGreetingsIn);
+        mgr = new LocationMgr(con,tvGreetingsIn,tvGreetingsOut);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkPermission()) {
                 if (mgr.mGoogleApiClient == null) {
@@ -267,13 +263,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvUserName = (TextView)findViewById(R.id.tvUserName);
         tvLogOut = (TextView)findViewById(R.id.tvLogOut);
         tvGreetingsIn = (TextView)findViewById(R.id.tvGreetingsIn);
+        tvGreetingsOut = (TextView)findViewById(R.id.tvGreetingsOut);
 
         tvOutTime = (TextView)findViewById(R.id.tvOutTime);
         tvInTime = (TextView)findViewById(R.id.tvInTime);
         profile_imageCheckIn = (CircleImageView)findViewById(R.id.profile_imageCheckIn);
 
 
-        tvUserName.setText(AppConstant.getUserdata(con).getUser_name());
+        tvUserName.setText(AppConstant.getUserdata(con).getUsername());
 
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                sendCheckIn(AppConstant.getUserdata(con).getUserId(),AppConstant.getUserdata(con).getUserId(),"",getCurrentTimeStamp());
+                sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(), PersistData.getStringData(con,AppConstant.officname),getCurrentTimeStamp());
 
             }
         });
@@ -346,13 +343,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 //                        layClockOut.setVisibility(View.GONE);
 //                        layClockIn.setVisibility(View.VISIBLE);
-                        sendCheckOut("1","admins","badda",getCurrentTimeStamp());
+
 
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
+                sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(), PersistData.getStringData(con,AppConstant.officname),getCurrentTimeStamp());
 
             }
         });
