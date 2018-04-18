@@ -2,6 +2,7 @@ package com.sadi.sreda.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -122,6 +123,13 @@ public class LocationMgr implements
 
     private void getLocation(final String lat, final String lng) {
 
+//        final ProgressDialog pd = new ProgressDialog(context);
+//        pd.setCancelable(false);
+//            pd.setCancelable(false);
+//            pd.setProgress(100);
+//            pd.setMessage("Getting location...");
+//            pd.show();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -147,6 +155,7 @@ public class LocationMgr implements
                         float distanceInMeters = results[0];
 
                         if( distanceInMeters < 1000){
+
                            // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
                             //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
                             tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());

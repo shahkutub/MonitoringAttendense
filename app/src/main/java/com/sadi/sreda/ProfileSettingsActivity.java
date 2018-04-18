@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,15 +22,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.utils.AlertMessage;
+import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.BitmapUtils;
+import com.sadi.sreda.utils.PersistData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,6 +50,12 @@ import java.io.OutputStream;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -53,6 +71,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     String imageLocal = "";
     public final int imagecaptureid = 0;
     public final int galarytakid = 1;
+    private EditText etCurrentPass,etNewPass,etConfirmPass,etName,etDesignation,etPhone,etMail;
+    private Button btnSubmit;
 
     Dialog dialog;
     @Override
@@ -67,7 +87,42 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private void initUi() {
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        etCurrentPass = (EditText) findViewById(R.id.etCurrentPass);
+        etNewPass = (EditText) findViewById(R.id.etNewPass);
+        etConfirmPass = (EditText) findViewById(R.id.etConfirmPass);
+        etName = (EditText) findViewById(R.id.etName);
+        etDesignation = (EditText) findViewById(R.id.etDesignation);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etMail = (EditText) findViewById(R.id.etMail);
+
+        etMail.setText(AppConstant.getUserdata(con).getUser_email());
+        //etDesignation.setText(AppConstant.getUserdata(con).getUser_email());
+        etName.setText(AppConstant.getUserdata(con).getUser_name());
+
+
         circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+        btnSubmit = (Button)findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(TextUtils.isEmpty(etCurrentPass.getText().toString())){
+                    AlertMessage.showMessage(con,"Alert!","enter old password");
+                }else if(TextUtils.isEmpty(etNewPass.getText().toString())){
+                    AlertMessage.showMessage(con,"Alert!","enter new password");
+                }else if(TextUtils.isEmpty(etConfirmPass.getText().toString())){
+                    AlertMessage.showMessage(con,"Alert!","enter new Confirm password");
+                }else {
+                    if(!etNewPass.getText().toString().equalsIgnoreCase(etConfirmPass.getText().toString())){
+                        AlertMessage.showMessage(con,"Alert!","new password and Confirm password dose'nt match");
+                    }else {
+                        changePass(AppConstant.getUserdata(con).getUser_id(),etCurrentPass.getText().toString(),etConfirmPass.getText().toString());
+                    }
+
+                }
+
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +139,61 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+    private void changePass(String userId, String oldPass, String conFirmPass) {
+
+        final ProgressDialog pd = new ProgressDialog(con);
+        pd.setCancelable(false);
+        pd.setCancelable(false);
+        pd.setMessage("loading..");
+        pd.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("user_id", userId);
+            paramObject.put("old_password", oldPass);
+            paramObject.put("new_password", conFirmPass);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoinResponse> userCall = api.changePass(paramObject.toString());
+        userCall.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                // progressShow.setVisibility(View.GONE);
+
+                pd.dismiss();
+                LoinResponse loinResponse =  new LoinResponse();
+
+                loinResponse = response.body();
+
+                if (loinResponse.getStatus()==1){
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+                //progressShow.setVisibility(View.GONE);
+                pd.dismiss();
+            }
+        });
+    }
 
 
 

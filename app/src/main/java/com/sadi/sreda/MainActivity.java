@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -264,6 +265,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvLogOut = (TextView)findViewById(R.id.tvLogOut);
         tvGreetingsIn = (TextView)findViewById(R.id.tvGreetingsIn);
         tvGreetingsOut = (TextView)findViewById(R.id.tvGreetingsOut);
+
+//        final ProgressDialog pd = new ProgressDialog(con);
+//        if(TextUtils.isEmpty(tvGreetingsIn.getText())){
+//            pd.setCancelable(false);
+//            pd.setCancelable(false);
+//            pd.setProgress(100);
+//            pd.setMessage("Getting location...");
+//            pd.show();
+//        }
+//
+//
+//        if(pd.getProgress()==100){
+//            pd.dismiss();
+//        }
 
         tvOutTime = (TextView)findViewById(R.id.tvOutTime);
         tvInTime = (TextView)findViewById(R.id.tvInTime);

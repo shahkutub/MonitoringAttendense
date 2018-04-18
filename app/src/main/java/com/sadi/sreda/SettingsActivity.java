@@ -75,31 +75,34 @@ public class SettingsActivity extends AppCompatActivity {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
+                                toggleAlarm.setChecked(false);
+                                PersistData.setStringData(con,AppConstant.alarmClockInHour,""+hourOfDay);
+                                PersistData.setStringData(con,AppConstant.alarmClockInMin,""+minute);
+
                                 if (hourOfDay == 0) {
 
                                     hourOfDay += 12;
 
-                                    format = "AM";
+                                    format = " AM";
                                 }
                                 else if (hourOfDay == 12) {
 
-                                    format = "PM";
+                                    format = " PM";
 
                                 }
                                 else if (hourOfDay > 12) {
 
                                     hourOfDay -= 12;
 
-                                    format = "PM";
+                                    format = " PM";
 
                                 }
                                 else {
 
-                                    format = "AM";
+                                    format = " AM";
                                 }
 
-                                PersistData.setStringData(con,AppConstant.alarmClockInHour,""+hourOfDay);
-                                PersistData.setStringData(con,AppConstant.alarmClockInMin,""+minute);
+
 
                                 tvClockIn.setText(hourOfDay + ":" + minute + format);
                                 PersistData.setStringData(con,AppConstant.alarmClockIn,hourOfDay + ":" + minute + format);
@@ -127,30 +130,34 @@ public class SettingsActivity extends AppCompatActivity {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
+                                toggleAlarm.setChecked(false);
+                                PersistData.setStringData(con,AppConstant.alarmClockOutHour,""+hourOfDay);
+                                PersistData.setStringData(con,AppConstant.alarmClockOutMin,""+minute);
+
                                 if (hourOfDay == 0) {
 
                                     hourOfDay += 12;
 
-                                    format = "AM";
+                                    format = " AM";
                                 }
                                 else if (hourOfDay == 12) {
 
-                                    format = "PM";
+                                    format = " PM";
 
                                 }
                                 else if (hourOfDay > 12) {
 
                                     hourOfDay -= 12;
 
-                                    format = "PM";
+                                    format = " PM";
 
                                 }
                                 else {
 
-                                    format = "AM";
+                                    format = " AM";
                                 }
-                                PersistData.setStringData(con,AppConstant.alarmClockOutHour,""+hourOfDay);
-                                PersistData.setStringData(con,AppConstant.alarmClockOutMin,""+minute);
+
+
 
                                 tvClockOut.setText(hourOfDay + ":" + minute + format);
                                 PersistData.setStringData(con,AppConstant.alarmClockout,hourOfDay + ":" + minute + format);
@@ -226,8 +233,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 }

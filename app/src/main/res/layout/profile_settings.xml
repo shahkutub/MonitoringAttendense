@@ -90,12 +90,13 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
-                android:text="Pavel"
+                android:text=""
                 android:focusable="false"
                 android:hint="Name:"
                 android:inputType="textCapSentences"
@@ -111,11 +112,12 @@
             android:layout_marginRight="@dimen/_25sdp">
 
             <EditText
+                android:id="@+id/etDesignation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:hint="Designation:"
-                android:text="test"
+                android:text=""
                 android:focusable="false"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_5sdp"
@@ -131,13 +133,14 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
                 android:hint="Phone no:"
-                android:text="01726353"
+                android:text=""
                 android:focusable="false"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_5sdp"
@@ -152,13 +155,14 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
                 android:hint="Email:"
-                android:text="Pavel@gmail.com"
+                android:text=""
                 android:focusable="false"
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_5sdp"

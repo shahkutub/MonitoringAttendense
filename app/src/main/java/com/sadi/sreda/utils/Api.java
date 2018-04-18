@@ -50,6 +50,10 @@ public interface Api {
 
     );
 
+    @Headers("Content-Type: application/json")
+    @POST("changePassword")
+    Call<LoinResponse> changePass(@Body String body);
+
 
 
 
