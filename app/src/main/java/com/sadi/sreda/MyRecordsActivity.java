@@ -48,6 +48,12 @@ public class MyRecordsActivity extends AppCompatActivity {
 
     private void initUi() {
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvDesignation = (TextView) findViewById(R.id.tvDesignation);
+        tvMonth = (TextView) findViewById(R.id.tvMonth);
+
+        tvName.setText(AppConstant.getUserdata(con).getUsername());
+
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 
         getRecords(AppConstant.getUserdata(con).getUser_id());
