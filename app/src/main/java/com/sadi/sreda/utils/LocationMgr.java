@@ -127,7 +127,7 @@ public class LocationMgr implements
         //Toast.makeText(context, "Lat: "+location.getLatitude()+" Lng: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
         //tvLatLng.setText(location.getLatitude()+"\n"+location.getLongitude());
 
-        getRecords(AppConstant.getUserdata(context).getUser_id());
+        //getRecords(AppConstant.getUserdata(context).getUser_id());
 
         getLocation(""+location.getLatitude(),""+location.getLongitude());
 
@@ -147,7 +147,6 @@ public class LocationMgr implements
         call.enqueue(new Callback<List<MyRecordsInfo>>() {
             @Override
             public void onResponse(Call<List<MyRecordsInfo>> call, Response<List<MyRecordsInfo>> response) {
-
 
 
                 myRecordsInfos = response.body();
@@ -205,12 +204,12 @@ public class LocationMgr implements
                                 Double.parseDouble(lat), Double.parseDouble(lng),results);
                         float distanceInMeters = results[0];
 
-                        if( distanceInMeters < 500){
+                        if( distanceInMeters < 100){
 
                            // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
                             //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
-                            tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
-                            tvGreetingsOut.setText("Good Afternoon "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                            tvGreetingsIn.setText(AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                            tvGreetingsOut.setText(AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
                             PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
                             officeName = myRecordsInfos.get(i).getLocation_name();
                            // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
@@ -236,17 +235,26 @@ public class LocationMgr implements
 
                 if(!TextUtils.isEmpty(officeName)){
 
-                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-                        if(hour<12){
-                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
-                        }
+                    if(PersistData.getStringData(context,AppConstant.checkInOrOut).equalsIgnoreCase("in")){
+                     sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
+                             officeName,getCurrentTimeStamp());
 
-                        if(hour>18){
-                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
-                        }
+                    }else if(PersistData.getStringData(context,AppConstant.checkInOrOut).equalsIgnoreCase("out")){
+                        sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
+                                officeName,getCurrentTimeStamp());
                     }
 
-                }
+//                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+//                        if(hour<12){
+//                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+//                        }
+//
+//                        if(hour>18){
+//                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+//                        }
+//                    }
+//
+              }
 
             }
 
@@ -258,7 +266,7 @@ public class LocationMgr implements
     }
 
     public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     private void sendCheckIn(String userId, String userName, String checkInLocation, String checkInDateTime) {

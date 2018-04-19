@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
     public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     private void showMessage(final Context c,final String title, final String message) {
@@ -547,6 +547,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         JSONObject paramObject = new JSONObject();
         try {
             paramObject.put("user_id", userId);
+            //paramObject.put("username", userName);
             paramObject.put("check_out_location", checkInLocation);
             paramObject.put("check_out_time", checkInDateTime);
 

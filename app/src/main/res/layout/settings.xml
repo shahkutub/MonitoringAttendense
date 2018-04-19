@@ -92,8 +92,8 @@
                 android:background="@drawable/toggle_selector"
                 android:checked="false"
                 android:text=""
-                android:textOff=""
-                android:textOn="" />
+                android:textOff="OFF"
+                android:textOn="ON" />
 
         </RelativeLayout>
         <View
@@ -156,8 +156,8 @@
                 android:background="@drawable/toggle_selector"
                 android:checked="false"
                 android:text=""
-                android:textOff=""
-                android:textOn="" />
+                android:textOff="OFF"
+                android:textOn="ON" />
 
         </RelativeLayout>
 
@@ -170,9 +170,10 @@
         <RelativeLayout
             android:id="@+id/rLClockIn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="#fff"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -195,13 +196,18 @@
                 />
 
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:background="#F0F0F0"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_height="@dimen/_2sdp"/>
         <RelativeLayout
             android:id="@+id/rLClockOut"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_height="@dimen/_35sdp"
             android:orientation="horizontal"
             android:background="#fff"
+            android:gravity="center_vertical"
             android:layout_marginTop="@dimen/_5sdp"
             >
 

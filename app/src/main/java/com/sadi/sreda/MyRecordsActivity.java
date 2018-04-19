@@ -82,6 +82,9 @@ public class MyRecordsActivity extends AppCompatActivity {
                 List<MyRecordsInfo> myRecordsInfos = new ArrayList<>();
 
                 myRecordsInfos = response.body();
+
+
+
                 MyRecordsAdapter mAdapter = new MyRecordsAdapter(myRecordsInfos,con);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewRecords.setLayoutManager(mLayoutManager);
