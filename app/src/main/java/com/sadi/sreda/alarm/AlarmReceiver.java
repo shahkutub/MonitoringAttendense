@@ -59,7 +59,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         //Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
@@ -70,6 +70,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         notificationManager.notify(1, mNotifyBuilder.build());
+
+        AppConstant.alarmClockInNext(context);
     }
 
     private void notificationTow(Context context, Intent intent, String title, String content) {
@@ -84,8 +86,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
+        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri alarmSound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)
@@ -95,5 +97,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         notificationManager.notify(2, mNotifyBuilder.build());
+        AppConstant.alarmClockOutNext(context);
     }
 }

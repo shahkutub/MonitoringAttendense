@@ -69,10 +69,59 @@ public class AppConstant {
 //        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
 
     }
+
+    public static void alarmClockInNext(Context con) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockInHour)));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockInMin)));
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent1 = new Intent(con, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 1,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) con.getSystemService(con.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+//        Intent myIntent = new Intent(con , AlarmReceiver.class);
+//        AlarmManager alarmManager = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
+//        PendingIntent pendingIntent = PendingIntent.getService(con, 1, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 8);
+//        calendar.set(Calendar.MINUTE, 45);
+//        calendar.set(Calendar.SECOND, 00);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
+
+    }
+
+
     public static void alarmClockOut(Context con) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)-1);
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutHour)));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutMin)));
+        calendar.set(Calendar.SECOND, 0);
+        Intent intent1 = new Intent(con, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(con, 2,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) con.getSystemService(con.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+//        Intent myIntent = new Intent(con , AlarmReceiver.class);
+//        AlarmManager alarmManager = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
+//        PendingIntent pendingIntent = PendingIntent.getService(con, 2, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 17);
+//        calendar.set(Calendar.MINUTE, 25);
+//        calendar.set(Calendar.SECOND, 00);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
+    }
+
+    public static void alarmClockOutNext(Context con) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutHour)));
         calendar.set(Calendar.MINUTE, Integer.parseInt(PersistData.getStringData(con,AppConstant.alarmClockOutMin)));
         calendar.set(Calendar.SECOND, 0);
