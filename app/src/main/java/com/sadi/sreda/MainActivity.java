@@ -21,7 +21,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -314,7 +313,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         layClockOut = (RelativeLayout)findViewById(R.id.layClockOut);
         layClockIn = (RelativeLayout)findViewById(R.id.layClockIn);
 
-
+        if(PersistData.getStringData(con,AppConstant.checkInOrOut).equalsIgnoreCase("in")){
+            layClockOut.setVisibility(View.VISIBLE);
+            layClockIn.setVisibility(View.GONE);
+        }else {
+            layClockOut.setVisibility(View.GONE);
+            layClockIn.setVisibility(View.VISIBLE);
+        }
         //if(!AppConstant.isHq){
             //Toast.makeText(con, PersistData.getStringData(con,AppConstant.officname), Toast.LENGTH_SHORT).show();
 
@@ -508,6 +513,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     layClockOut.setVisibility(View.VISIBLE);
                     layClockIn.setVisibility(View.GONE);
+                    PersistData.setStringData(con,AppConstant.checkInOrOut,"in");
                 }else {
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -563,6 +569,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     layClockOut.setVisibility(View.GONE);
                     layClockIn.setVisibility(View.VISIBLE);
+                    PersistData.setStringData(con,AppConstant.checkInOrOut,"out");
+
                 }else {
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
 

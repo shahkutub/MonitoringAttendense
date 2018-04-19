@@ -40,7 +40,7 @@ public class AppConstant {
 
     public static String alarmClockInHour = "alarmClockInHour";
     public static String alarmClockInMin = "alarmClockInMin";
-
+    public static String checkInOrOut = "checkInOrOut";
 
     public static List<LocationInfo> locationInfoList = new ArrayList<>();
 
