@@ -86,8 +86,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Uri alarmSound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        //Uri alarmSound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher_round)

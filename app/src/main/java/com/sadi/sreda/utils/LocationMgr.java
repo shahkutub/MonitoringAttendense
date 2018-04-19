@@ -2,7 +2,6 @@ package com.sadi.sreda.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -21,8 +22,16 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.sadi.sreda.model.LocationInfo;
+import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.model.MyRecordsInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 /**
@@ -50,7 +60,10 @@ public class LocationMgr implements
     private double currentLat;
     private double currentLong;
     private TextView tvGreetingsIn,tvGreetingsOut;
+    String  officeName;
+    String dateCheck_in,dateCheck_out;
 
+    List<MyRecordsInfo> myRecordsInfos = new ArrayList<>();
 
     public LocationMgr(Context context,TextView tvGreetingsIn,TextView tvGreetingsOut) {
         this.context = context;
@@ -114,12 +127,50 @@ public class LocationMgr implements
         //Toast.makeText(context, "Lat: "+location.getLatitude()+" Lng: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
         //tvLatLng.setText(location.getLatitude()+"\n"+location.getLongitude());
 
+        getRecords(AppConstant.getUserdata(context).getUser_id());
+
         getLocation(""+location.getLatitude(),""+location.getLongitude());
 
 
     }
 
+    private void getRecords(String id) {
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL_attten)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<List<MyRecordsInfo>> call = api.getAllRecords(id);
+
+        call.enqueue(new Callback<List<MyRecordsInfo>>() {
+            @Override
+            public void onResponse(Call<List<MyRecordsInfo>> call, Response<List<MyRecordsInfo>> response) {
+
+
+
+                myRecordsInfos = response.body();
+
+                for (int i = 0; i <myRecordsInfos.size() ; i++) {
+
+                }
+
+//                String dateCheck_in = recordsInfo.getCheck_in_time();
+//                String[] partsin = dateCheck_in.split(" ");
+//
+//                String dateCheck_out = recordsInfo.getCheck_out_time();
+//                String[] partsOut = dateCheck_out.split(" ");
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<MyRecordsInfo>> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void getLocation(final String lat, final String lng) {
 
@@ -154,13 +205,14 @@ public class LocationMgr implements
                                 Double.parseDouble(lat), Double.parseDouble(lng),results);
                         float distanceInMeters = results[0];
 
-                        if( distanceInMeters < 1000){
+                        if( distanceInMeters < 500){
 
                            // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
                             //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
                             tvGreetingsIn.setText("Good morning "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
                             tvGreetingsOut.setText("Good Afternoon "+AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
                             PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+                            officeName = myRecordsInfos.get(i).getLocation_name();
                            // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
 //                            AppConstant.isHq = true;
 //                            if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
@@ -175,6 +227,27 @@ public class LocationMgr implements
                 AppConstant.locationInfoList = myRecordsInfos;
                 //AppConstant.saveLocationdat(con,myRecordsInfos);
 
+                Calendar calendar = Calendar.getInstance();
+
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int mint = calendar.get(Calendar.MINUTE);
+
+
+
+                if(!TextUtils.isEmpty(officeName)){
+
+                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+                        if(hour<12){
+                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+                        }
+
+                        if(hour>18){
+                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+                        }
+                    }
+
+                }
+
             }
 
             @Override
@@ -184,6 +257,113 @@ public class LocationMgr implements
         });
     }
 
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+    }
+
+    private void sendCheckIn(String userId, String userName, String checkInLocation, String checkInDateTime) {
+
+//        final ProgressDialog pd = new ProgressDialog(context);
+//        pd.setCancelable(false);
+//        pd.setCancelable(false);
+//        pd.setMessage("loading..");
+//        pd.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("user_id", userId);
+            paramObject.put("username", userName);
+            paramObject.put("check_in_location", checkInLocation);
+            paramObject.put("check_in_time", checkInDateTime);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoinResponse> userCall = api.storeCheckIn(paramObject.toString());
+        userCall.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                // progressShow.setVisibility(View.GONE);
+
+                LoinResponse loinResponse =  new LoinResponse();
+
+                loinResponse = response.body();
+
+                if (loinResponse.getStatus()==1){
+                    Toast.makeText(context, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    PersistData.setStringData(context,AppConstant.checkInOrOut,"in");
+                }else {
+                    Toast.makeText(context, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+                //progressShow.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void sendCheckOut(String userId, String userName, String checkInLocation, String checkInDateTime) {
+
+//        final ProgressDialog pd = new ProgressDialog(context);
+//        pd.setCancelable(false);
+//        pd.setCancelable(false);
+//        pd.setMessage("loading..");
+//        pd.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("user_id", userId);
+            paramObject.put("username", userName);
+            paramObject.put("check_in_location", checkInLocation);
+            paramObject.put("check_in_time", checkInDateTime);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoinResponse> userCall = api.storeCheckOut(paramObject.toString());
+        userCall.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                // progressShow.setVisibility(View.GONE);
+
+                LoinResponse loinResponse =  new LoinResponse();
+
+                loinResponse = response.body();
+
+                if (loinResponse.getStatus()==1){
+                    Toast.makeText(context, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    PersistData.setStringData(context,AppConstant.checkInOrOut,"out");
+                }else {
+                    Toast.makeText(context, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+                //progressShow.setVisibility(View.GONE);
+            }
+        });
+    }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public boolean checkLocationPermission(){
