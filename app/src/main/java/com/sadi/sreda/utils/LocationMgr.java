@@ -210,7 +210,9 @@ public class LocationMgr implements
                             //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
                             tvGreetingsIn.setText(AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
                             tvGreetingsOut.setText(AppConstant.getUserdata(context).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
-                            PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+                            //PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+
+                            AppConstant.locationName = myRecordsInfos.get(i).getLocation_name();
                             officeName = myRecordsInfos.get(i).getLocation_name();
                            // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
 //                            AppConstant.isHq = true;
@@ -220,6 +222,8 @@ public class LocationMgr implements
 //                            }
 
 
+                        }else {
+                            //AppConstant.locationName = "";
                         }
                 }
 
@@ -233,28 +237,31 @@ public class LocationMgr implements
 
 
 
-                if(!TextUtils.isEmpty(officeName)){
+                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
 
-                    if(PersistData.getStringData(context,AppConstant.checkInOrOut).equalsIgnoreCase("in")){
-                     sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
-                             officeName,getCurrentTimeStamp());
+                        if(!TextUtils.isEmpty(officeName)) {
 
-                    }else if(PersistData.getStringData(context,AppConstant.checkInOrOut).equalsIgnoreCase("out")){
-                        sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
-                                officeName,getCurrentTimeStamp());
-                    }
+                            if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("in")) {
+                                sendCheckOut(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+                                        officeName, getCurrentTimeStamp());
 
-//                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-//                        if(hour<12){
+                            } else if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("out")) {
+                                sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+                                        officeName, getCurrentTimeStamp());
+                            }
+                        }
+
+
+                        //                        if(hour<12){
 //                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
 //                        }
 //
 //                        if(hour>18){
 //                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
 //                        }
-//                    }
-//
-              }
+                    }
+
+
 
             }
 

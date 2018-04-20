@@ -180,6 +180,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 if (loinResponse.getStatus()==1){
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
 
                 }else {
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();

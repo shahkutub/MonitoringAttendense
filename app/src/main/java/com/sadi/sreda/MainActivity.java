@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -344,12 +345,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(), PersistData.getStringData(con,AppConstant.officname),getCurrentTimeStamp());
+
+                if(!TextUtils.isEmpty(AppConstant.locationName)){
+                    sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
+                            AppConstant.locationName,getCurrentTimeStamp());
+                }else {
+                    Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
 
-        layClockOut.setOnClickListener(new View.OnClickListener() {
+        tvClockOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -369,7 +376,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(), PersistData.getStringData(con,AppConstant.officname),getCurrentTimeStamp());
+
+                if(!TextUtils.isEmpty(AppConstant.locationName)){
+                    sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
+                            AppConstant.locationName,getCurrentTimeStamp());
+                }else {
+                    Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });

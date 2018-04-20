@@ -36,6 +36,8 @@ public class MyRecordsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewRecords;
     private CircleImageView profile_image_record;
     private TextView tvName,tvDesignation,tvMonth;
+    List<MyRecordsInfo> myRecordsList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,13 @@ public class MyRecordsActivity extends AppCompatActivity {
 
                 myRecordsInfos = response.body();
 
+                myRecordsList.clear();
 
+                for (int i = 0; i < myRecordsInfos.size(); i++) {
+                    if(myRecordsInfos.get(i).getStatus().equalsIgnoreCase("2")){
+                        myRecordsList.add(myRecordsInfos.get(i));
+                    }
+                }
 
                 MyRecordsAdapter mAdapter = new MyRecordsAdapter(myRecordsInfos,con);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

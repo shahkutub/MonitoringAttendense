@@ -26,7 +26,9 @@ public class AppConstant {
     public static String clockInOu="";
     public static String lat="";
     public static String lng="";
-    public static String officname="officname";
+    //public static String officname="officname";
+    public static String locationName="";
+
     public static String alarmOnOff="alarmOnOff";
     public static boolean isGallery=false;
     public static boolean isHq=false;
