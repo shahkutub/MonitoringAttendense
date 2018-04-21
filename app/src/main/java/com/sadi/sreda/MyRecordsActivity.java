@@ -15,8 +15,12 @@ import com.sadi.sreda.adapter.MyRecordsAdapter;
 import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
+import com.sadi.sreda.utils.PersistData;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,8 +57,18 @@ public class MyRecordsActivity extends AppCompatActivity {
         tvName = (TextView) findViewById(R.id.tvName);
         tvDesignation = (TextView) findViewById(R.id.tvDesignation);
         tvMonth = (TextView) findViewById(R.id.tvMonth);
+        profile_image_record = (CircleImageView) findViewById(R.id.profile_image_record);
 
-        tvName.setText(AppConstant.getUserdata(con).getUsername());
+        Picasso.with(con).load(AppConstant.photourl+ PersistData.getStringData(con,AppConstant.path)).into(profile_image_record);
+
+
+        tvName.setText("User: "+AppConstant.getUserdata(con).getUsername());
+        tvDesignation.setText("Designation: "+AppConstant.getUserdata(con).getDesignations());
+
+        Calendar cal=Calendar.getInstance();
+        SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
+        String month_name = month_date.format(cal.getTime());
+        tvMonth.setText("Month: "+month_name);
 
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 

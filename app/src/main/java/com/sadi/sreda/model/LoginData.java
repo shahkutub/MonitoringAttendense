@@ -13,7 +13,32 @@ public class LoginData {
 //                "username": "admins"
 //    }
 
-    String user_id,user_name,user_email,username;
+    String user_id,user_name,user_email,username,mobile_no,designations,images;
+
+
+    public String getMobile_no() {
+        return mobile_no;
+    }
+
+    public void setMobile_no(String mobile_no) {
+        this.mobile_no = mobile_no;
+    }
+
+    public String getDesignations() {
+        return designations;
+    }
+
+    public void setDesignations(String designations) {
+        this.designations = designations;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
 
     public String getUser_id() {
         return user_id;

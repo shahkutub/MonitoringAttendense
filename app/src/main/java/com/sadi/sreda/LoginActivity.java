@@ -17,6 +17,7 @@ import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.NetInfo;
+import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
 import org.json.JSONException;
@@ -114,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     AppConstant.saveUserdat(con,loinResponse.getLoginData());
                     startActivity(new Intent(con,MainActivity.class));
                     PersistentUser.setLogin(con);
+                    PersistData.setStringData(con,AppConstant.path,loinResponse.getLoginData().getImages());
                     finish();
                 }else {
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();

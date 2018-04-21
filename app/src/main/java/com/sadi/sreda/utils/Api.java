@@ -7,13 +7,18 @@ import com.sadi.sreda.model.MyRecordsInfo;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Url;
 
 /**
@@ -50,6 +55,8 @@ public interface Api {
 
     );
 
+
+
     @Headers("Content-Type: application/json")
     @POST("changePassword")
     Call<LoinResponse> changePass(@Body String body);
@@ -73,6 +80,23 @@ public interface Api {
 
     @GET("")
     Call<List<MyRecordsInfo>> getAllRecords(@Url String id);
+
+    @FormUrlEncoded
+    @POST("uploadPhoto")
+    Call<LoinResponse> postUserImage(
+            @Field("user_id") String user_id,
+            @Field("images") String images
+
+    );
+
+    @Multipart
+    @POST("uploadPhoto")
+    Call<LoinResponse> postImage(@Part MultipartBody.Part images, @Part("user_id") String user_id);
+
+    @Multipart
+    @POST("uploadPhoto")
+    Call<LoinResponse> uploadImage(@Part("images") RequestBody file, @Part("user_id") RequestBody desc);
+
 
 //    @GET
 //    Call<List<MyRecordsInfo>> getAllRecords();

@@ -6,8 +6,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -20,9 +22,11 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -33,29 +37,52 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.BitmapUtils;
+import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
+
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -98,9 +125,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         etMail.setText(AppConstant.getUserdata(con).getUser_email());
         //etDesignation.setText(AppConstant.getUserdata(con).getUser_email());
         etName.setText(AppConstant.getUserdata(con).getUser_name());
+        etDesignation.setText(AppConstant.getUserdata(con).getDesignations());
+        etPhone.setText(AppConstant.getUserdata(con).getMobile_no());
 
 
         circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(circleImageView);
+
+        }else {
+            circleImageView.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+        }
+
+
+
         btnSubmit = (Button)findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +207,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Call<LoinResponse> userCall = api.changePass(paramObject.toString());
         userCall.enqueue(new Callback<LoinResponse>() {
             @Override
-            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+            public void onResponse(Call<LoinResponse> call, retrofit2.Response<LoinResponse> response) {
 
                 // progressShow.setVisibility(View.GONE);
 
@@ -302,41 +340,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == AppConstant.CAMERA_RUNTIME_PERMISSION) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Now user should be able to use camera
-//
-//                if (ContextCompat.checkSelfPermission(ProfileSettingsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions((Activity) ProfileSettingsActivity.this,
-//                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME);
-//                } else {
-//                    final Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    startActivityForResult(i, imagecaptureid);
-//                }
-//            } else {
-//                // Your app will not have this permission. Turn off all functions
-//                // that require this permission or it will force close like your
-//                // original question
-//            }
-//        } else if (requestCode == AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                if (AppConstant.isGallery) {
-//                    final Intent intent = new Intent();
-//                    intent.setType("image/*");
-//                    intent.setAction(Intent.ACTION_GET_CONTENT);
-//                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), galarytakid);
-//                } else {
-//                    final Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    startActivityForResult(i, imagecaptureid);
-//                }
-//            }
-//        }
-//    }
-//
+
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode,
@@ -353,6 +357,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 final Bitmap bitmap = BitmapFactory
                         .decodeStream(ProfileSettingsActivity.this.getContentResolver().openInputStream(
                                 selectedImageUri));
+
+                PersistData.setStringData(con,AppConstant.bitmap,AppConstant.BitMapToString(bitmap));
                 //  final Bitmap d = BitmapFactory.decodeStream(getChildFragmentManager().)
 
 
@@ -362,7 +368,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 Log.e("Bitmap >>",
                         "W: " + bitmap.getWidth() + " H: " + bitmap.getHeight());
                 Log.e("path", ">>>>>" + path);
-                //PersistData.setStringData(con, AppConstant.path, path);
+                PersistData.setStringData(con, AppConstant.path, path);
                 picture = path;
 
 //                Log.e("path",
@@ -372,9 +378,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 //Picasso.with(con).load(path).transform(new CircleTransform()).into(imgPicCapture);
 
                 circleImageView.setImageBitmap(bitmap);
-                // AppConstant.imagebit=bitmap;
 
-                //  AppConstant.imagebit = bitmap;
+
+                updateProfile();
+                //uploadFile(Uri.parse(path),AppConstant.getUserdata(con).getUser_id());
 
             } catch (final Exception e) {
                 return;
@@ -393,6 +400,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         "W: " + b.getWidth() + " H: " + b.getHeight());
                 picture = path;
                 Log.e("path", ">>>>>" + path);
+
+                PersistData.setStringData(con, AppConstant.path, path);
 //                Log.e("path",
 //                        ">>>>>"
 //                                + PersistData.getStringData(con,
@@ -404,8 +413,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 circleImageView.setImageBitmap(b);
                 //Picasso.with(con).load(path).transform(new CircleTransform()).into(imgPicCapture);
-                //AppConstant.imagebit = b;
+                updateProfile();
 
+                //uploadFile(Uri.parse(path),AppConstant.getUserdata(con).getUser_id());
 
             } catch (final Exception e) {
                 return;
@@ -414,6 +424,231 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
 
     }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
+
+    private void uploadFile(Uri fileUri, String desc) {
+
+        //creating a file
+        File file = new File(getRealPathFromURI(fileUri));
+
+        //creating request body for file
+        RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+        RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), desc);
+
+        //The gson builder
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+
+        //creating retrofit object
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        //creating our api
+        Api api = retrofit.create(Api.class);
+
+        //creating a call and calling the upload image method
+        Call<LoinResponse> call = api.uploadImage(requestFile, descBody);
+
+        //finally performing the call
+        call.enqueue(new Callback<LoinResponse>() {
+            @Override
+            public void onResponse(Call<LoinResponse> call, Response<LoinResponse> response) {
+
+                LoinResponse loinResponse= new LoinResponse();
+                loinResponse=response.body();
+                if (response.body().getStatus()==1) {
+                    Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Some error occurred...", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoinResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public String getStringImage(Bitmap bitmap){
+        Log.i("MyHitesh",""+bitmap);
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+
+
+        return temp;
+    }
+
+
+
+    private void uploaduserimages(final String path){
+//        final BusyDialog busyNow = new BusyDialog(con, true,false);
+//        busyNow.show();
+        String url = "http://css-bd.com/attendance-system/api/uploadPhoto";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("response",""+response);
+                        Toast.makeText(con, "json "+response, Toast.LENGTH_SHORT).show();
+
+
+                        JSONObject jsonObject = null;
+                        int status = 0;
+                        int session_id = 0;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            status = jsonObject.getInt("status");
+                            session_id = jsonObject.getInt("session_id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getApplicationContext(), "Slow net connection", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+
+                //String images = String.valueOf(new File(path));
+
+
+                //Log.i("Mynewsam",""+images);
+                parameters.put("user_id",AppConstant.getUserdata(con).getUser_id());
+                parameters.put("images", String.valueOf(new File(path)));
+
+                return parameters;
+            }
+        };
+
+        if (NetInfo.isOnline(con)) {
+            queue.add(stringRequest);
+        }
+    }
+
+    protected void updateProfile() {
+        String url = "http://css-bd.com/attendance-system/api/uploadPhoto";
+
+        if (!NetInfo.isOnline(con)) {
+            AlertMessage.showMessage(con, "Alert",
+                    "Check Internet");
+            return;
+        }
+
+        final ProgressDialog pd = new ProgressDialog(con);
+        pd.setCancelable(false);
+        pd.setCancelable(false);
+        pd.setMessage("loading..");
+        pd.show();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+
+        // String credentials = Username + ":" + Password;
+        // String base64EncodedCredentials =
+        // Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        // client.addHeader("Authorization", "Basic " +
+        // base64EncodedCredentials);
+
+        final RequestParams param = new RequestParams();
+
+        try {
+
+            String path = PersistData.getStringData(con, AppConstant.path);
+            param.put("user_id",AppConstant.getUserdata(con).getUser_id());
+            param.put("images",new File(path));
+
+
+        } catch (final Exception e1) {
+            e1.printStackTrace();
+        }
+
+        client.post(url, param, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers,
+                                  byte[] response) {
+                // called when response HTTP status is "200 OK"
+
+                pd.dismiss();
+
+                Log.e("resposne ", ">>" + new String(response));
+
+                Gson g = new Gson();
+               LoinResponse logInResponse = g.fromJson(new String(response),
+                       LoinResponse.class);
+
+                Log.e("status", "" + logInResponse.getStatus());
+
+                if (logInResponse.getStatus()==1) {
+
+                    Toast.makeText(con, logInResponse.getMessage() + "",
+                            Toast.LENGTH_LONG).show();
+
+                    finish();
+
+                } else {
+
+                    AlertMessage.showMessage(con, "Status",
+                            logInResponse.getMessage() + "");
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+
+                Log.e("errorResponse", new String(errorResponse));
+
+               pd.dismiss();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+
+            }
+        });
+
+    }
+
+
+
+
+
+
 
     private String setToImageView(Bitmap bitmap) {
 

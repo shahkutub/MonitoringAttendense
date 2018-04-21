@@ -5,12 +5,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.sadi.sreda.alarm.AlarmReceiver;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoginData;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -45,7 +49,28 @@ public class AppConstant {
     public static String checkInOrOut = "checkInOrOut";
 
     public static List<LocationInfo> locationInfoList = new ArrayList<>();
+    public static String path ="path";
+    public static String photourl ="http://css-bd.com/attendance-system/uploads/users/";
+    public static String bitmap = "bitmap";
 
+    public static String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    public static Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
 
     public static void alarmClockIn(Context con) {
         Calendar calendar = Calendar.getInstance();
