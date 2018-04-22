@@ -7,16 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sadi.sreda.adapter.MyRecordsAdapter;
 import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.PersistData;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,10 +59,17 @@ public class MyRecordsActivity extends AppCompatActivity {
         tvDesignation = (TextView) findViewById(R.id.tvDesignation);
         tvMonth = (TextView) findViewById(R.id.tvMonth);
         profile_image_record = (CircleImageView) findViewById(R.id.profile_image_record);
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
-        Picasso.with(con).load(AppConstant.photourl+ PersistData.getStringData(con,AppConstant.path)).into(profile_image_record);
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .override(200, 100)
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_image_record);
 
-
+        }
         tvName.setText("User: "+AppConstant.getUserdata(con).getUsername());
         tvDesignation.setText("Designation: "+AppConstant.getUserdata(con).getDesignations());
 

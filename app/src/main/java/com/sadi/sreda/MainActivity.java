@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.utils.Api;
@@ -42,7 +43,6 @@ import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
 import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,12 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         con = this;
 
 
-        Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-        if(hour==24){
-            PersistData.setStringData(con,AppConstant.checkInOrOut,"out");
-        }
 
        // listLocation = AppConstant.getLocationList(con);
         requestPermission();
@@ -121,18 +116,34 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onResume() {
         super.onResume();
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
-        }else {
-            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .override(200, 100)
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_imageCheckIn);
+
         }
+
+//        else {
+//            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
-
-        }else {
-            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .override(200, 100)
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_imageOut);
         }
+
+//        else {
+//            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
 
     }
 
@@ -307,18 +318,34 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         profile_imageOut = (CircleImageView)findViewById(R.id.profile_imageOut);
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
-        }else {
-            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .override(200, 100)
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_imageCheckIn);
+
         }
+
+//        else {
+//            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
-
-        }else {
-            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .override(200, 100)
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_imageOut);
         }
+
+//        else {
+//            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
 
 
 

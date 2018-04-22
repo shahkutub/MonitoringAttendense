@@ -134,42 +134,6 @@ public class LocationMgr implements
 
     }
 
-    private void getRecords(String id) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL_attten)
-                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
-                .build();
-
-        Api api = retrofit.create(Api.class);
-        Call<List<MyRecordsInfo>> call = api.getAllRecords(id);
-
-        call.enqueue(new Callback<List<MyRecordsInfo>>() {
-            @Override
-            public void onResponse(Call<List<MyRecordsInfo>> call, Response<List<MyRecordsInfo>> response) {
-
-
-                myRecordsInfos = response.body();
-
-                for (int i = 0; i <myRecordsInfos.size() ; i++) {
-
-                }
-
-//                String dateCheck_in = recordsInfo.getCheck_in_time();
-//                String[] partsin = dateCheck_in.split(" ");
-//
-//                String dateCheck_out = recordsInfo.getCheck_out_time();
-//                String[] partsOut = dateCheck_out.split(" ");
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<MyRecordsInfo>> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void getLocation(final String lat, final String lng) {
 
