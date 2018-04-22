@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     NavigationView mNavigationView;
     private static final int PERMISSION_REQUEST_CODE = 200;
     ActionBarDrawerToggle mDrawerToggle;
-    private RelativeLayout reLayClockOut,reLayClockIn,reLaySettings,reLayProfile,reLayAbout,reLayFaq,reLayRecords;
+    private RelativeLayout reLayClockOut,reLayClockIn,reLaySettings,reLayProfile,reLayAbout,reLayFaq,reLayRecords,reLayException;
     private FrameLayout containerView;
     Animation shake;
     LocationMgr mgr;
@@ -282,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         reLayClockIn = (RelativeLayout)findViewById(R.id.reLayClockIn);
         reLayClockOut = (RelativeLayout)findViewById(R.id.reLayClockOut);
         reLayRecords = (RelativeLayout)findViewById(R.id.reLayRecords);
+        reLayException = (RelativeLayout)findViewById(R.id.reLayException);
         reLayFaq = (RelativeLayout)findViewById(R.id.reLayFaq);
         reLayAbout = (RelativeLayout)findViewById(R.id.reLayAbout);
         reLayProfile = (RelativeLayout)findViewById(R.id.reLayProfile);
@@ -494,6 +495,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(con,MyRecordsActivity.class));
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+
+        reLayException.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ExceptionActivity.class));
                 mDrawerLayout.closeDrawer(Gravity.START);
             }
         });

@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loinResponse.getStatus()==1){
                     Toast.makeText(con, loinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     AppConstant.saveUserdat(con,loinResponse.getLoginData());
-                    startActivity(new Intent(con,MainActivity.class));
+                    startActivity(new Intent(con,MainActivityLocation.class));
                     PersistentUser.setLogin(con);
                     PersistData.setStringData(con,AppConstant.path,loinResponse.getLoginData().getImages());
                     finish();
