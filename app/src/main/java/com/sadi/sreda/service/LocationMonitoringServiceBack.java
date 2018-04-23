@@ -1,26 +1,25 @@
-package com.sadi.sreda.service;
+package tracklocation.devdeeds.com.tracklocationproject.services;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.sadi.sreda.utils.Constants;
+
+import tracklocation.devdeeds.com.tracklocationproject.settings.Constants;
 
 
 /**
@@ -112,8 +111,8 @@ public class LocationMonitoringService extends Service implements
 
 
         if (location != null) {
-//            Log.d(TAG, "== location != null");
-//            Toast.makeText(this, ""+location.getLongitude(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "== location != null");
+            Toast.makeText(this, ""+location.getLongitude(), Toast.LENGTH_SHORT).show();
             //Send result to activities
             sendMessageToUI(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
         }
@@ -138,19 +137,5 @@ public class LocationMonitoringService extends Service implements
 
     }
 
-    public synchronized void buildGoogleApiClient() {
-        mLocationClient = new GoogleApiClient.Builder(getApplicationContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mLocationClient.connect();
 
-
-        final LocationManager manager = (LocationManager) ((Activity)getApplicationContext()).getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getApplicationContext().startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-        }
-    }
 }

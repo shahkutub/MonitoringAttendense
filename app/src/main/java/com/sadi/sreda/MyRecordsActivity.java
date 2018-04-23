@@ -42,6 +42,7 @@ public class MyRecordsActivity extends AppCompatActivity {
     private CircleImageView profile_image_record;
     private TextView tvName,tvDesignation,tvMonth;
     List<MyRecordsInfo> myRecordsList = new ArrayList<>();
+    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,17 +60,19 @@ public class MyRecordsActivity extends AppCompatActivity {
         tvDesignation = (TextView) findViewById(R.id.tvDesignation);
         tvMonth = (TextView) findViewById(R.id.tvMonth);
         profile_image_record = (CircleImageView) findViewById(R.id.profile_image_record);
+
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 //            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
+                    .override(50,50)
                     .placeholder(R.drawable.man)
                     .error(R.drawable.man)
                     .into(profile_image_record);
-
         }
+
+
         tvName.setText("User: "+AppConstant.getUserdata(con).getUsername());
         tvDesignation.setText("Designation: "+AppConstant.getUserdata(con).getDesignations());
 
@@ -129,4 +132,14 @@ public class MyRecordsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Glide.with(con)
+                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                .override(50,50)
+                .placeholder(R.drawable.man)
+                .error(R.drawable.man)
+                .into(profile_image_record);
+    }
 }

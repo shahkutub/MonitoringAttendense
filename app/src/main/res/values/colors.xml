@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#B7B7B7</color>
-    <color name="colorPrimaryDark">#B7B7B7</color>
-    <color name="colorAccent">#B7B7B7</color>
+    <color name="colorPrimary">#87B032</color>
+    <color name="colorPrimaryDark">#55771D</color>
+    <color name="colorAccent">#FF4081</color>
     <color name="button_color">#58AF60</color>
     <color name="sub_button_color">#87B032</color>
     <color name="white">#fff</color>
+    <color name="yellow">#4e3526</color>
     <color name="black">#000</color>
+    <color name="report_tech_name">#E0E0E0</color>
 
 
 </resources>

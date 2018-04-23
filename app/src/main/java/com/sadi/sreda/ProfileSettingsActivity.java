@@ -1,12 +1,15 @@
 package com.sadi.sreda;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +20,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -64,6 +70,7 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +78,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 /**
@@ -89,6 +103,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     public final int galarytakid = 1;
     private EditText etCurrentPass,etNewPass,etConfirmPass,etName,etDesignation,etPhone,etMail;
     private Button btnSubmit;
+    private static final int PERMISSION_REQUEST_CODE = 200;
+    private static int SPLASH_TIME_OUT = 3000;
 
     Dialog dialog;
     @Override
@@ -97,6 +113,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.profile_settings);
         con=this;
+
+        if(!checkPermission()){
+            requestPermission();
+        }
         initUi();
     }
 
@@ -120,17 +140,16 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         circleImageView = (CircleImageView) findViewById(R.id.profile_image);
 
-        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
+        //getImageReto();
 
-            Glide.with(con)
-                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
-                    .into(circleImageView);
+                Glide.with(con)
+                        .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                        .override(50,50)
+                        .placeholder(R.drawable.man)
+                        .error(R.drawable.man)
+                        .into(circleImageView);
 
-        }
+
 //        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 //            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(circleImageView);
 //
@@ -179,6 +198,30 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
 
+    private void getImageReto(){
+
+        OkHttpClient client = new OkHttpClient();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+
+                Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
+                circleImageView.setImageBitmap(bm);
+            }
+
+        });
+
+    }
 
 
     private void changePass(String userId, String oldPass, String conFirmPass) {
@@ -235,7 +278,16 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Glide.with(con)
+                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                .override(50,50)
+                .placeholder(R.drawable.man)
+                .error(R.drawable.man)
+                .into(circleImageView);
+    }
 
     private void imageCaptureDialogue() {
         dialog = new Dialog(ProfileSettingsActivity.this);
@@ -341,6 +393,83 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
 
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_COARSE_LOCATION);
+        int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        int result4 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+
+        return result == PackageManager.PERMISSION_GRANTED
+                && result1 == PackageManager.PERMISSION_GRANTED
+                && result2 == PackageManager.PERMISSION_GRANTED
+                && result3 == PackageManager.PERMISSION_GRANTED
+                && result4 == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, CAMERA,
+                        ACCESS_COARSE_LOCATION,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                PERMISSION_REQUEST_CODE);
+
+    }
+
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean readPhoneAccepted = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    //  Toast.makeText(con, ""+imei, Toast.LENGTH_SHORT).show();
+
+                    if (locationAccepted && cameraAccepted && readPhoneAccepted) {
+                        // Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
+
+                    } else {
+
+                        //Snackbar.make(view, "Permission Denied, You cannot access location data and camera.", Snackbar.LENGTH_LONG).show();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(CAMERA)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{ACCESS_FINE_LOCATION, CAMERA, READ_PHONE_STATE},
+                                                            PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+                    }
+                }
+
+
+                break;
+        }
+    }
+
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(ProfileSettingsActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
 
 
     @Override
@@ -656,10 +785,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         try {
 
             // if (isImage) {
-            final Bitmap bit = BitmapUtils.getResizedBitmap(bitmap, 300);
+            final Bitmap bit = BitmapUtils.getResizedBitmap(bitmap, 50);
             final double time = System.currentTimeMillis();
 
-            imageLocal = saveBitmapIntoSdcard(bit, "luna" + time + ".png");
+            imageLocal = saveBitmapIntoSdcard(bit, "3ss" + time + ".png");
 
             Log.e("camera saved URL :  ", " " + imageLocal);
 
@@ -697,7 +826,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
             out = new FileOutputStream(file);
 
-            bitmap22.compress(Bitmap.CompressFormat.PNG, 100, out);
+            bitmap22.compress(Bitmap.CompressFormat.PNG, 50, out);
 
             out.flush();
             out.close();
@@ -713,7 +842,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     public void createBaseDirctory() {
         final String extStorageDirectory = Environment
                 .getExternalStorageDirectory().toString();
-        dir = new File(extStorageDirectory + "/LUNA");
+        dir = new File(extStorageDirectory + "/3ss");
 
         if (this.dir.mkdir()) {
             System.out.println("Directory created");

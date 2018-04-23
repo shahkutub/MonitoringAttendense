@@ -251,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
 
+
     private void initialization() {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -321,12 +322,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 //            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
-            Glide.with(con)
-                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
-                    .into(profile_imageCheckIn);
+//            Glide.with(con)
+//                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+//                    .override(200, 100)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
+//                    .into(profile_imageCheckIn);
 
         }
 
