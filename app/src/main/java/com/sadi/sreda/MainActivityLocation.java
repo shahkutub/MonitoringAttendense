@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -90,37 +91,24 @@ public class MainActivityLocation extends AppCompatActivity {
     private FrameLayout containerView;
     Animation shake;
     LocationMgr mgr;
-
+    String  officeName;
     TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,tvGreetingsOut,
             tvOutTime,tvInTime;
     private RelativeLayout layClockOut,layClockIn;
     private CircleImageView profile_imageCheckIn,profile_imageOut;
-
+    private static int SPLASH_TIME_OUT = 3000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
        // mMsgView = (TextView) findViewById(R.id.msgView);
         con=this;
+        statusCheck();
         initialization();
 
-        startService(new Intent(con,LocationMonitoringService.class));
-        LocalBroadcastManager.getInstance(con).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
-                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
 
-                        if (latitude != null && longitude != null) {
-                            getLocation(latitude,""+longitude);
-                           // Toast.makeText(con, latitude, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
     }
-    String  officeName;
+
 
 
     private void getLocation(final String lat, final String lng) {
@@ -148,25 +136,27 @@ public class MainActivityLocation extends AppCompatActivity {
 
                 myRecordsInfos = response.body();
 
-                for (int i = 0; i <myRecordsInfos.size() ; i++) {
+                if(myRecordsInfos!=null){
+                    if(myRecordsInfos.size()>0){
+                        for (int i = 0; i <myRecordsInfos.size() ; i++) {
 
-                    float[] results = new float[1];
-                    Location.distanceBetween(Double.parseDouble(myRecordsInfos.get(i).getLatitude()),
-                            Double.parseDouble(myRecordsInfos.get(i).getLongitude()),
-                            Double.parseDouble(lat), Double.parseDouble(lng),results);
-                    float distanceInMeters = results[0];
+                            float[] results = new float[1];
+                            Location.distanceBetween(Double.parseDouble(myRecordsInfos.get(i).getLatitude()),
+                                    Double.parseDouble(myRecordsInfos.get(i).getLongitude()),
+                                    Double.parseDouble(lat), Double.parseDouble(lng),results);
+                            float distanceInMeters = results[0];
 
-                    if( distanceInMeters < 100){
+                            if( distanceInMeters < 100){
 
-                        // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
-                        tvGreetingsIn.setText(AppConstant.getUserdata(con).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
-                        tvGreetingsOut.setText(AppConstant.getUserdata(con).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
-                        //PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+                                // Toast.makeText(context, distanceInMeters+" Meters", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context, myRecordsInfos.get(i).getLocation_name(), Toast.LENGTH_SHORT).show();
+                                tvGreetingsIn.setText(AppConstant.getUserdata(con).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                                tvGreetingsOut.setText(AppConstant.getUserdata(con).getUser_name()+",you are currently at "+myRecordsInfos.get(i).getLocation_name());
+                                //PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
 
-                        AppConstant.locationName = myRecordsInfos.get(i).getLocation_name();
-                        officeName = myRecordsInfos.get(i).getLocation_name();
-                        // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
+                                AppConstant.locationName = myRecordsInfos.get(i).getLocation_name();
+                                officeName = myRecordsInfos.get(i).getLocation_name();
+                                // AppConstant.officname=myRecordsInfos.get(i).getLocation_name();
 //                            AppConstant.isHq = true;
 //                            if(PersistData.getStringData(context, AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
 //                                //Toast.makeText(context, "Data send", Toast.LENGTH_SHORT).show();
@@ -174,10 +164,14 @@ public class MainActivityLocation extends AppCompatActivity {
 //                            }
 
 
-                    }else {
-                        //AppConstant.locationName = "";
+                            }else {
+                                //AppConstant.locationName = "";
+                            }
+                        }
                     }
                 }
+
+
 
                 AppConstant.locationInfoList = myRecordsInfos;
                 //AppConstant.saveLocationdat(con,myRecordsInfos);
@@ -297,7 +291,6 @@ public class MainActivityLocation extends AppCompatActivity {
 
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
                     .placeholder(R.drawable.man)
                     .error(R.drawable.man)
                     .into(profile_imageCheckIn);
@@ -312,7 +305,6 @@ public class MainActivityLocation extends AppCompatActivity {
 //            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
                     .placeholder(R.drawable.man)
                     .error(R.drawable.man)
                     .into(profile_imageOut);
@@ -652,7 +644,57 @@ public class MainActivityLocation extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+                if(!TextUtils.isEmpty(PersistData.getStringData(con, AppConstant.path))){
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
+
+                    Glide.with(con)
+                            .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                            .placeholder(R.drawable.man)
+                            .error(R.drawable.man)
+                            .into(profile_imageCheckIn);
+
+                }
+
+//        else {
+//            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
+
+                if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
+                    Glide.with(con)
+                            .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                            .placeholder(R.drawable.man)
+                            .error(R.drawable.man)
+                            .into(profile_imageOut);
+                }
+
+//        else {
+//            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
+//        }
+
+
+
+
+
+
         startStep1();
+
+        startService(new Intent(con,LocationMonitoringService.class));
+        LocalBroadcastManager.getInstance(con).registerReceiver(
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
+                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
+
+                        if (latitude != null && longitude != null) {
+                            getLocation(latitude,""+longitude);
+                            // Toast.makeText(con, latitude, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
+        );
+
     }
 
 
@@ -767,6 +809,9 @@ public class MainActivityLocation extends AppCompatActivity {
         if (status != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(status)) {
                 googleApiAvailability.getErrorDialog(this, status, 2404).show();
+
+//                LocationMonitoringService locationMonitoringService = new LocationMonitoringService();
+//                locationMonitoringService.buildGoogleApiClient();
             }
             return false;
         }
@@ -859,8 +904,8 @@ public class MainActivityLocation extends AppCompatActivity {
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 Log.i(TAG, "Permission granted, updates requested, starting location updates");
-                startStep3();
-
+                //startStep3();
+                //statusCheck();
             } else {
                 // Permission denied.
 
@@ -906,5 +951,33 @@ public class MainActivityLocation extends AppCompatActivity {
 //
         super.onDestroy();
     }
+    public void statusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+
+        }
+    }
+        private void buildAlertMessageNoGps() {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+
+
 
 }

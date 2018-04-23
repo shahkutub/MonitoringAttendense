@@ -1,9 +1,16 @@
 package com.sadi.sreda;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +28,13 @@ import com.sadi.sreda.utils.PersistData;
 
 import java.util.Calendar;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by NanoSoft on 11/20/2017.
  */
@@ -37,7 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
     TimePickerDialog timepickerdialog;
     private RelativeLayout rLClockIn,rLClockOut;
     private TextView tvClockIn,tvClockOut;
-
     private ToggleButton toggleAlarm,toggleQuickAttan;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -233,6 +246,9 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 }
