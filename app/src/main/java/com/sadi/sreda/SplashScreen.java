@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.sadi.sreda.service.LocationMonitoringServiceBack;
 import com.sadi.sreda.utils.PersistentUser;
 
 
@@ -30,9 +31,12 @@ public class SplashScreen extends AppCompatActivity{
             @Override
             public void run() {
                 if(PersistentUser.isLogged(con)){
-                    startActivity(new Intent(con,MainActivityLocation.class));
+                    startService(new Intent(con,LocationMonitoringServiceBack.class));
+                    stopService(new Intent(con,LocationMonitoringServiceBack.class));
+                    startActivity(new Intent(con,MainActivity.class));
                     finish();
                 }else {
+                    stopService(new Intent(con,LocationMonitoringServiceBack.class));
                     Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                     startActivity(i);
                     finish();

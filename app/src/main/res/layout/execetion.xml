@@ -110,7 +110,52 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etClockInLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Clock In Location:"
+                android:text=""
+                android:focusable="true"
+                android:inputType="textCapSentences"
+                android:padding="@dimen/_8sdp"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etClockOutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Clock Out Location:"
+                android:text=""
+                android:focusable="true"
+                android:inputType="textCapSentences"
+                android:padding="@dimen/_8sdp"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/_25sdp"
         android:layout_marginLeft="@dimen/_25sdp"

@@ -80,7 +80,6 @@
                 >
                 <de.hdodenhof.circleimageview.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_imageOut"
                     android:layout_width="@dimen/_96sdp"
                     android:layout_height="@dimen/_96sdp"
                     android:src="@drawable/icon_512"

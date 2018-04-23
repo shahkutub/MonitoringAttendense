@@ -144,7 +144,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 Glide.with(con)
                         .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                        .override(50,50)
+                       // .override(50,50)
                         .placeholder(R.drawable.man)
                         .error(R.drawable.man)
                         .into(circleImageView);
@@ -283,7 +283,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         super.onResume();
         Glide.with(con)
                 .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                .override(50,50)
+                //.override(50,50)
                 .placeholder(R.drawable.man)
                 .error(R.drawable.man)
                 .into(circleImageView);

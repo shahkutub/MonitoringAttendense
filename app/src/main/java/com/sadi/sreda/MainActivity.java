@@ -4,9 +4,11 @@ package com.sadi.sreda;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -36,8 +39,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
+import com.sadi.sreda.service.LocationMonitoringService;
+import com.sadi.sreda.service.LocationMonitoringServiceBack;
+import com.sadi.sreda.service.MainActivityBack;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
+import com.sadi.sreda.utils.ExitActivity;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.OnFragmentInteractionListener;
@@ -71,7 +78,7 @@ import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity{
     Context con;
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
 
+        stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
        // listLocation = AppConstant.getLocationList(con);
         requestPermission();
@@ -141,9 +149,19 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     .into(profile_imageOut);
         }
 
-//        else {
+
+        stopService(new Intent(con,LocationMonitoringServiceBack.class));
+        //        else {
 //            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
 //        }
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
@@ -251,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
 
-
     private void initialization() {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -317,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         tvOutTime = (TextView)findViewById(R.id.tvOutTime);
         tvInTime = (TextView)findViewById(R.id.tvInTime);
         profile_imageCheckIn = (CircleImageView)findViewById(R.id.profile_imageCheckIn);
-        profile_imageOut = (CircleImageView)findViewById(R.id.profile_imageOut);
+        profile_imageOut = (CircleImageView)findViewById(R.id.out_profile_image);
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 //            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
@@ -676,72 +693,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
 
-
-
-
-
-
-
-
-
     @Override
-    public void setContentFragment(Fragment fragment, boolean addToBackStack,String title) {
-        if (fragment == null) {
-            return;
-        }
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.containerView);
-
-        if (currentFragment != null && fragment.getClass().isAssignableFrom(currentFragment.getClass())) {
-            return;
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.containerView, fragment, fragment.getClass().getName());
-        if (addToBackStack) {
-            fragmentTransaction.addToBackStack(fragment.getClass().getName());
-        }
-        fragmentTransaction.commit();
-        fragmentManager.executePendingTransactions();
+    protected void onRestart() {
+        super.onRestart();
+        stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
-
     @Override
-    public void addContentFragment(Fragment fragment, boolean addToBackStack,String title) {
-        if (fragment == null) {
-            return;
-        }
-
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.containerView);
-
-        if (currentFragment != null && fragment.getClass().isAssignableFrom(currentFragment.getClass())) {
-            return;
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.containerView, fragment, fragment.getClass().getName());
-        if (addToBackStack) {
-            fragmentTransaction.addToBackStack(fragment.getClass().getName());
-        }
-        fragmentTransaction.commit();
-        fragmentManager.executePendingTransactions();
-
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void onBackPressed() {
-
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        }
-        else {
-            super.onBackPressed();
-        }
+    protected void onStart() {
+        super.onStart();
+        stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
@@ -756,8 +718,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     case 0:
                         return;
                     case 1:
-                        // onStopRecording();
 
+                        startActivity(new Intent(con, MainActivityBack.class));
                         finish();
 
 
@@ -777,13 +739,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 //            if(buttonView.getVisibility()==View.GONE){
 //                buttonView.setVisibility(View.VISIBLE);
 //            }else {
-                exitFromApp();
-           // }
+            exitFromApp();
+            // }
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
 

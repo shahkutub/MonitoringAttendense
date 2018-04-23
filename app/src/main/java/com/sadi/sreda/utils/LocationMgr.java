@@ -200,30 +200,30 @@ public class LocationMgr implements
                 int mint = calendar.get(Calendar.MINUTE);
 
 
-
-                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-
-                        if(!TextUtils.isEmpty(officeName)) {
-
-                            if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("in")) {
-                                sendCheckOut(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
-                                        officeName, getCurrentTimeStamp());
-
-                            } else if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("out")) {
-                                sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
-                                        officeName, getCurrentTimeStamp());
-                            }
-                        }
-
-
-                        //                        if(hour<12){
-//                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+//
+//                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+//
+//                        if(!TextUtils.isEmpty(officeName)) {
+//
+//                            if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("in")) {
+//                                sendCheckOut(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+//                                        officeName, getCurrentTimeStamp());
+//
+//                            } else if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("out")) {
+//                                sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+//                                        officeName, getCurrentTimeStamp());
+//                            }
 //                        }
 //
-//                        if(hour>18){
-//                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
-//                        }
-                    }
+//
+//                        //                        if(hour<12){
+////                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+////                        }
+////
+////                        if(hour>18){
+////                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
+////                        }
+//                    }
 
 
 

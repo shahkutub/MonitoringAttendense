@@ -66,7 +66,7 @@ public class MyRecordsActivity extends AppCompatActivity {
 
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(50,50)
+                    //.override(50,50)
                     .placeholder(R.drawable.man)
                     .error(R.drawable.man)
                     .into(profile_image_record);
@@ -137,7 +137,7 @@ public class MyRecordsActivity extends AppCompatActivity {
         super.onResume();
         Glide.with(con)
                 .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                .override(50,50)
+                //.override(50,50)
                 .placeholder(R.drawable.man)
                 .error(R.drawable.man)
                 .into(profile_image_record);

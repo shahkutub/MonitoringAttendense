@@ -1,4 +1,4 @@
-package tracklocation.devdeeds.com.tracklocationproject;
+package com.sadi.sreda.service;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -25,12 +25,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.sadi.sreda.BuildConfig;
+import com.sadi.sreda.R;
+import com.sadi.sreda.utils.ExitActivity;
 
-import tracklocation.devdeeds.com.tracklocationproject.services.LocationMonitoringService;
+public class MainActivityBack extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivityBack.class.getSimpleName();
 
     /**
      * Code used in requesting runtime permissions.
@@ -40,13 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mAlreadyStartedService = false;
     private TextView mMsgView;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mMsgView = (TextView) findViewById(R.id.msgView);
+        //setContentView(R.layout.activity_main);
+        //mMsgView = (TextView) findViewById(R.id.msgView);
+        context=this;
 
+        startService(new Intent(context,LocationMonitoringServiceBack.class));
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
@@ -56,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
 
                         if (latitude != null && longitude != null) {
-                            mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
+                            Toast.makeText(context, "service started", Toast.LENGTH_SHORT).show();
+                            //mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
                         }
                     }
                 }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
@@ -69,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         startStep1();
+       // ExitActivity.exitApplication(context);
+        finish();
     }
 
 
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             startStep2(null);
 
         } else {
-            Toast.makeText(getApplicationContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -121,12 +128,12 @@ public class MainActivity extends AppCompatActivity {
      * Show A Dialog with button to refresh the internet state.
      */
     private void promptInternetConnect() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.title_alert_no_intenet);
-        builder.setMessage(R.string.msg_alert_no_internet);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityBack.this);
+//        builder.setTitle(R.string.title_alert_no_intenet);
+//        builder.setMessage(R.string.msg_alert_no_internet);
 
-        String positiveText = getString(R.string.btn_label_refresh);
-        builder.setPositiveButton(positiveText,
+        //String positiveText = getString(R.string.btn_label_refresh);
+        builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!mAlreadyStartedService && mMsgView != null) {
 
-            mMsgView.setText(R.string.msg_location_service_started);
+            //mMsgView.setText(R.string.msg_location_service_started);
 
             //Start location sharing service to app server.........
             Intent intent = new Intent(this, LocationMonitoringService.class);
@@ -227,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             // Request permission
-                            ActivityCompat.requestPermissions(MainActivity.this,
+                            ActivityCompat.requestPermissions(MainActivityBack.this,
                                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                                     REQUEST_PERMISSIONS_REQUEST_CODE);
                         }
@@ -237,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             // Request permission. It's possible this can be auto answered if device policy
             // sets the permission in a given state or the img_user denied the permission
             // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(MainActivity.this,
+            ActivityCompat.requestPermissions(MainActivityBack.this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }

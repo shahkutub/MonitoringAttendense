@@ -47,6 +47,13 @@ public class ExceptionActivity extends AppCompatActivity {
     private void intUi() {
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         etDate = (EditText) findViewById(R.id.etDate);
         etDesignation = (EditText) findViewById(R.id.etDesignation);
         etClockIn = (EditText) findViewById(R.id.etClockIn);

@@ -21,6 +21,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:excludeFromRecents="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SplashScreen"
@@ -55,6 +56,7 @@
         <activity android:name=".ProfileSettingsActivity"
             android:screenOrientation="portrait"
             />
+
         <activity android:name=".MyRecordsActivity"
             android:screenOrientation="portrait"
             />
@@ -63,9 +65,14 @@
         <!--<receiver android:name=".alarm.QuickAttandenceRecever"/>-->
         <!--<service android:name=".utils.MyService" android:process=":my_service" />-->
         <!--<service android:name=".utils.GoogleService" />-->
-
-        <service android:name=".service.LocationMonitoringService" />
-
+        <activity android:name=".service.MainActivityBack"
+            android:screenOrientation="portrait"
+            />
+        <service android:name=".service.LocationMonitoringServiceBack" />
+        <activity
+            android:name=".utils.ExitActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:autoRemoveFromRecents="true"/>
     </application>
 
 </manifest>
