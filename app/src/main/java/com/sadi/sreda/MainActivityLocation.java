@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -104,21 +105,8 @@ public class MainActivityLocation extends AppCompatActivity {
         con=this;
         initialization();
 
-        startService(new Intent(con,LocationMonitoringService.class));
-        LocalBroadcastManager.getInstance(con).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
-                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
 
-                        if (latitude != null && longitude != null) {
-                            getLocation(latitude,""+longitude);
-                           // Toast.makeText(con, latitude, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
+
     }
     String  officeName;
 
@@ -186,8 +174,6 @@ public class MainActivityLocation extends AppCompatActivity {
 
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int mint = calendar.get(Calendar.MINUTE);
-
-
 
                 if(PersistData.getStringData(con,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
 
@@ -750,8 +736,8 @@ public class MainActivityLocation extends AppCompatActivity {
             //mMsgView.setText(R.string.msg_location_service_started);
 
             //Start location sharing service to app server.........
-            Intent intent = new Intent(this, LocationMonitoringService.class);
-            startService(intent);
+//            Intent intent = new Intent(this, LocationMonitoringService.class);
+//            startService(intent);
 
             mAlreadyStartedService = true;
             //Ends................................................
@@ -907,4 +893,54 @@ public class MainActivityLocation extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void exitFromApp() {
+        final CharSequence[] items = { "NO", "YES" };
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exit from app?");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                switch (item) {
+                    case 0:
+                        return;
+                    case 1:
+                        LocalBroadcastManager.getInstance(con).registerReceiver(
+                                new BroadcastReceiver() {
+                                    @Override
+                                    public void onReceive(Context context, Intent intent) {
+                                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
+                                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
+
+                                        if (latitude != null && longitude != null) {
+                                            getLocation(latitude,""+longitude);
+                                             Toast.makeText(con, latitude, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
+                        );                        startService(new Intent(con,LocationMonitoringService.class));
+                        finish();
+
+
+                        break;
+                    default:
+                        return;
+                }
+            }
+        });
+        builder.show();
+        builder.create();
+    }
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            if(buttonView.getVisibility()==View.GONE){
+//                buttonView.setVisibility(View.VISIBLE);
+//            }else {
+            exitFromApp();
+            // }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
