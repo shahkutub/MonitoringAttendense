@@ -27,7 +27,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.sadi.sreda.BuildConfig;
 import com.sadi.sreda.R;
-import com.sadi.sreda.utils.ExitActivity;
 
 public class MainActivityBack extends AppCompatActivity {
 

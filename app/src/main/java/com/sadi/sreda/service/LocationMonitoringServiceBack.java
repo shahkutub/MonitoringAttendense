@@ -12,10 +12,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -189,7 +187,7 @@ public class LocationMonitoringServiceBack extends Service implements
                         AppConstant.locationName = myRecordsInfos.get(i).getLocation_name();
                         officeName = myRecordsInfos.get(i).getLocation_name();
 
-                        //Toast.makeText(context, ""+officeName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ""+officeName, Toast.LENGTH_SHORT).show();
 
 
                         AppConstant.locationInfoList = myRecordsInfos;

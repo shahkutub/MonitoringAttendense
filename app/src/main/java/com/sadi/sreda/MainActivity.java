@@ -2,23 +2,16 @@ package com.sadi.sreda;
 
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -39,15 +32,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
-import com.sadi.sreda.service.LocationMonitoringService;
 import com.sadi.sreda.service.LocationMonitoringServiceBack;
 import com.sadi.sreda.service.MainActivityBack;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
-import com.sadi.sreda.utils.ExitActivity;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
-import com.sadi.sreda.utils.OnFragmentInteractionListener;
 import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
@@ -158,11 +148,19 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+
     @Override
     protected void onPause() {
         super.onPause();
         stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startActivity(new Intent(con, MainActivityBack.class));
+        finish();
     }
 
     public void statusCheck() {
