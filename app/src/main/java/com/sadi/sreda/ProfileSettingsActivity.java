@@ -29,6 +29,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -113,6 +114,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.profile_settings);
         con=this;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
 
         if(!checkPermission()){
             requestPermission();
@@ -785,7 +788,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         try {
 
             // if (isImage) {
-            final Bitmap bit = BitmapUtils.getResizedBitmap(bitmap, 50);
+            final Bitmap bit = BitmapUtils.getResizedBitmap(bitmap, 100);
             final double time = System.currentTimeMillis();
 
             imageLocal = saveBitmapIntoSdcard(bit, "3ss" + time + ".png");

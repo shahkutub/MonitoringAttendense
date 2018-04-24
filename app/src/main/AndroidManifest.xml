@@ -65,14 +65,14 @@
         <!--<receiver android:name=".alarm.QuickAttandenceRecever"/>-->
         <!--<service android:name=".utils.MyService" android:process=":my_service" />-->
         <!--<service android:name=".utils.GoogleService" />-->
-        <activity android:name=".service.MainActivityBack"
-            android:screenOrientation="portrait"
-            />
-        <service android:name=".service.LocationMonitoringServiceBack" />
-        <activity
-            android:name=".utils.ExitActivity"
-            android:theme="@android:style/Theme.NoDisplay"
-            android:autoRemoveFromRecents="true"/>
+        <!--<activity android:name=".service.MainActivityBack"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--/>-->
+        <!--<service android:name=".service.LocationMonitoringServiceBack" />-->
+        <!--<activity-->
+            <!--android:name=".utils.ExitActivity"-->
+            <!--android:theme="@android:style/Theme.NoDisplay"-->
+            <!--android:autoRemoveFromRecents="true"/>-->
     </application>
 
 </manifest>

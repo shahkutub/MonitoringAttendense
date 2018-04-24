@@ -38,6 +38,7 @@ import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
+import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
@@ -113,9 +114,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
+
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                     .override(200, 100)
@@ -125,12 +126,9 @@ public class MainActivity extends AppCompatActivity{
 
         }
 
-//        else {
-//            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
-//        }
+
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                     .override(200, 100)
@@ -140,11 +138,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
-        stopService(new Intent(con,LocationMonitoringServiceBack.class));
-        //        else {
-//            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
-//        }
-
     }
 
 
@@ -152,15 +145,14 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onPause() {
         super.onPause();
-        stopService(new Intent(con,LocationMonitoringServiceBack.class));
+        //stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        startActivity(new Intent(con, MainActivityBack.class));
-        finish();
+
     }
 
     public void statusCheck() {
@@ -335,34 +327,25 @@ public class MainActivity extends AppCompatActivity{
         profile_imageOut = (CircleImageView)findViewById(R.id.out_profile_image);
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
-//            Glide.with(con)
-//                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-//                    .override(200, 100)
-//                    .placeholder(R.drawable.man)
-//                    .error(R.drawable.man)
-//                    .into(profile_imageCheckIn);
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .placeholder(R.drawable.man)
+                    .error(R.drawable.man)
+                    .into(profile_imageCheckIn);
 
         }
 
-//        else {
-//            profile_imageCheckIn.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
-//        }
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageOut);
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
                     .placeholder(R.drawable.man)
                     .error(R.drawable.man)
                     .into(profile_imageOut);
         }
 
-//        else {
-//            profile_imageOut.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
-//        }
+
 
 
 
@@ -469,27 +452,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        reLayClockIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //AppConstant.clockInOu = "in";
-                mDrawerLayout.closeDrawer(Gravity.START);
-               // setContentFragment(new FragementClockIn(), false,"RE Generation Summery Report");
 
-
-            }
-        });
-
-        reLayClockOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //AppConstant.clockInOu = "out";
-                mDrawerLayout.closeDrawer(Gravity.START);
-                //setContentFragment(new FragementClockOut(), false,"RE Generation Summery Report");
-
-
-            }
-        });
 
         reLayProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -694,14 +657,14 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onRestart() {
         super.onRestart();
-        stopService(new Intent(con,LocationMonitoringServiceBack.class));
+        //stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        stopService(new Intent(con,LocationMonitoringServiceBack.class));
+        //stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
     }
 
@@ -717,7 +680,7 @@ public class MainActivity extends AppCompatActivity{
                         return;
                     case 1:
 
-                        startActivity(new Intent(con, MainActivityBack.class));
+                       // startActivity(new Intent(con, MainActivityBack.class));
                         finish();
 
 

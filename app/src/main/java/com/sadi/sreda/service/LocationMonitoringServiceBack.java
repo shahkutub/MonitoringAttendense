@@ -187,7 +187,7 @@ public class LocationMonitoringServiceBack extends Service implements
                         AppConstant.locationName = myRecordsInfos.get(i).getLocation_name();
                         officeName = myRecordsInfos.get(i).getLocation_name();
 
-                        Toast.makeText(context, ""+officeName, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, ""+officeName, Toast.LENGTH_SHORT).show();
 
 
                         AppConstant.locationInfoList = myRecordsInfos;
@@ -293,11 +293,7 @@ public class LocationMonitoringServiceBack extends Service implements
 
     private void sendCheckOut(String userId, String userName, String checkInLocation, String checkInDateTime) {
 
-        final ProgressDialog pd = new ProgressDialog(context);
-        pd.setCancelable(false);
-        pd.setCancelable(false);
-        pd.setMessage("loading..");
-        pd.show();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -323,7 +319,6 @@ public class LocationMonitoringServiceBack extends Service implements
 
                 // progressShow.setVisibility(View.GONE);
 
-                pd.dismiss();
                 LoinResponse loinResponse =  new LoinResponse();
 
                 loinResponse = response.body();
@@ -342,7 +337,6 @@ public class LocationMonitoringServiceBack extends Service implements
             @Override
             public void onFailure(Call<LoinResponse> call, Throwable t) {
                 //progressShow.setVisibility(View.GONE);
-                pd.dismiss();
             }
         });
     }

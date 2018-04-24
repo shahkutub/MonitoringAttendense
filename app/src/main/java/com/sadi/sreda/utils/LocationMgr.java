@@ -76,8 +76,8 @@ public class LocationMgr implements
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(30000);
+        mLocationRequest.setFastestInterval(15000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -196,35 +196,27 @@ public class LocationMgr implements
 
                 Calendar calendar = Calendar.getInstance();
 
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int mint = calendar.get(Calendar.MINUTE);
 
+                String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                String mint = String.valueOf(calendar.get(Calendar.MINUTE));
 
-//
-//                    if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-//
-//                        if(!TextUtils.isEmpty(officeName)) {
-//
-//                            if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("in")) {
-//                                sendCheckOut(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
-//                                        officeName, getCurrentTimeStamp());
-//
-//                            } else if (PersistData.getStringData(context, AppConstant.checkInOrOut).equalsIgnoreCase("out")) {
-//                                sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
-//                                        officeName, getCurrentTimeStamp());
-//                            }
-//                        }
-//
-//
-//                        //                        if(hour<12){
-////                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
-////                        }
-////
-////                        if(hour>18){
-////                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(), officeName,getCurrentTimeStamp());
-////                        }
-//                    }
+                if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
 
+                    if(!TextUtils.isEmpty(officeName)) {
+
+                        if(PersistData.getStringData(context,AppConstant.alarmClockInHour).equalsIgnoreCase(hour)&&
+                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockInMin))){
+                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+                                    officeName, getCurrentTimeStamp());
+                        }
+
+                        if(PersistData.getStringData(context,AppConstant.alarmClockOutHour).equalsIgnoreCase(hour)&&
+                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockOutMin))){
+                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
+                                    officeName,getCurrentTimeStamp());
+                        }
+                    }
+                }
 
 
             }

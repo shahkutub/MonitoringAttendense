@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.sadi.sreda.BuildConfig;
+import com.sadi.sreda.MainActivity;
 import com.sadi.sreda.R;
 
 public class MainActivityBack extends AppCompatActivity {
@@ -65,6 +66,9 @@ public class MainActivityBack extends AppCompatActivity {
                     }
                 }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
         );
+
+        startActivity(new Intent(context,MainActivity.class));
+        finish();
     }
 
 
