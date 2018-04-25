@@ -55,6 +55,7 @@ import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.BitmapUtils;
 import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
+import com.sadi.sreda.utils.PersistentUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,15 +142,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         etPhone.setText(AppConstant.getUserdata(con).getMobile_no());
 
 
-        circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+        circleImageView = (CircleImageView) findViewById(R.id.profile_settins_image);
 
         //getImageReto();
 
                 Glide.with(con)
                         .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                        // .override(50,50)
-                        .placeholder(R.drawable.man)
-                        .error(R.drawable.man)
+                        .skipMemoryCache(true)
                         .into(circleImageView);
 
 
@@ -201,30 +201,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
 
-    private void getImageReto(){
-
-        OkHttpClient client = new OkHttpClient();
-
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                .build();
-
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(okhttp3.Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
-
-                Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
-                circleImageView.setImageBitmap(bm);
-            }
-
-        });
-
-    }
 
 
     private void changePass(String userId, String oldPass, String conFirmPass) {
@@ -287,8 +263,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Glide.with(con)
                 .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                 //.override(50,50)
-                .placeholder(R.drawable.man)
-                .error(R.drawable.man)
+                .skipMemoryCache(true)
                 .into(circleImageView);
     }
 
@@ -395,6 +370,31 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     }
 
+    private void showMessage(final Context c,final String title, final String message) {
+        final android.app.AlertDialog.Builder aBuilder = new android.app.AlertDialog.Builder(c);
+        aBuilder.setTitle(title);
+        aBuilder.setIcon(R.mipmap.ic_launcher);
+        aBuilder.setMessage(message);
+
+        aBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                updateProfile();
+            }
+        });
+
+        aBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                dialog.dismiss();
+            }
+
+        });
+        aBuilder.show();
+    }
+
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
@@ -491,7 +491,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         .decodeStream(ProfileSettingsActivity.this.getContentResolver().openInputStream(
                                 selectedImageUri));
 
-                PersistData.setStringData(con,AppConstant.bitmap,AppConstant.BitMapToString(bitmap));
+               // PersistData.setStringData(con,AppConstant.bitmap,AppConstant.BitMapToString(bitmap));
                 //  final Bitmap d = BitmapFactory.decodeStream(getChildFragmentManager().)
 
 
@@ -513,8 +513,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 circleImageView.setImageBitmap(bitmap);
 
 
-                updateProfile();
+                //updateProfile();
                 //uploadFile(Uri.parse(path),AppConstant.getUserdata(con).getUser_id());
+                showMessage(con,"Image Upload","Do you upload?");
 
             } catch (final Exception e) {
                 return;
@@ -546,7 +547,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 circleImageView.setImageBitmap(b);
                 //Picasso.with(con).load(path).transform(new CircleTransform()).into(imgPicCapture);
-                updateProfile();
+                //updateProfile();
 
                 //uploadFile(Uri.parse(path),AppConstant.getUserdata(con).getUser_id());
 
@@ -763,7 +764,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                                   byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
 
-                Log.e("errorResponse", new String(errorResponse));
+               // Log.e("errorResponse", new String(errorResponse));
 
                pd.dismiss();
             }

@@ -30,15 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.service.LocationMonitoringServiceBack;
-import com.sadi.sreda.service.MainActivityBack;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
-import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
@@ -119,9 +118,9 @@ public class MainActivity extends AppCompatActivity{
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
                     .into(profile_imageCheckIn);
 
         }
@@ -131,9 +130,9 @@ public class MainActivity extends AppCompatActivity{
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .override(200, 100)
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
                     .into(profile_imageOut);
         }
 
@@ -330,8 +329,9 @@ public class MainActivity extends AppCompatActivity{
 
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
                     .into(profile_imageCheckIn);
 
         }
@@ -340,8 +340,9 @@ public class MainActivity extends AppCompatActivity{
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    .placeholder(R.drawable.man)
-                    .error(R.drawable.man)
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
                     .into(profile_imageOut);
         }
 
