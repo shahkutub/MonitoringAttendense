@@ -13,12 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
-import com.sadi.sreda.utils.AppConstant;
-import com.sadi.sreda.utils.PersistData;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by NanoSoft on 11/20/2017.
@@ -28,12 +24,13 @@ public class ExceptionActivity extends AppCompatActivity {
 
     Context context;
     private ImageView imgBack;
-    private EditText etDate,etDesignation,etClockIn,etClockOut,etComment;
+    private EditText etDate,etClockIn,etClockOut,etClockInLocation,etComment;
     private Button btnSubmit;
     String format;
     private int CalendarHour, CalendarMinute;
     Calendar calendar;
     TimePickerDialog timepickerdialog;
+    private String date,clockin,clockOut,clockInlocaton,clockOutlocation,comment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +52,6 @@ public class ExceptionActivity extends AppCompatActivity {
         });
 
         etDate = (EditText) findViewById(R.id.etDate);
-        etDesignation = (EditText) findViewById(R.id.etDesignation);
         etClockIn = (EditText) findViewById(R.id.etClockIn);
         etClockOut = (EditText) findViewById(R.id.etClockOut);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
@@ -177,6 +173,14 @@ public class ExceptionActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                date=etDate.getText().toString();
+                clockin=etClockIn.getText().toString();
+                clockOut=etClockOut.getText().toString();
+                clockInlocaton=etClockIn.getText().toString();
+                clockin=etClockIn.getText().toString();
+                clockin=etClockIn.getText().toString();
+
 
             }
         });
