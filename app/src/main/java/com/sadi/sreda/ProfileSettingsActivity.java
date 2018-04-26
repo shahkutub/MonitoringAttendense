@@ -13,6 +13,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -55,13 +61,13 @@ import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.BitmapUtils;
 import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
-import com.sadi.sreda.utils.PersistentUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -72,7 +78,6 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,7 +101,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class ProfileSettingsActivity extends AppCompatActivity {
     Context con;
     private ImageView imgBack;
-    private CircleImageView circleImageView;
+    private CircleImageView imgPic;
     private File file;
     String picture = "";
     private static File dir = null;
@@ -142,23 +147,23 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         etPhone.setText(AppConstant.getUserdata(con).getMobile_no());
 
 
-        circleImageView = (CircleImageView) findViewById(R.id.profile_settins_image);
+        imgPic = (CircleImageView) findViewById(R.id.imgPic);
 
-        //getImageReto();
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 
-                Glide.with(con)
-                        .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                       // .override(50,50)
-                        .skipMemoryCache(true)
-                        .into(circleImageView);
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
+                    .into(imgPic);
 
-
-//        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(circleImageView);
-//
-//        }else {
-//            circleImageView.setImageBitmap(AppConstant.StringToBitMap(PersistData.getStringData(con,AppConstant.bitmap)));
-//        }
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
+                    .into(imgPic);
+        }
 
 
 
@@ -192,7 +197,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             }
         });
 
-        circleImageView.setOnClickListener(new View.OnClickListener() {
+        imgPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageCaptureDialogue();
@@ -201,7 +206,27 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
 
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
 
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = 12;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
 
     private void changePass(String userId, String oldPass, String conFirmPass) {
 
@@ -260,11 +285,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Glide.with(con)
-                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                //.override(50,50)
-                .skipMemoryCache(true)
-                .into(circleImageView);
+
+//        Glide.with(con)
+//                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+//                //.override(50,50)
+//                .skipMemoryCache(true)
+//                .into(imgPic);
     }
 
     private void imageCaptureDialogue() {
@@ -485,6 +511,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             Log.e("In gallelrly", "lllll..........");
             try {
 
+                //onSelectFromGalleryResult(data);
                 final Uri selectedImageUri = data.getData();
 
                 final Bitmap bitmap = BitmapFactory
@@ -501,8 +528,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 Log.e("Bitmap >>",
                         "W: " + bitmap.getWidth() + " H: " + bitmap.getHeight());
                 Log.e("path", ">>>>>" + path);
-                PersistData.setStringData(con, AppConstant.path, path);
+               PersistData.setStringData(con,AppConstant.path,"");
                 picture = path;
+                PersistData.setStringData(con,AppConstant.localpic,path);
+                Glide.with(con)
+                        .load(picture)
+                        .override(100,100)
+                        .into(imgPic);
 
 //                Log.e("path",
 //                        ">>>>>"
@@ -510,7 +542,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 //                                AppConstant.path));
                 //Picasso.with(con).load(path).transform(new CircleTransform()).into(imgPicCapture);
 
-                circleImageView.setImageBitmap(bitmap);
+
 
 
                 //updateProfile();
@@ -526,6 +558,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
             try {
 
+                //onCaptureImageResult(data);
                 final Bundle extras = data.getExtras();
                 final Bitmap b = (Bitmap) extras.get("data");
 
@@ -534,8 +567,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         "W: " + b.getWidth() + " H: " + b.getHeight());
                 picture = path;
                 Log.e("path", ">>>>>" + path);
+                PersistData.setStringData(con,AppConstant.localpic,path);
+                PersistData.setStringData(con,AppConstant.path,"");
+                Glide.with(con)
+                        .load(picture)
+                        .override(100,100)
+                        .into(imgPic);
 
-                PersistData.setStringData(con, AppConstant.path, path);
 //                Log.e("path",
 //                        ">>>>>"
 //                                + PersistData.getStringData(con,
@@ -544,8 +582,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
 //                    ImgUserEdit.setImageBitmap(b);
 //                    AppConstant.imagebit = b;
-
-                circleImageView.setImageBitmap(b);
+                //imgPic.setImageBitmap(getRoundedCornerBitmap(b));
                 //Picasso.with(con).load(path).transform(new CircleTransform()).into(imgPicCapture);
                 //updateProfile();
 
@@ -557,6 +594,46 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap circularBitmap = AppConstant.getRoundedCornerBitmap(thumbnail, 90);
+
+        imgPic.setImageBitmap(circularBitmap);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Bitmap circularBitmap = AppConstant.getRoundedCornerBitmap(bm, 90);
+        imgPic.setImageBitmap(bm);
     }
 
     private String getRealPathFromURI(Uri contentUri) {
@@ -712,9 +789,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         try {
 
-            String path = PersistData.getStringData(con, AppConstant.path);
+            //String path = PersistData.getStringData(con, AppConstant.path);
             param.put("user_id",AppConstant.getUserdata(con).getUser_id());
-            param.put("images",new File(path));
+            param.put("images",new File(picture));
 
 
         } catch (final Exception e1) {

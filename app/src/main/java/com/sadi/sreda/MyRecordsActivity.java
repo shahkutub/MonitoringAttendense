@@ -61,15 +61,24 @@ public class MyRecordsActivity extends AppCompatActivity {
         tvMonth = (TextView) findViewById(R.id.tvMonth);
         profile_image_record = (CircleImageView) findViewById(R.id.profile_image_record);
 
+
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
-//            Picasso.with(con).load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path)).into(profile_imageCheckIn);
 
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                    //.override(50,50)
                     .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
+                    .into(profile_image_record);
+
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
                     .into(profile_image_record);
         }
+
+
 
 
         tvName.setText("User: "+AppConstant.getUserdata(con).getUsername());
@@ -134,10 +143,20 @@ public class MyRecordsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Glide.with(con)
-                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-                //.override(50,50)
-                .skipMemoryCache(true)
-                .into(profile_image_record);
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
+                    .into(profile_image_record);
+
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
+                    .into(profile_image_record);
+        }
     }
 }

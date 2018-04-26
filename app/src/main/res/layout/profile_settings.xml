@@ -63,9 +63,17 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             >
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imgPic"-->
+                <!--android:layout_width="@dimen/_80sdp"-->
+                <!--android:layout_height="@dimen/_80sdp"-->
+
+                <!--/>-->
+
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_settins_image"
+                android:id="@+id/imgPic"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:src="@drawable/man"

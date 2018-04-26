@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.service.LocationMonitoringServiceBack;
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                     .skipMemoryCache(true)
@@ -123,16 +123,26 @@ public class MainActivity extends AppCompatActivity{
 //                    .error(R.drawable.man)
                     .into(profile_imageCheckIn);
 
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
+                    .into(profile_imageCheckIn);
         }
 
 
-
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                     .skipMemoryCache(true)
 //                    .placeholder(R.drawable.man)
 //                    .error(R.drawable.man)
+                    .into(profile_imageOut);
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
                     .into(profile_imageOut);
         }
 
@@ -334,15 +344,26 @@ public class MainActivity extends AppCompatActivity{
 //                    .error(R.drawable.man)
                     .into(profile_imageCheckIn);
 
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
+                    .into(profile_imageCheckIn);
         }
 
 
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+
             Glide.with(con)
                     .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
                     .skipMemoryCache(true)
 //                    .placeholder(R.drawable.man)
 //                    .error(R.drawable.man)
+                    .into(profile_imageOut);
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
                     .into(profile_imageOut);
         }
 
@@ -493,9 +514,12 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 mDrawerLayout.closeDrawer(Gravity.START);
+                startActivity(new Intent(con,PhotoActivity.class));
                 Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
         reLayFaq.setOnClickListener(new View.OnClickListener() {
             @Override
