@@ -30,7 +30,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int mint = calendar.get(Calendar.MINUTE);
 
-        if(PersistData.getStringData(context,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
             if(hour==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockInHour))&& mint==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockInMin))){
 
                 notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
@@ -40,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
 
             }
-        }
+
 
 
     }

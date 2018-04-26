@@ -47,7 +47,7 @@ public class AppConstant {
     //public static String officname="officname";
     public static String locationName="";
 
-    public static String alarmOnOff="alarmOnOff";
+    public static String alarmInOnOff="alarmInOnOff";
     public static boolean isGallery=false;
     public static boolean isHq=false;
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;

@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     TimePickerDialog timepickerdialog;
     private RelativeLayout rLClockIn,rLClockOut;
     private TextView tvClockIn,tvClockOut;
-    private ToggleButton toggleAlarm,toggleQuickAttan;
+    private ToggleButton toggleAlarmIn,toggleAlarmOut,toggleQuickAttan;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,115 +73,6 @@ public class SettingsActivity extends AppCompatActivity {
         tvClockIn.setText(PersistData.getStringData(con,AppConstant.alarmClockIn));
         tvClockOut.setText(PersistData.getStringData(con,AppConstant.alarmClockout));
 
-        rLClockIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar = Calendar.getInstance();
-                CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
-                CalendarMinute = calendar.get(Calendar.MINUTE);
-
-
-                timepickerdialog = new TimePickerDialog(con,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                toggleAlarm.setChecked(false);
-                                PersistData.setStringData(con,AppConstant.alarmClockInHour,""+hourOfDay);
-                                PersistData.setStringData(con,AppConstant.alarmClockInMin,""+minute);
-
-                                if (hourOfDay == 0) {
-
-                                    hourOfDay += 12;
-
-                                    format = " AM";
-                                }
-                                else if (hourOfDay == 12) {
-
-                                    format = " PM";
-
-                                }
-                                else if (hourOfDay > 12) {
-
-                                    hourOfDay -= 12;
-
-                                    format = " PM";
-
-                                }
-                                else {
-
-                                    format = " AM";
-                                }
-
-
-
-                                tvClockIn.setText(hourOfDay + ":" + minute + format);
-                                PersistData.setStringData(con,AppConstant.alarmClockIn,hourOfDay + ":" + minute + format);
-                            }
-                        }, CalendarHour, CalendarMinute, false);
-                timepickerdialog.show();
-
-            }
-
-        });
-
-
-        rLClockOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar = Calendar.getInstance();
-                CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
-                CalendarMinute = calendar.get(Calendar.MINUTE);
-
-
-                timepickerdialog = new TimePickerDialog(con,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                toggleAlarm.setChecked(false);
-                                PersistData.setStringData(con,AppConstant.alarmClockOutHour,""+hourOfDay);
-                                PersistData.setStringData(con,AppConstant.alarmClockOutMin,""+minute);
-
-                                if (hourOfDay == 0) {
-
-                                    hourOfDay += 12;
-
-                                    format = " AM";
-                                }
-                                else if (hourOfDay == 12) {
-
-                                    format = " PM";
-
-                                }
-                                else if (hourOfDay > 12) {
-
-                                    hourOfDay -= 12;
-
-                                    format = " PM";
-
-                                }
-                                else {
-
-                                    format = " AM";
-                                }
-
-
-
-                                tvClockOut.setText(hourOfDay + ":" + minute + format);
-                                PersistData.setStringData(con,AppConstant.alarmClockout,hourOfDay + ":" + minute + format);
-
-                            }
-                        }, CalendarHour, CalendarMinute, false);
-                timepickerdialog.show();
-
-            }
-
-        });
 
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +82,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        toggleAlarm = (ToggleButton)findViewById(R.id.toggleAlarm);
+        toggleAlarmIn = (ToggleButton)findViewById(R.id.toggleAlarmIn);
+        toggleAlarmOut = (ToggleButton)findViewById(R.id.toggleAlarmOut);
         toggleQuickAttan = (ToggleButton)findViewById(R.id.toggleQuickAttan);
 
         if(PersistData.getStringData(con,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
@@ -213,32 +105,145 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("ON")){
-            toggleAlarm.setChecked(true);
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockInHour))){
+            toggleAlarmIn.setChecked(true);
 
-        }else if(PersistData.getStringData(con,AppConstant.alarmOnOff).equalsIgnoreCase("OFF")){
-            toggleAlarm.setChecked(false);
+        }else if(TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockInHour))){
+            toggleAlarmIn.setChecked(false);
         }
-        toggleAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockOutHour))){
+            toggleAlarmOut.setChecked(true);
+
+        }else if(TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockOutHour))){
+            toggleAlarmOut.setChecked(false);
+        }
+
+
+        toggleAlarmIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if(isChecked)
                 {
-                    if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockOutHour)) && !TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.alarmClockInHour))){
-                        PersistData.setStringData(con, AppConstant.alarmOnOff,"ON");
-                        AppConstant.alarmClockIn(con);
-                        AppConstant.alarmClockOut(con);
-                    }else {
-                        toggleAlarm.setChecked(false);
-                        Toast.makeText(con, "Please set clock_in/out time!", Toast.LENGTH_SHORT).show();
-                    }
+
+                    calendar = Calendar.getInstance();
+                    CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    CalendarMinute = calendar.get(Calendar.MINUTE);
 
 
+                    timepickerdialog = new TimePickerDialog(con,
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    //toggleAlarmIn.setChecked(true);
+                                    PersistData.setStringData(con,AppConstant.alarmClockInHour,""+hourOfDay);
+                                    PersistData.setStringData(con,AppConstant.alarmClockInMin,""+minute);
+
+                                    if (hourOfDay == 0) {
+
+                                        hourOfDay += 12;
+
+                                        format = " AM";
+                                    }
+                                    else if (hourOfDay == 12) {
+
+                                        format = " PM";
+
+                                    }
+                                    else if (hourOfDay > 12) {
+
+                                        hourOfDay -= 12;
+
+                                        format = " PM";
+
+                                    }
+                                    else {
+
+                                        format = " AM";
+                                    }
+
+                                    tvClockIn.setText(hourOfDay + ":" + minute + format);
+                                    PersistData.setStringData(con,AppConstant.alarmClockIn,hourOfDay + ":" + minute + format);
+                                    AppConstant.alarmClockIn(con);
+                                }
+                            }, CalendarHour, CalendarMinute, false);
+                    timepickerdialog.show();
+
+
+
+                }else{
+                    tvClockIn.setText("");
+                    PersistData.setStringData(con,AppConstant.alarmClockInHour,"0");
+                    PersistData.setStringData(con,AppConstant.alarmClockInMin,"0");
                 }
-                else
-                {
-                    PersistData.setStringData(con, AppConstant.alarmOnOff,"OFF");
+
+
+
+            }
+        });
+
+
+        toggleAlarmOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    calendar = Calendar.getInstance();
+                    CalendarHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    CalendarMinute = calendar.get(Calendar.MINUTE);
+
+
+                    timepickerdialog = new TimePickerDialog(con,
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    //toggleAlarmOut.setChecked(true);
+                                    PersistData.setStringData(con,AppConstant.alarmClockOutHour,""+hourOfDay);
+                                    PersistData.setStringData(con,AppConstant.alarmClockOutMin,""+minute);
+
+                                    if (hourOfDay == 0) {
+
+                                        hourOfDay += 12;
+
+                                        format = " AM";
+                                    }
+                                    else if (hourOfDay == 12) {
+
+                                        format = " PM";
+
+                                    }
+                                    else if (hourOfDay > 12) {
+
+                                        hourOfDay -= 12;
+
+                                        format = " PM";
+
+                                    }
+                                    else {
+
+                                        format = " AM";
+                                    }
+
+                                    tvClockOut.setText(hourOfDay + ":" + minute + format);
+                                    PersistData.setStringData(con,AppConstant.alarmClockout,hourOfDay + ":" + minute + format);
+                                    AppConstant.alarmClockOut(con);
+                                }
+                            }, CalendarHour, CalendarMinute, false);
+                    timepickerdialog.show();
+
+                }else {
+                    tvClockOut.setText("");
+                    PersistData.setStringData(con,AppConstant.alarmClockOutHour,"0");
+                    PersistData.setStringData(con,AppConstant.alarmClockOutMin,"0");
                 }
 
             }
@@ -246,8 +251,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 

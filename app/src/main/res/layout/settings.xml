@@ -146,18 +146,7 @@
 
             </LinearLayout>
 
-            <ToggleButton
-                android:id="@+id/toggleAlarm"
-                android:layout_alignParentRight="true"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/toggle_selector"
-                android:checked="false"
-                android:text=""
-                android:textOff="OFF"
-                android:textOn="ON" />
+
 
         </RelativeLayout>
 
@@ -182,6 +171,7 @@
                 android:layout_alignParentLeft="true"
                 android:text="Clock In"
                 android:textColor="#000"
+                android:layout_centerVertical="true"
 
                 />
 
@@ -189,13 +179,26 @@
                 android:id="@+id/tvClockIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text=""
+                android:text="xc"
                 android:textColor="#000"
-
+                android:layout_centerInParent="true"
                 />
 
+            <ToggleButton
+                android:id="@+id/toggleAlarmIn"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/toggle_selector"
+                android:checked="false"
+                android:text=""
+                android:textOff="OFF"
+                android:textOn="ON" />
+
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:background="#F0F0F0"
@@ -217,6 +220,7 @@
                 android:textColor="#000"
                 android:layout_alignParentLeft="true"
                 android:text="Clock Out"
+                android:layout_centerVertical="true"
 
                 />
 
@@ -225,10 +229,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:layout_alignParentRight="true"
-                android:text=""
+                android:text="hh"
+                android:layout_centerInParent="true"
 
                 />
+
+            <ToggleButton
+                android:id="@+id/toggleAlarmOut"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/toggle_selector"
+                android:checked="false"
+                android:text=""
+                android:textOff="OFF"
+                android:textOn="ON" />
 
         </RelativeLayout>
         <View
