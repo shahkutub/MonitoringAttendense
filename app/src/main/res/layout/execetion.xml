@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:hint="Clock In:"
+            android:hint="Clock In Time:"
             android:text=""
             android:focusable="false"
             android:inputType="textCapSentences"
@@ -88,7 +88,57 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+            android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etClockOutLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="#000"
+            android:hint="Clock Out Location:"
+            android:text=""
+            android:focusable="true"
+
+            android:inputType="textCapSentences"
+            android:padding="@dimen/_8sdp"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clock In Location:"
+                android:visibility="gone"
+                android:textSize="@dimen/_13sdp"
+                />
+
+            <Spinner
+                android:id="@+id/spnCheckInLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/_25sdp"
         android:layout_marginLeft="@dimen/_25sdp"
@@ -101,7 +151,7 @@
             android:gravity="left"
             android:textSize="@dimen/_15sdp"
             android:textColor="#000"
-            android:hint="Clock Out:"
+            android:hint="Clock Out Time:"
             android:text=""
             android:focusable="false"
             android:inputType="textCapSentences"
@@ -114,6 +164,7 @@
             android:layout_width="match_parent"
             android:layout_marginRight="@dimen/_25sdp"
             android:layout_marginLeft="@dimen/_25sdp"
+            android:visibility="gone"
             android:layout_height="wrap_content">
 
             <EditText
@@ -126,33 +177,37 @@
                 android:hint="Clock In Location:"
                 android:text=""
                 android:focusable="true"
+
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_8sdp"
                 />
 
+
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_25sdp"
             android:layout_marginLeft="@dimen/_25sdp"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            >
 
-            <EditText
-                android:id="@+id/etClockOutLocation"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:textSize="@dimen/_15sdp"
-                android:textColor="#000"
-                android:hint="Clock Out Location:"
-                android:text=""
-                android:focusable="true"
-                android:inputType="textCapSentences"
-                android:padding="@dimen/_8sdp"
+                android:text="Clock Out Location:"
+                android:visibility="gone"
+                android:textSize="@dimen/_13sdp"
                 />
+            <Spinner
+                android:id="@+id/spnCheckOutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
 
         <android.support.design.widget.TextInputLayout

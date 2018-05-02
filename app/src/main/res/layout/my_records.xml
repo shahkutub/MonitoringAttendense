@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:gravity="center"
+                android:visibility="gone"
                 android:background="@drawable/tv_bg"
                 android:padding="@dimen/_5sdp"
                 android:textColor="#000"
@@ -126,11 +127,10 @@
                 android:text="Clock In"
                 android:textColor="#000"
                 android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginLeft="@dimen/_5sdp"
                 android:background="@drawable/tv_bg"
-                android:padding="@dimen/_5sdp"
+                android:padding="@dimen/_7sdp"
                 android:gravity="center"
-                android:textSize="@dimen/_13sdp"
+                android:textSize="@dimen/_17sdp"
                 />
 
             <TextView
@@ -141,12 +141,13 @@
                 android:textColor="#000"
                 android:gravity="center"
                 android:background="@drawable/tv_bg"
-                android:padding="@dimen/_5sdp"
-                android:textSize="@dimen/_13sdp"
+                android:padding="@dimen/_7sdp"
+                android:textSize="@dimen/_17sdp"
                 />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewRecords"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

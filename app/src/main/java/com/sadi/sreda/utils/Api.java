@@ -47,6 +47,10 @@ public interface Api {
     @POST("checkOutStore")
     Call<LoinResponse> storeCheckOut(@Body String body);
 
+    @Headers("Content-Type: application/json")
+        @POST("checkException")
+        Call<LoinResponse> storeException(@Body String body);
+
     @FormUrlEncoded
     @POST("api")
     Call<LoinResponse> getLoginUser(

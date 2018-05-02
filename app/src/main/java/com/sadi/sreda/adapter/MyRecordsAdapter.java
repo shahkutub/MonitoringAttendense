@@ -63,8 +63,8 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
 
 
             holder.tvRecordDate.setText(partsin[0]);
-            holder.tvRecordClockIn.setText(partsin[1]);
-            holder.tvRecordClockOut.setText(partsOut[1]);
+            holder.tvRecordClockIn.setText(partsin[0]+"\n"+partsin[1]);
+            holder.tvRecordClockOut.setText(partsOut[0]+"\n"+partsOut[1]);
 
     }
 

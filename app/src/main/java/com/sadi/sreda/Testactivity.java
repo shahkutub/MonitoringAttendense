@@ -14,6 +14,6 @@ public class Testactivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.settings);
+        setContentView(R.layout.test);
     }
 }

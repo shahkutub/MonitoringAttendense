@@ -514,8 +514,8 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 mDrawerLayout.closeDrawer(Gravity.START);
-                startActivity(new Intent(con,PhotoActivity.class));
-                Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(con,AoActivity.class));
+                //Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -526,7 +526,9 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 mDrawerLayout.closeDrawer(Gravity.START);
-                Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(con,FaqActivity.class));
+
+                //Toast.makeText(con, "Under Construction", Toast.LENGTH_SHORT).show();
             }
         });
 

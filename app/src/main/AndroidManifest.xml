@@ -60,6 +60,12 @@
         <activity android:name=".PhotoActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".AoActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".FaqActivity"
+            android:screenOrientation="portrait"
+            />
 
         <activity android:name=".MyRecordsActivity"
             android:screenOrientation="portrait"
