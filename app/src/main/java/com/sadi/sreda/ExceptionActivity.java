@@ -1,10 +1,11 @@
 package com.sadi.sreda;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,6 @@ import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
-import com.sadi.sreda.utils.PersistData;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +72,16 @@ public class ExceptionActivity extends AppCompatActivity {
 
     private void intUi() {
 
+
+//            Date time = new Date(getNetworkTime());
+            LocationManager locMan = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+            @SuppressLint("MissingPermission")
+            long time = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getTime();
+
+            String dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss ").format(time);
+            Toast.makeText(context, ""+dt, Toast.LENGTH_SHORT).show();
+
+
         imgBack = (ImageView)findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +89,8 @@ public class ExceptionActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
         etDate = (EditText) findViewById(R.id.etDate);
         etClockIn = (EditText) findViewById(R.id.etClockIn);
@@ -255,6 +266,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
 
     }
+
     private void getLocation() {
 
         final ProgressDialog pd = new ProgressDialog(context);
