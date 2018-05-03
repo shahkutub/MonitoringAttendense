@@ -71,15 +71,14 @@ public class MyRecordsActivity extends AppCompatActivity {
 //                    .error(R.drawable.man)
                     .into(profile_image_record);
 
-        }else {
+        }else if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.localpic))){
             Glide.with(con)
                     .load(PersistData.getStringData(con,AppConstant.localpic))
                     .override(100,100)
                     .into(profile_image_record);
+        }else {
+            profile_image_record.setImageResource(R.drawable.man);
         }
-
-
-
 
         tvName.setText("User: "+AppConstant.getUserdata(con).getUsername());
         tvDesignation.setText("Designation: "+AppConstant.getUserdata(con).getDesignations());
@@ -152,11 +151,13 @@ public class MyRecordsActivity extends AppCompatActivity {
 //                    .error(R.drawable.man)
                     .into(profile_image_record);
 
-        }else {
+        }else if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.localpic))){
             Glide.with(con)
                     .load(PersistData.getStringData(con,AppConstant.localpic))
                     .override(100,100)
                     .into(profile_image_record);
+        }else {
+            profile_image_record.setImageResource(R.drawable.man);
         }
     }
 }

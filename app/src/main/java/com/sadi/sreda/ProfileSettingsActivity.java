@@ -286,11 +286,21 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-//        Glide.with(con)
-//                .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
-//                //.override(50,50)
-//                .skipMemoryCache(true)
-//                .into(imgPic);
+        if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
+
+            Glide.with(con)
+                    .load(AppConstant.photourl+PersistData.getStringData(con,AppConstant.path))
+                    .skipMemoryCache(true)
+//                    .placeholder(R.drawable.man)
+//                    .error(R.drawable.man)
+                    .into(imgPic);
+
+        }else {
+            Glide.with(con)
+                    .load(PersistData.getStringData(con,AppConstant.localpic))
+                    .override(100,100)
+                    .into(imgPic);
+        }
     }
 
     private void imageCaptureDialogue() {
@@ -547,7 +557,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
                 //updateProfile();
                 //uploadFile(Uri.parse(path),AppConstant.getUserdata(con).getUser_id());
-                showMessage(con,"Image Upload","Do you upload?");
+                showMessage(con,"Image Upload","Do you want to upload?");
 
             } catch (final Exception e) {
                 return;
@@ -574,6 +584,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         .override(100,100)
                         .into(imgPic);
 
+                showMessage(con,"Image Upload","Do you want to upload?");
 //                Log.e("path",
 //                        ">>>>>"
 //                                + PersistData.getStringData(con,

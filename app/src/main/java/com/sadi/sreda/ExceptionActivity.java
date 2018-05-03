@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -74,12 +76,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
 
 //            Date time = new Date(getNetworkTime());
-            LocationManager locMan = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-            @SuppressLint("MissingPermission")
-            long time = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getTime();
 
-            String dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss ").format(time);
-            Toast.makeText(context, ""+dt, Toast.LENGTH_SHORT).show();
 
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
@@ -113,6 +110,42 @@ public class ExceptionActivity extends AppCompatActivity {
                 R.layout.spinner_item,listClockOutLocation);
         spnCheckInLocation.setAdapter(adapterIn);
         spnCheckOutLocation.setAdapter(adapterOut);
+
+        spnCheckInLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(!spnCheckInLocation.getSelectedItem().toString().equalsIgnoreCase("Select clock in location")){
+                    clockInLocation=spnCheckInLocation.getSelectedItem().toString();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnCheckOutLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(!spnCheckOutLocation.getSelectedItem().toString().equalsIgnoreCase("Select clock out location")){
+                    clockOutLocation=spnCheckOutLocation.getSelectedItem().toString();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        etDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        etClockIn.setText( new SimpleDateFormat("hh:mm a").format(new Date()));
+        etClockOut.setText( new SimpleDateFormat("hh:mm a").format(new Date()));
 
         Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -237,22 +270,22 @@ public class ExceptionActivity extends AppCompatActivity {
                 date=etDate.getText().toString();
                 clockin=etClockIn.getText().toString();
                 clockOut=etClockOut.getText().toString();
-                clockInLocation=etClockInLocation.getText().toString();
-                clockOutLocation=etClockOutLocation.getText().toString();
+//                clockInLocation=etClockInLocation.getText().toString();
+//                clockOutLocation=etClockOutLocation.getText().toString();
                 comment=etComment.getText().toString();
 
                 if(TextUtils.isEmpty(date)){
                     AlertMessage.showMessage(context,"Alert","Enter date");
                 }else if(TextUtils.isEmpty(clockin)){
-                    AlertMessage.showMessage(context,"Alert","Enter clock in");
+                    AlertMessage.showMessage(context,"Alert","Enter clock in time!");
                 }else if(TextUtils.isEmpty(clockOut)){
-                    AlertMessage.showMessage(context,"Alert","Enter clock out");
+                    AlertMessage.showMessage(context,"Alert","Enter clock out time!");
                 }else if(TextUtils.isEmpty(clockInLocation)){
-                    AlertMessage.showMessage(context,"Alert","Enter clock in location");
+                    AlertMessage.showMessage(context,"Alert","Select clock in location!");
                 }else if(TextUtils.isEmpty(clockOutLocation)){
-                    AlertMessage.showMessage(context,"Alert","Enter clock out location");
+                    AlertMessage.showMessage(context,"Alert","Select clock out location!");
                 }else if(TextUtils.isEmpty(comment)){
-                    AlertMessage.showMessage(context,"Alert","Enter comment");
+                    AlertMessage.showMessage(context,"Alert","Enter comment!");
                 }else {
 
                     clockInDateTime = date+" "+timeClockIn;

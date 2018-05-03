@@ -202,7 +202,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
                 android:hint="Current Password:"
-                android:inputType="textCapSentences"
+                android:inputType="textPassword"
                 android:padding="@dimen/_5sdp"
                 />
 
@@ -222,7 +222,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
                 android:hint="New Password:"
-                android:inputType="textCapSentences"
+                android:inputType="textPassword"
                 android:padding="@dimen/_5sdp"
                 />
 
@@ -242,7 +242,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textColor="#000"
                 android:hint="Confirm Password:"
-                android:inputType="textCapSentences"
+                android:inputType="textPassword"
                 android:padding="@dimen/_5sdp"
                 />
 

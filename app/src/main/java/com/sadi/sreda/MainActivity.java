@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -33,10 +34,12 @@ import com.bumptech.glide.Glide;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.service.LocationMonitoringServiceBack;
+import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
 import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
+import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
 import com.sadi.sreda.utils.PersistentUser;
 
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
     Animation shake;
     LocationMgr mgr;
 
+    String netDate,netTime;
     TextView tvTitle,tvClockIn,tvClockOut,tvDate,tvTime,tvDateOut,tvTimeOut,tvUserName,tvLogOut,tvGreetingsIn,tvGreetingsOut,
             tvOutTime,tvInTime;
     private RelativeLayout layClockOut,layClockIn;
@@ -94,9 +98,10 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-        stopService(new Intent(con,LocationMonitoringServiceBack.class));
+        //stopService(new Intent(con,LocationMonitoringServiceBack.class));
 
        // listLocation = AppConstant.getLocationList(con);
+
         requestPermission();
 //        if(checkPermission()){
 //
@@ -104,9 +109,24 @@ public class MainActivity extends AppCompatActivity{
 //        }else if(!checkPermission()){
 //            requestPermission();
 //        }
+
+        //onLineDate();
+
+
         initialization();
         statusCheck();
 
+    }
+
+    private String onLineDate() {
+        String dt;
+        LocationManager locMan = (LocationManager) con.getSystemService(con.LOCATION_SERVICE);
+        @SuppressLint("MissingPermission")
+        long time = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getTime();
+
+         dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time);
+         return dt;
+        //Toast.makeText(con, ""+dt, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -173,8 +193,8 @@ public class MainActivity extends AppCompatActivity{
                     mgr.buildGoogleApiClient();
                 }
 
-                Intent intent = new Intent(getApplicationContext(), GoogleService.class);
-                startService(intent);
+//                Intent intent = new Intent(getApplicationContext(), GoogleService.class);
+//                startService(intent);
             }
         } else {
 
@@ -432,12 +452,20 @@ public class MainActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                if(!TextUtils.isEmpty(AppConstant.locationName)){
-                    sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
-                            AppConstant.locationName,getCurrentTimeStamp());
+                if(NetInfo.isOnline(con)){
+                    if(!TextUtils.isEmpty(AppConstant.locationName)){
+                        String dtime = onLineDate();
+                        sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
+                                AppConstant.locationName,dtime);
+                    }else {
+                        Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, "No internet!", Toast.LENGTH_SHORT).show();
                 }
+
+
+
 
             }
         });
@@ -463,12 +491,18 @@ public class MainActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                if(!TextUtils.isEmpty(AppConstant.locationName)){
-                    sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
-                            AppConstant.locationName,getCurrentTimeStamp());
+                if(NetInfo.isOnline(con)){
+                    if(!TextUtils.isEmpty(AppConstant.locationName)){
+                        String dtime = onLineDate();
+                        sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
+                                AppConstant.locationName,dtime);
+                    }else {
+                        Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, "No internet!", Toast.LENGTH_SHORT).show();
                 }
+
 
 
             }
