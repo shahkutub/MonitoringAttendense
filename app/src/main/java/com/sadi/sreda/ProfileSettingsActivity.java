@@ -100,7 +100,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
     Context con;
-    private ImageView imgBack;
+    private ImageView imgBack,imgcam;
     private CircleImageView imgPic;
     private File file;
     String picture = "";
@@ -132,6 +132,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private void initUi() {
 
         imgBack = (ImageView)findViewById(R.id.imgBack);
+        imgcam = (ImageView)findViewById(R.id.imgcam);
         etCurrentPass = (EditText) findViewById(R.id.etCurrentPass);
         etNewPass = (EditText) findViewById(R.id.etNewPass);
         etConfirmPass = (EditText) findViewById(R.id.etConfirmPass);
@@ -159,10 +160,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     .into(imgPic);
 
         }else {
-            Glide.with(con)
-                    .load(PersistData.getStringData(con,AppConstant.localpic))
-                    .override(100,100)
-                    .into(imgPic);
+            if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.localpic))){
+                Glide.with(con)
+                        .load(PersistData.getStringData(con,AppConstant.localpic))
+                        .override(100,100)
+                        .into(imgPic);
+            }
+
+
         }
 
 
@@ -197,13 +202,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             }
         });
 
-        imgPic.setOnClickListener(new View.OnClickListener() {
+        imgcam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageCaptureDialogue();
             }
         });
     }
+
 
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {

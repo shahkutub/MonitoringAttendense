@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sadi.sreda.R;
+import com.sadi.sreda.model.ExAttanRecordsInfo;
 import com.sadi.sreda.model.MyRecordsInfo;
 
 import java.io.File;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.MovieViewHolder> {
+public class ExMyRecordsAdapter extends RecyclerView.Adapter<ExMyRecordsAdapter.MovieViewHolder> {
 
-    private List<MyRecordsInfo> listMyRecords;
+    private List<ExAttanRecordsInfo> listMyRecords;
     private Context context;
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -36,7 +37,7 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
         }
     }
 
-    public MyRecordsAdapter(List<MyRecordsInfo> listMyRecords, Context context) {
+    public ExMyRecordsAdapter(List<ExAttanRecordsInfo> listMyRecords, Context context) {
         this.listMyRecords = listMyRecords;
         //this.ordersPdf = ordersPdf;
         this.context = context;
@@ -53,7 +54,7 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
     @Override
     public void onBindViewHolder(final MovieViewHolder holder, final int position) {
 
-        final MyRecordsInfo recordsInfo = listMyRecords.get(position);
+        final ExAttanRecordsInfo recordsInfo = listMyRecords.get(position);
 
         String dateCheck_in = recordsInfo.getCheck_in_time();
         String[] partsin = dateCheck_in.split(" ");
@@ -64,14 +65,15 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
 
             holder.tvRecordClockIn.setText(partsin[0]+" "+partsin[1]);
             holder.tvRecordClockOut.setText(partsOut[0]+" "+partsOut[1]);
+            holder.tvStatus.setText(recordsInfo.getType());
 
-            if (recordsInfo.getStatus().equalsIgnoreCase("1")){
-                holder.tvStatus.setText("Waiting");
-            }else if (recordsInfo.getStatus().equalsIgnoreCase("2")){
-                holder.tvStatus.setText("Approved");
-            }else {
-                holder.tvStatus.setText("Rejected");
-            }
+//            if (recordsInfo.getStatus().equalsIgnoreCase("1")){
+//                holder.tvStatus.setText("Waiting");
+//            }else if (recordsInfo.getStatus().equalsIgnoreCase("2")){
+//                holder.tvStatus.setText("Approved");
+//            }else {
+//                holder.tvStatus.setText("Rejected");
+//            }
 
     }
 
@@ -83,7 +85,7 @@ public class MyRecordsAdapter extends RecyclerView.Adapter<MyRecordsAdapter.Movi
 
 
 
-    public void filterList(ArrayList<MyRecordsInfo> filterdNames) {
+    public void filterList(ArrayList<ExAttanRecordsInfo> filterdNames) {
         this.listMyRecords = filterdNames;
         notifyDataSetChanged();
     }

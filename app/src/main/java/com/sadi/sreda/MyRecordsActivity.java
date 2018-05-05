@@ -1,10 +1,14 @@
 package com.sadi.sreda;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.sadi.sreda.adapter.ExMyRecordsAdapter;
 import com.sadi.sreda.adapter.MyRecordsAdapter;
+import com.sadi.sreda.model.ExAttanRecordsInfo;
 import com.sadi.sreda.model.MyRecordsInfo;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
@@ -35,14 +41,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by NanoSoft on 11/20/2017.
  */
 
-public class MyRecordsActivity extends AppCompatActivity {
+public class MyRecordsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     Context con;
     private ImageView imgBack;
     private RecyclerView recyclerViewRecords;
     private CircleImageView profile_image_record;
     private TextView tvName,tvDesignation,tvMonth;
     List<MyRecordsInfo> myRecordsList = new ArrayList<>();
+    List<ExAttanRecordsInfo> exMyRecordsList = new ArrayList<>();
     private static int SPLASH_TIME_OUT = 3000;
+    SwipeRefreshLayout swiperefresh;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +63,9 @@ public class MyRecordsActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+        swiperefresh = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        swiperefresh.setOnRefreshListener(this);
+
         imgBack = (ImageView)findViewById(R.id.imgBack);
         tvName = (TextView) findViewById(R.id.tvName);
         tvDesignation = (TextView) findViewById(R.id.tvDesignation);
@@ -90,7 +101,10 @@ public class MyRecordsActivity extends AppCompatActivity {
 
         recyclerViewRecords = (RecyclerView)findViewById(R.id.recyclerViewRecords);
 
-        getRecords(AppConstant.getUserdata(con).getUser_id());
+
+
+        //getRecords(AppConstant.getUserdata(con).getUser_id());
+        getRecordsEx(AppConstant.getUserdata(con).getUser_id());
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +114,12 @@ public class MyRecordsActivity extends AppCompatActivity {
     }
 
     private void getRecords(String id) {
+        swiperefresh.setRefreshing(true);
+//        final ProgressDialog pd = new ProgressDialog(con);
+//        pd.setCancelable(false);
+//        pd.setCancelable(false);
+//        pd.setMessage("Records loading...");
+//        pd.show();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL_attten)
@@ -113,6 +133,7 @@ public class MyRecordsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MyRecordsInfo>> call, Response<List<MyRecordsInfo>> response) {
 
+                //pd.dismiss();
                 List<MyRecordsInfo> myRecordsInfos = new ArrayList<>();
 
                 myRecordsInfos = response.body();
@@ -120,9 +141,8 @@ public class MyRecordsActivity extends AppCompatActivity {
                 myRecordsList.clear();
 
                 for (int i = 0; i < myRecordsInfos.size(); i++) {
-                    if(myRecordsInfos.get(i).getStatus().equalsIgnoreCase("2")){
                         myRecordsList.add(myRecordsInfos.get(i));
-                    }
+
                 }
 
                 MyRecordsAdapter mAdapter = new MyRecordsAdapter(myRecordsInfos,con);
@@ -130,14 +150,75 @@ public class MyRecordsActivity extends AppCompatActivity {
                 recyclerViewRecords.setLayoutManager(mLayoutManager);
                 recyclerViewRecords.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewRecords.setAdapter(mAdapter);
+                DividerItemDecoration   mDividerItemDecoration = new DividerItemDecoration(
+                        con,
+                        LinearLayoutManager.VERTICAL
+                );
+                recyclerViewRecords.addItemDecoration(mDividerItemDecoration);
+                swiperefresh.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<MyRecordsInfo>> call, Throwable t) {
-
+                swiperefresh.setRefreshing(false);
+                //pd.dismiss();
             }
         });
     }
+
+    private void getRecordsEx(String id) {
+        swiperefresh.setRefreshing(true);
+//        final ProgressDialog pd = new ProgressDialog(con);
+//        pd.setCancelable(false);
+//        pd.setCancelable(false);
+//        pd.setMessage("Records loading...");
+//        pd.show();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL_attan_ex)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<List<ExAttanRecordsInfo>> call = api.getAllRecordsEx(id);
+
+        call.enqueue(new Callback<List<ExAttanRecordsInfo>>() {
+            @Override
+            public void onResponse(Call<List<ExAttanRecordsInfo>> call, Response<List<ExAttanRecordsInfo>> response) {
+
+                //pd.dismiss();
+                List<ExAttanRecordsInfo> myRecordsInfos = new ArrayList<>();
+
+                myRecordsInfos = response.body();
+
+                exMyRecordsList.clear();
+
+                for (int i = 0; i < myRecordsInfos.size(); i++) {
+                    exMyRecordsList.add(myRecordsInfos.get(i));
+
+                }
+
+                ExMyRecordsAdapter mAdapter = new ExMyRecordsAdapter(myRecordsInfos,con);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewRecords.setLayoutManager(mLayoutManager);
+                recyclerViewRecords.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewRecords.setAdapter(mAdapter);
+                DividerItemDecoration   mDividerItemDecoration = new DividerItemDecoration(
+                        con,
+                        LinearLayoutManager.VERTICAL
+                );
+                recyclerViewRecords.addItemDecoration(mDividerItemDecoration);
+                swiperefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<ExAttanRecordsInfo>> call, Throwable t) {
+                swiperefresh.setRefreshing(false);
+                //pd.dismiss();
+            }
+        });
+    }
+
 
     @Override
     protected void onResume() {
@@ -159,5 +240,19 @@ public class MyRecordsActivity extends AppCompatActivity {
         }else {
             profile_image_record.setImageResource(R.drawable.man);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                swiperefresh.setRefreshing(false);
+//            }
+//
+//        }, 3000);
+
+        //getRecords(AppConstant.getUserdata(con).getUser_id());
+        getRecordsEx(AppConstant.getUserdata(con).getUser_id());
     }
 }

@@ -14,8 +14,6 @@
         android:layout_height="wrap_content">
 
 
-
-
         <ImageView
             android:id="@+id/imgBack"
             android:layout_width="@dimen/_30sdp"
@@ -55,32 +53,34 @@
         android:gravity="center"
         >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_below="@+id/top"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="@dimen/_10sdp"
-            android:gravity="center"
             >
 
-            <!--<ImageView-->
-                <!--android:id="@+id/imgPic"-->
-                <!--android:layout_width="@dimen/_80sdp"-->
-                <!--android:layout_height="@dimen/_80sdp"-->
 
-                <!--/>-->
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imgPic"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:src="@drawable/man"
                 app:civ_border_width="2dp"
+                android:layout_centerInParent="true"
                 app:civ_border_color="#FF000000"/>
+            <ImageView
+                android:id="@+id/imgcam"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_toRightOf="@+id/imgPic"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:src="@drawable/ic_photo_camera_black_24dp"
+                />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"

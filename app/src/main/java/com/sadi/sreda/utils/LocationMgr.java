@@ -1,6 +1,7 @@
 package com.sadi.sreda.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -129,11 +130,26 @@ public class LocationMgr implements
 
         //getRecords(AppConstant.getUserdata(context).getUser_id());
 
-        getLocation(""+location.getLatitude(),""+location.getLongitude());
+        if(!TextUtils.isEmpty(String.valueOf(location.getLatitude()))){
+            getLocation(""+location.getLatitude(),""+location.getLongitude());
+        }
 
+        //onLineDate();
 
     }
 
+//    private void onLineDate() {
+//
+//        String dt;
+//        LocationManager locMan = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+//
+//        @SuppressLint("MissingPermission")
+//        long time = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getTime();
+//
+//        dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time);
+//        AppConstant.serverTime = dt;
+//        //Toast.makeText(con, ""+dt, Toast.LENGTH_SHORT).show();
+//    }
 
     private void getLocation(final String lat, final String lng) {
 
@@ -200,23 +216,23 @@ public class LocationMgr implements
                 String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
                 String mint = String.valueOf(calendar.get(Calendar.MINUTE));
 
-                if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
-
-                    if(!TextUtils.isEmpty(officeName)) {
-
-                        if(PersistData.getStringData(context,AppConstant.alarmClockInHour).equalsIgnoreCase(hour)&&
-                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockInMin))){
-                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
-                                    officeName, getCurrentTimeStamp());
-                        }
-
-                        if(PersistData.getStringData(context,AppConstant.alarmClockOutHour).equalsIgnoreCase(hour)&&
-                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockOutMin))){
-                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
-                                    officeName,getCurrentTimeStamp());
-                        }
-                    }
-                }
+//                if(PersistData.getStringData(context,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+//
+//                    if(!TextUtils.isEmpty(officeName)) {
+//
+//                        if(PersistData.getStringData(context,AppConstant.alarmClockInHour).equalsIgnoreCase(hour)&&
+//                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockInMin))){
+//                            sendCheckIn(AppConstant.getUserdata(context).getUser_id(), AppConstant.getUserdata(context).getUsername(),
+//                                    officeName, getCurrentTimeStamp());
+//                        }
+//
+//                        if(PersistData.getStringData(context,AppConstant.alarmClockOutHour).equalsIgnoreCase(hour)&&
+//                                mint.equalsIgnoreCase(PersistData.getStringData(context,AppConstant.alarmClockOutMin))){
+//                            sendCheckOut(AppConstant.getUserdata(context).getUser_id(),AppConstant.getUserdata(context).getUsername(),
+//                                    officeName,getCurrentTimeStamp());
+//                        }
+//                    }
+//                }
 
 
             }

@@ -11,45 +11,37 @@
         >
 
         <TextView
-            android:id="@+id/tvRecordDate"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:gravity="center"
-            android:background="@drawable/tv_bg"
-            android:padding="@dimen/_5sdp"
-            android:textColor="#000"
-            android:textSize="@dimen/_13sdp"
-            android:visibility="gone"
-
-            />
-
-        <TextView
             android:id="@+id/tvRecordClockIn"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:layout_height="@dimen/_30sdp"
             android:text=""
             android:textColor="#000"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:background="@drawable/tv_bg"
-            android:padding="@dimen/_5sdp"
             android:gravity="center"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_10sdp"
             />
 
         <TextView
             android:id="@+id/tvRecordClockOut"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:layout_height="@dimen/_30sdp"
             android:text=""
             android:textColor="#000"
             android:gravity="center"
-            android:background="@drawable/tv_bg"
-            android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_10sdp"
             />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/_30sdp"
+            android:text=""
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="@dimen/_10sdp"
+            />
+
     </LinearLayout>
 </LinearLayout>

@@ -119,8 +119,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private String onLineDate() {
+
         String dt;
         LocationManager locMan = (LocationManager) con.getSystemService(con.LOCATION_SERVICE);
+
         @SuppressLint("MissingPermission")
         long time = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getTime();
 
@@ -166,6 +168,25 @@ public class MainActivity extends AppCompatActivity{
                     .into(profile_imageOut);
         }
 
+//        if(PersistData.getStringData(con,AppConstant.quickAttandance).equalsIgnoreCase("Yes")){
+//
+//            if(!TextUtils.isEmpty(AppConstant.locationName)) {
+//                String dtime = onLineDate();
+//                if(PersistData.getStringData(con,AppConstant.checkInOrOut).equalsIgnoreCase("in")){
+//                    sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
+//                            AppConstant.locationName,dtime);
+//                }else if(PersistData.getStringData(con,AppConstant.checkInOrOut).equalsIgnoreCase("out")){
+//                    sendCheckIn(AppConstant.getUserdata(con).getUser_id(), AppConstant.getUserdata(con).getUsername(),
+//                            AppConstant.locationName, dtime);
+//                }else {
+//                    sendCheckIn(AppConstant.getUserdata(con).getUser_id(), AppConstant.getUserdata(con).getUsername(),
+//                            AppConstant.locationName, dtime);
+//                }
+//
+//            }
+//        }
+//
+
 
     }
 
@@ -203,6 +224,7 @@ public class MainActivity extends AppCompatActivity{
 //                mgr.buildGoogleApiClient();
 //            }
         }
+
     }
 
 
@@ -427,6 +449,9 @@ public class MainActivity extends AppCompatActivity{
             layClockOut.setVisibility(View.GONE);
             layClockIn.setVisibility(View.VISIBLE);
         }
+
+
+
         //if(!AppConstant.isHq){
             //Toast.makeText(con, PersistData.getStringData(con,AppConstant.officname), Toast.LENGTH_SHORT).show();
 

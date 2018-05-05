@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 
 import com.sadi.sreda.MainActivity;
 import com.sadi.sreda.R;
@@ -25,20 +26,31 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
+
         Calendar calendar = Calendar.getInstance();
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int mint = calendar.get(Calendar.MINUTE);
 
+        if((!TextUtils.isEmpty(PersistData.getStringData(context,AppConstant.alarmClockInHour)))&&
+                (!TextUtils.isEmpty(PersistData.getStringData(context,AppConstant.alarmClockInMin))) ){
+
             if(hour==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockInHour))&& mint==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockInMin))){
 
                 notificationOne(context,intent,"Alarm Clock In", "Events to Clock In");
             }
+        }
+
+
+        if((!TextUtils.isEmpty(PersistData.getStringData(context,AppConstant.alarmClockOutHour)))&&
+                (!TextUtils.isEmpty(PersistData.getStringData(context,AppConstant.alarmClockOutMin))) ){
 
             if(hour==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockOutHour))&& mint==Integer.parseInt(PersistData.getStringData(context,AppConstant.alarmClockOutMin))){
                 notificationTow(context,intent,"Alarm Clock Out", "Events to Clock Out");
 
             }
+        }
+
 
 
 

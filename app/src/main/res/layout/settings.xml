@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
+            android:visibility="gone"
             android:padding="@dimen/_15sdp"
             >
 
@@ -179,7 +180,7 @@
                 android:id="@+id/tvClockIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="xc"
+                android:text=""
                 android:textColor="#000"
                 android:layout_centerInParent="true"
                 />
@@ -229,7 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:text="hh"
+                android:text=""
                 android:layout_centerInParent="true"
 
                 />

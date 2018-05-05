@@ -1,6 +1,7 @@
 package com.sadi.sreda.utils;
 
 
+import com.sadi.sreda.model.ExAttanRecordsInfo;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
 import com.sadi.sreda.model.MyRecordsInfo;
@@ -30,6 +31,7 @@ public interface Api {
     //String BASE_URL = "http://offerian.com/";
     String BASE_URL_login = "http://css-bd.com/attendance-system/";
     String BASE_URL_attten = "http://css-bd.com/attendance-system/api/userAttendance/";
+    String BASE_URL_attan_ex = "http://css-bd.com/attendance-system/api/userApproveAttendance/";
     String BASE_URL = "http://css-bd.com/attendance-system/api/";
 
 
@@ -84,6 +86,9 @@ public interface Api {
 
     @GET("")
     Call<List<MyRecordsInfo>> getAllRecords(@Url String id);
+
+ @GET("")
+    Call<List<ExAttanRecordsInfo>> getAllRecordsEx(@Url String id);
 
     @FormUrlEncoded
     @POST("uploadPhoto")

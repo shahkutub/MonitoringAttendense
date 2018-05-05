@@ -66,6 +66,7 @@ public class AppConstant {
     public static String path ="path";
     public static String photourl ="http://css-bd.com/attendance-system/uploads/users/";
     public static String bitmap = "bitmap";
+    public static String serverTime;
 
     public static String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
