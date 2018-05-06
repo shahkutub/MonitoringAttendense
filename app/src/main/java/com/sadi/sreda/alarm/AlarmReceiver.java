@@ -74,8 +74,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
-                context).setSmallIcon(R.mipmap.ic_launcher_round)
+                context).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
+               // .setPriority(8)
                 .setContentText(content).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
@@ -101,8 +102,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Uri alarmSound = Uri.parse("android.resource://" + context.getPackageName() + "/raw/alarm_sound");
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
-                context).setSmallIcon(R.mipmap.ic_launcher_round)
+                context).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
+               // .setPriority(8)
                 .setContentText(content).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)

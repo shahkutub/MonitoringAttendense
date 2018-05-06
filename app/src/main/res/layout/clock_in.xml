@@ -217,6 +217,16 @@
 
         </LinearLayout>
     </RelativeLayout>
+
+       <ImageView
+           android:layout_width="wrap_content"
+           android:layout_alignParentBottom="true"
+           android:scaleType="fitCenter"
+           android:src="@drawable/ichome"
+           android:layout_marginBottom="@dimen/_15sdp"
+           android:layout_height="@dimen/_115sdp" />
+
+
    </RelativeLayout>
     <!--<include-->
         <!--android:layout_width="match_parent"-->
@@ -374,6 +384,14 @@
 
             </LinearLayout>
         </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ichome"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_height="@dimen/_115sdp" />
+
     </RelativeLayout>
 
 

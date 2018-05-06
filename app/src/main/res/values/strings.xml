@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">3s Attendance System</string>
+    <string name="app_name">TM attendance system</string>
     <string name="permission_rationale">permission</string>
     <string name="permission_denied_explanation">test</string>
     <string name="settings">settings</string>
