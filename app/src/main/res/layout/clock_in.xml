@@ -58,8 +58,9 @@
        android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/mainview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/_20sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_above="@+id/bottom"
@@ -221,10 +222,12 @@
        <ImageView
            android:layout_width="wrap_content"
            android:layout_alignParentBottom="true"
+           android:layout_below="@+id/mainview"
            android:scaleType="fitCenter"
            android:src="@drawable/ichome"
-           android:layout_marginBottom="@dimen/_15sdp"
-           android:layout_height="@dimen/_115sdp" />
+           android:layout_marginBottom="@dimen/_10sdp"
+           android:layout_marginTop="@dimen/_15sdp"
+           android:layout_height="wrap_content" />
 
 
    </RelativeLayout>
@@ -243,8 +246,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/mainVout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_above="@+id/bottomOut"
@@ -385,11 +389,13 @@
             </LinearLayout>
         </RelativeLayout>
         <ImageView
+            android:layout_below="@+id/mainVout"
             android:layout_width="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ichome"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_height="@dimen/_115sdp" />
 
     </RelativeLayout>
