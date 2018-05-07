@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity{
         tvClockOut = (TextView)findViewById(R.id.tvClockOut);
         layClockOut = (RelativeLayout)findViewById(R.id.layClockOut);
         layClockIn = (RelativeLayout)findViewById(R.id.layClockIn);
-
+        AppConstant.locationName = "";
         if(PersistData.getStringData(con,AppConstant.checkInOrOut).equalsIgnoreCase("in")){
             layClockOut.setVisibility(View.VISIBLE);
             layClockIn.setVisibility(View.GONE);
@@ -546,12 +546,19 @@ public class MainActivity extends AppCompatActivity{
                 }
 
                 if(NetInfo.isOnline(con)){
-                    if(!TextUtils.isEmpty(AppConstant.locationName)){
-                        //String dtime = onLineDate();
-                        sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
-                                AppConstant.locationName,getCurrentTimeStamp());
-                    }else {
+
+                    String uid = AppConstant.getUserdata(con).getUser_id();
+                    String name = AppConstant.getUserdata(con).getUsername();
+                    String location = AppConstant.locationName;
+                    if(TextUtils.isEmpty(location)){
                         Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
+
+                    }else if((TextUtils.isEmpty(uid))&&(TextUtils.isEmpty(name))){
+                        Toast.makeText(con, "User data missing", Toast.LENGTH_SHORT).show();
+                        PersistentUser.logOut(con);
+                        startActivity(new Intent(con,LoginActivity.class));
+                    }else {
+                        sendCheckOut(uid,name,location,getCurrentTimeStamp());
                     }
                 }else {
                     Toast.makeText(con, "No internet!", Toast.LENGTH_SHORT).show();
