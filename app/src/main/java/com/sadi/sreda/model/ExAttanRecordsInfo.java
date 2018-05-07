@@ -15,7 +15,15 @@ public class ExAttanRecordsInfo {
 //        "check_out_time": "2018-05-05 16:05:40",
 //        "user_name": "sadi"
 
-    private String type,check_in_time,check_out_time;
+    private String type,check_in_time,check_out_time,status_text;
+
+    public String getStatus_text() {
+        return status_text;
+    }
+
+    public void setStatus_text(String status_text) {
+        this.status_text = status_text;
+    }
 
     public String getType() {
         return type;

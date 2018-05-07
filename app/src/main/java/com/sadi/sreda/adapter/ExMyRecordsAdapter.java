@@ -62,10 +62,14 @@ public class ExMyRecordsAdapter extends RecyclerView.Adapter<ExMyRecordsAdapter.
         String dateCheck_out = recordsInfo.getCheck_out_time();
         String[] partsOut = dateCheck_out.split(" ");
 
-
+       String type="";
             holder.tvRecordClockIn.setText(partsin[0]+" "+partsin[1]);
             holder.tvRecordClockOut.setText(partsOut[0]+" "+partsOut[1]);
-            holder.tvStatus.setText(recordsInfo.getType());
+            if(recordsInfo.getType().equalsIgnoreCase("Exception")){
+                 type = recordsInfo.getType()+"/";
+            }
+
+            holder.tvStatus.setText(type+""+recordsInfo.getStatus_text());
 
 //            if (recordsInfo.getStatus().equalsIgnoreCase("1")){
 //                holder.tvStatus.setText("Waiting");

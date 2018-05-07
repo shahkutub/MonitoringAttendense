@@ -51,13 +51,13 @@ public class ExceptionActivity extends AppCompatActivity {
 
     Context context;
     private ImageView imgBack;
-    private EditText etDate,etClockIn,etClockOut,etClockInLocation,etClockOutLocation,etComment;
+    private EditText etInDate,etOutDate,etClockIn,etClockOut,etClockInLocation,etClockOutLocation,etComment;
     private Button btnSubmit;
     String format;
     private int CalendarHour, CalendarMinute;
     Calendar calendar;
     TimePickerDialog timepickerdialog;
-    private String date,clockin,clockOut,clockOutLocation,clockInLocation,comment;
+    private String inDate,outDate,clockIn,clockOut,clockOutLocation,clockInLocation,comment;
     private String timeClockIn,timeClockOut,clockInDateTime,clockOutDateTime;
     Spinner spnCheckInLocation,spnCheckOutLocation;
     List<String> listClockInLocation = new ArrayList<String>();
@@ -89,7 +89,8 @@ public class ExceptionActivity extends AppCompatActivity {
 
 
 
-        etDate = (EditText) findViewById(R.id.etDate);
+        etInDate = (EditText) findViewById(R.id.etInDate);
+        etOutDate = (EditText) findViewById(R.id.etOutDate);
         etClockIn = (EditText) findViewById(R.id.etClockIn);
         etClockOut = (EditText) findViewById(R.id.etClockOut);
         etClockInLocation = (EditText) findViewById(R.id.etClockInLocation);
@@ -127,6 +128,7 @@ public class ExceptionActivity extends AppCompatActivity {
             }
         });
 
+
         spnCheckOutLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -143,27 +145,51 @@ public class ExceptionActivity extends AppCompatActivity {
             }
         });
 
-        etDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        etInDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        etOutDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         etClockIn.setText( new SimpleDateFormat("hh:mm a").format(new Date()));
         etClockOut.setText( new SimpleDateFormat("hh:mm a").format(new Date()));
+
+        timeClockIn = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        timeClockOut = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+
 
         Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                etDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(newDate.getTime()));
+                etInDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(newDate.getTime()));
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
 
-        etDate.setOnClickListener(new View.OnClickListener() {
+        final DatePickerDialog endTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etOutDate.setText( new SimpleDateFormat("yyyy-MM-dd").format(newDate.getTime()));
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+
+        etInDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StartTime.show();
             }
         });
+
+        etOutDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endTime.show();
+            }
+        });
+
 
         etClockIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,18 +293,21 @@ public class ExceptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                date=etDate.getText().toString();
-                clockin=etClockIn.getText().toString();
-                clockOut=etClockOut.getText().toString();
+                inDate=etInDate.getText().toString();
+                outDate=etOutDate.getText().toString();
+//                clockIn=etClockIn.getText().toString();
+//                clockOut=etClockOut.getText().toString();
 //                clockInLocation=etClockInLocation.getText().toString();
 //                clockOutLocation=etClockOutLocation.getText().toString();
                 comment=etComment.getText().toString();
 
-                if(TextUtils.isEmpty(date)){
-                    AlertMessage.showMessage(context,"Alert","Enter date");
-                }else if(TextUtils.isEmpty(clockin)){
+                if(TextUtils.isEmpty(inDate)){
+                    AlertMessage.showMessage(context,"Alert","Enter clock in date");
+                }else if(TextUtils.isEmpty(timeClockIn)){
                     AlertMessage.showMessage(context,"Alert","Enter clock in time!");
-                }else if(TextUtils.isEmpty(clockOut)){
+                }else if(TextUtils.isEmpty(outDate)){
+                    AlertMessage.showMessage(context,"Alert","Enter clock out date!");
+                }else if(TextUtils.isEmpty(timeClockOut)){
                     AlertMessage.showMessage(context,"Alert","Enter clock out time!");
                 }else if(TextUtils.isEmpty(clockInLocation)){
                     AlertMessage.showMessage(context,"Alert","Select clock in location!");
@@ -287,10 +316,13 @@ public class ExceptionActivity extends AppCompatActivity {
                 }else if(TextUtils.isEmpty(comment)){
                     AlertMessage.showMessage(context,"Alert","Enter comment!");
                 }else {
+                    //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-                    clockInDateTime = date+" "+timeClockIn;
-                    clockOutDateTime = date+" "+timeClockOut;
-                    sendData(date,clockInDateTime,clockOutDateTime,clockInLocation,clockOutLocation,comment);
+                    clockInDateTime = inDate+" "+timeClockIn;
+                    clockOutDateTime = outDate+" "+timeClockOut;
+
+
+                    sendData(inDate,clockInDateTime,clockOutDateTime,clockInLocation,clockOutLocation,comment);
                 }
 
             }

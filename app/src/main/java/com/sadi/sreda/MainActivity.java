@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity{
 
         con = this;
 
+        AppConstant.locationName = "";
 
 
         //stopService(new Intent(con,LocationMonitoringServiceBack.class));
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
 
 
+        AppConstant.locationName="";
         if(!TextUtils.isEmpty(PersistData.getStringData(con,AppConstant.path))){
 
             Glide.with(con)
