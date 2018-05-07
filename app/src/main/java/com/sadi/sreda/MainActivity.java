@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,13 +32,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.loopj.android.http.HttpGet;
 import com.sadi.sreda.model.LocationInfo;
 import com.sadi.sreda.model.LoinResponse;
-import com.sadi.sreda.service.LocationMonitoringServiceBack;
-import com.sadi.sreda.utils.AlertMessage;
 import com.sadi.sreda.utils.Api;
 import com.sadi.sreda.utils.AppConstant;
-import com.sadi.sreda.utils.GoogleService;
 import com.sadi.sreda.utils.LocationMgr;
 import com.sadi.sreda.utils.NetInfo;
 import com.sadi.sreda.utils.PersistData;
@@ -46,6 +45,7 @@ import com.sadi.sreda.utils.PersistentUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +54,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.HttpStatus;
+import cz.msebera.android.httpclient.StatusLine;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,6 +122,29 @@ public class MainActivity extends AppCompatActivity{
         initialization();
         statusCheck();
 
+        //dtime();
+    }
+
+    private void dtime() {
+        try{
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = httpclient.execute(new HttpGet("https://google.com/"));
+            StatusLine statusLine = response.getStatusLine();
+            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                String dateStr = response.getFirstHeader("Date").getValue();
+                //Here I do something with the Date String
+                System.out.println(dateStr);
+                Toast.makeText(con, ""+dateStr, Toast.LENGTH_SHORT).show();
+            } else{
+                //Closes the connection.
+                response.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());
+            }
+        }catch (ClientProtocolException e) {
+            Log.d("Response", e.getMessage());
+        }catch (IOException e) {
+            Log.d("Response", e.getMessage());
+        }
     }
 
     private String onLineDate() {
@@ -479,9 +508,9 @@ public class MainActivity extends AppCompatActivity{
 
                 if(NetInfo.isOnline(con)){
                     if(!TextUtils.isEmpty(AppConstant.locationName)){
-                        String dtime = onLineDate();
+                        //String dtime = onLineDate();
                         sendCheckIn(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
-                                AppConstant.locationName,dtime);
+                                AppConstant.locationName,getCurrentTimeStamp());
                     }else {
                         Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
                     }
@@ -518,9 +547,9 @@ public class MainActivity extends AppCompatActivity{
 
                 if(NetInfo.isOnline(con)){
                     if(!TextUtils.isEmpty(AppConstant.locationName)){
-                        String dtime = onLineDate();
+                        //String dtime = onLineDate();
                         sendCheckOut(AppConstant.getUserdata(con).getUser_id(),AppConstant.getUserdata(con).getUsername(),
-                                AppConstant.locationName,dtime);
+                                AppConstant.locationName,getCurrentTimeStamp());
                     }else {
                         Toast.makeText(con, "Location not found!", Toast.LENGTH_SHORT).show();
                     }

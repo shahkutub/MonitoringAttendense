@@ -1,7 +1,6 @@
 package com.sadi.sreda.utils;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -123,8 +122,8 @@ public class LocationMgr implements
 
     @Override
     public void onLocationChanged(Location location) {
-        PersistData.setStringData(context, AppConstant.lat,""+location.getLatitude());
-        PersistData.setStringData(context, AppConstant.lng,""+location.getLongitude());
+//        PersistData.setStringData(context, AppConstant.lat,""+location.getLatitude());
+//        PersistData.setStringData(context, AppConstant.lng,""+location.getLongitude());
         //Toast.makeText(context, "Lat: "+location.getLatitude()+" Lng: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
         //tvLatLng.setText(location.getLatitude()+"\n"+location.getLongitude());
 
@@ -132,6 +131,12 @@ public class LocationMgr implements
 
         if(!TextUtils.isEmpty(String.valueOf(location.getLatitude()))){
             getLocation(""+location.getLatitude(),""+location.getLongitude());
+        }else {
+            tvGreetingsIn.setText("");
+            tvGreetingsOut.setText("");
+            //PersistData.setStringData(context,AppConstant.officname,myRecordsInfos.get(i).getLocation_name().toString());
+
+            AppConstant.locationName = "";
         }
 
         //onLineDate();
