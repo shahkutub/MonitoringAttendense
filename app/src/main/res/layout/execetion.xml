@@ -52,7 +52,7 @@
         >
 
         <EditText
-            android:id="@+id/etDate"
+            android:id="@+id/etInDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -60,7 +60,7 @@
             android:textColor="#000"
             android:text=""
             android:focusable="false"
-            android:hint="Date:"
+            android:hint="Clock In Date:"
             android:inputType="textCapSentences"
             android:padding="@dimen/_8sdp"
             />
@@ -135,9 +135,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+
         </LinearLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_height="wrap_content"
+            >
 
+            <EditText
+                android:id="@+id/etOutDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:text=""
+                android:focusable="false"
+                android:hint="Clock Out Date:"
+                android:inputType="textCapSentences"
+                android:padding="@dimen/_8sdp"
+                />
+
+        </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/_25sdp"
