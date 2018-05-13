@@ -5,12 +5,12 @@ repositories {
     }
 }
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    //buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.sadi.sreda"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,8 +28,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'de.hdodenhof:circleimageview:2.2.0'

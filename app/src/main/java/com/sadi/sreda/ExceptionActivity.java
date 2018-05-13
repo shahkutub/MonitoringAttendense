@@ -152,8 +152,6 @@ public class ExceptionActivity extends AppCompatActivity {
         timeClockIn = new SimpleDateFormat("HH:mm:ss").format(new Date());
         timeClockOut = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
-
-
         Calendar newCalendar = Calendar.getInstance();
         final DatePickerDialog StartTime = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
